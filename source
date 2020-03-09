@@ -1,0 +1,3599 @@
+"Fire Emblem on Forum Calculator" by notquitethere
+
+[OUTSTANDING TASKS FOR V1
+
+
+TASKS FOR V2
+- allow creation + editing of weapons
+- fix bug which increases damage displayed weirdly.
+- reapply optional eva
+- Weapon QL and degradation
+- Basic classes
+- Proficiency ranks
+- Levelling
+- Healing
+- Special weapons
+-- - Effective weapon damage
+-- - draining effects
+-- - resetting resolve checks after successful draining
+
+
+TASKS FOR V3
+- Advanced classes
+- class skills
+- making the battle calculator not have excessive blank lines
+]
+
+The story headline is "a tool".
+The release number is 1.
+
+Include Inline Hyperlinks by Daniel Stelzer.
+
+Part 0 - The Main Menu
+
+Main menu is a room. "[link][bracket]N[close bracket]ew character[as]N[end link][line break]
+[link][bracket]E[close bracket]dit/View Party[as]E[end link][line break]
+[link][bracket]B[close bracket]attle characters[as]S[end link][line break]
+[link][bracket]W[close bracket]eapon creation[as]W[end link][line break]
+
+[link]Save[end link][line break][link]Restore[end link][line break][link]Quit[end link]"
+
+Understand "b" as south when the location is main menu.
+
+Part 1 - Character Creation
+
+Current name is a text that varies. The current name is "NEW CHARACTER".
+current hp is a number which varies. current hp is 0.
+current str is a number which varies. current str is 0.
+current mag is a number which varies. current mag is 0.
+current skl is a number which varies. current skl is 0.
+current luk is a number which varies. current luk is 0.
+current def is a number which varies. current def is 0.
+current res is a number which varies. current res is 0.
+current spd is a number which varies. current spd is 0.
+current con is a number which varies. current con is 0.
+current aid is a number which varies. current aid is 0.
+current mov is a number which varies. current mov is 0.
+current level is a number which varies. current level is 1.
+max hp is a number which varies. Max hp is 0.
+hp prog is a number which varies. hp prog is 0.
+str prog is a number which varies. str prog is 0.
+mag prog is a number which varies. mag prog is 0.
+skl prog is a number which varies. skl prog is 0.
+luk prog is a number which varies. luk prog is 0.
+def prog is a number which varies. def prog is 0.
+res prog is a number which varies. res prog is 0.
+spd prog is a number which varies. spd prog is 0.
+con prog is a number which varies. con prog is 0.
+aid prog is a number which varies. aid prog is 0.
+mov prog is a number which varies. mov prog is 0.
+current class is a text which varies. Current class is "NONE".
+current stats is a number which varies. Current stats is 0.
+progression is a number which varies. Progression is 0.
+current skill is a text which varies. current skill is "NONE".
+Advanced is a truth state that varies. Advanced is false.
+current weapon is a text which varies. current weapon is "NONE".
+current mount is a text which varies. current mount is "NONE".
+tier is a number which varies. tier is 1.
+
+North of the  main menu is Create a Character. The description of Create a Character is " Name: [current name][line break]
+Class: [current class][line break]
+Level: [current level][line break]
+Skill: [current skill][line break]
+Weapon: [current weapon][line break][ride]
+[link]HP[end link] [current hp] [link][bracket][hp prog]%[close bracket][as]HPup[end link][line break]
+[link]STR[end link] [current str] [link][bracket][str prog]%[close bracket][as]STRup[end link][line break]
+[link]MAG[end link] [current mag] [link][bracket][mag prog]%[close bracket][as]MAGup[end link][line break]
+[link]SKL[end link] [current skl] [link][bracket][skl prog]%[close bracket][as]SKLup[end link][line break]
+[link]LUK[end link] [current luk] [link][bracket][luk prog]%[close bracket][as]LUKup[end link][line break]
+[link]DEF[end link] [current def] [link][bracket][def prog]%[close bracket][as]DEFup[end link][line break]
+[link]RES[end link] [current res] [link][bracket][res prog]%[close bracket][as]RESup[end link][line break]
+[link]SPD[end link] [current spd] [link][bracket][spd prog]%[close bracket][as]SPDup[end link][celeriac][paragraph break]
+[link]CON[end link] [current con][line break]
+AID: [current aid][line break]
+MOV: [current mov][line break]
+
+Progression Spent: [progression]/330[line break]
+Bonus stats: [current stats]/4
+
+Type HELP for a list of commands and tips.
+
+[character creation options]
+[link]Use an existing template[as]x enemies[end link][line break]
+[link]Set current skills[as]x current skills[end link][line break]
+[link]Set weapon/magic/performance/mount[as]x weapons[end link][line break]
+[link][bracket]S[close bracket]ave character[as]S[end link][line break]
+[link][bracket]U[close bracket]ndo all progress and start fresh[as]u[end link][line break]
+[link][bracket]D[close bracket]iscard changes and return to menu[as]D[end link]".
+
+Down from Create a Character is Main Menu.
+
+Before going down from Create a Character:
+	reset all the stats;
+	say "All changes discarded".
+
+Before examining weapons:
+	if current class is "NONE":
+		say "Pick a class first." instead.
+
+Section - Weapons
+
+Weapons are scenery in create a character. The description of weapons is "[weapon listing]".
+
+To say weapon listing:
+	if current class is "Mage Pupil":
+		say "[link]Fire[as]x fire[end link] or [link]Wind[as]x wind[end link].";
+	if current class is "Scout":
+		say "You get a [link]bow[as]x bow[end link].";
+	if current class is "Dark Trainee":
+		say "[link]Flux[as]x flux[end link] or [link]Worm[as]x worm[end link].";
+	if current class is "Journeyman":
+		say "You get an [link]hatchet[as]x hatchet[end link].";
+	if current class is "Light Trainee":
+		say "[link]Lightning[as]x Lightning[end link] or [link]Flash[as]x flash[end link].";
+	if current class is "Performer":
+		say "Lyrics:[line break][link]Lucky Stars[as]x lucky stars[end link][line break][link]Artemis['] Song[as]x artemis song[end link][line break][link]Hermes['] Whistle[as]x hermes whistle[end link]
+
+Dances:[line break][link]Surprising Shimmy[as]x surprising shimmy[end link][line break][link]Distracting Dance[as]x distracting dance[end link]
+
+Instruments:[line break][link]Soldier's Drum[as]x soldier's drum[end link][line break][link]Soldier's Drum[as]x charming flute[end link].";
+	if current class is "Acolyte":
+		say "You get [link]heal[as]x heal[end link].";
+	if current class is "Rider":
+		say "You get a slim lance, and you have to pick one of: [link]Horse[as]x horse[end link] or [link]Wyvern[as]x Wyvern[end link] or [link]Pegasus[as]x pegasus[end link].";
+	if current class is "Recruit":
+		say "You get a [link]slim lance[as]x slim lance[end link]";
+	if current class is "Initiate":
+		say "[link]Wooden Sword[as]x wooden sword[end link] or [link]Slim Sword[as]x slim sword[end link].";
+	if current class is "Drifter":
+		say "[link]Iron Dagger[as]x iron dagger[end link] or [link]Iron Knife[as]x iron knife[end link].".
+
+Fire is scenery in create a character. "You pick the fire.".
+Wind is scenery in create a character. "You pick the wind.".
+Training Bow is scenery in create a character. "You pick the training bow.".
+Flux is scenery in create a character. "You pick the flux.".
+Worm is scenery in create a character. "You pick the worm.".
+Hatchet is scenery in create a character. "You pick the hatchet.".
+Lightning is scenery in create a character. "You pick lightning.".
+Flash is scenery in create a character. "You pick flash.".
+Lucky Stars is scenery in create a character. "You pick lucky stars.".
+Artemis Song is scenery in create a character. "You pick artemis song.".
+Hermes Whistle is scenery in create a character. "You pick hermes whistle.".
+Surprising Shimmy is scenery in create a character. "You pick the surprising shimmy.".
+Distracting Dance is scenery in create a character. "You pick the distracting dance.".
+Soldier's Drum is scenery in create a character. "You pick the soldier's drum.".
+Charming Flute is scenery in create a character. "You pick the charming flute.".
+Heal is scenery in create a character. "You pick heal.".
+Horse is scenery in create a character. "You pick the horse.".
+Wyvern is scenery in create a character. "You pick the wyvern.".
+Pegasus is scenery in create a character. "You pick the pegasus.".
+Slim Lance is scenery in create a character. "You pick the slim lance.".
+Wooden Sword is scenery in create a character. "You pick the wooden sword.".
+Slim Sword is scenery in create a character. "You pick the slim sword.".
+Iron Dagger is scenery in create a character. "You pick the iron dagger.".
+Iron Knife is scenery in create a character. "You pick the iron knife.".
+
+To say character creation options:
+	if tier is 1:
+		say "[link]Set trainee class[as]x trainees[end link][line break]";
+		[if current class is not "NONE":
+			say  "[link]Set First Class[as]x First Classes[end link][line break]";]
+	
+
+After examining the fire:
+	now the current weapon is "Fire";
+	try looking.
+After examining the wind:
+	now the current weapon is "Wind";
+	try looking.
+After examining the training bow:
+	now the current weapon is "Training Bow";
+	try looking.
+After examining the flux:
+	now the current weapon is "Flux";
+	try looking.
+After examining the worm:
+	now the current weapon is "Worm";
+	try looking.
+After examining the hatchet:
+	now the current weapon is "Hatchet";
+	try looking.
+After examining the lightning:
+	now the current weapon is "Lightning";
+	try looking.
+After examining the flash:
+	now the current weapon is "Flash";
+	try looking.
+After examining the lucky stars:
+	now the current weapon is "Lucky Stars";
+	try looking.
+After examining the artemis song:
+	now the current weapon is "Artemis Song";
+	try looking.
+After examining the hermes whistle:
+	now the current weapon is "Hermes Whistle";
+	try looking.
+After examining the surprising shimmy:
+	now the current weapon is "Surprising Shimmy";
+	try looking.
+After examining the distracting dance:
+	now the current weapon is "Distracting Dance";
+	try looking.
+After examining the soldier's drum:
+	now the current weapon is "Soldier's Drum";
+	try looking.
+After examining the charming flute:
+	now the current weapon is "Charming Flute";
+	try looking.
+After examining the heal:
+	now the current weapon is "Heal";
+	try looking.
+After examining the horse:
+	now the current mount is "Horse";
+	now the current weapon is "Slim Lance";
+	try looking.
+After examining the wyvern:
+	now the current mount is "Wyvern";
+	now the current weapon is "Slim lance";
+	try looking.
+After examining the pegasus:
+	now the current mount is "Pegasus";
+	now the current weapon is "Slim Lance";
+	try looking.
+After examining the slim lance:
+	now the current weapon is "Slim Lance";
+	try looking.
+After examining the wooden sword:
+	now the current weapon is "Wooden Sword";
+	try looking.
+After examining the slim sword:
+	now the current weapon is "Slim Sword";
+	try looking.
+After examining the iron dagger:
+	now the current weapon is "Iron Dagger";
+	try looking.
+After examining the iron knife:
+	now the current weapon is "Iron Knife";
+	try looking.
+
+
+To say ride:
+	if current class is "Rider":
+		say "[line break]Mount: [current mount][line break]".
+
+Instead of going up when the location is Create a character:
+	reset all the stats;
+	try looking.
+	
+To reset all the stats:
+	now current weapon is "NONE";
+	now current mount is "NONE";
+	now current name is "NEW CHARACTER";
+	now current class is "NONE";
+	now current skill is "NONE";
+	now advanced is false;
+	now current hp is 0;
+	now current str is 0;
+	now current mag is 0;
+	now current skl is 0;
+	now current luk is 0;
+	now current def is 0;
+	now current res is 0;
+	now current spd is 0;
+	now current con is 0;
+	now current aid is 0;
+	now current mov is 0;
+	now current stats is 0;
+	now progression is 0;
+	now hp prog is 0;
+	now str prog is 0;
+	now mag prog is 0;
+	now skl prog is 0;
+	now luk prog is 0;
+	now def prog is 0;
+	now res prog is 0;
+	now spd prog is 0;
+	now con prog is 0;
+	now aid prog is 0;
+	now mov prog is 0;
+	now max hp is 0.
+	
+Naming is an action applying to one topic. Understand "name [text]" as naming.
+
+Check naming:
+	if the location is not Create a Character and the location is not Weapon Editor and the location is not character editor:
+		say "You can't name things here." instead.
+
+Carry out naming:
+	now current name is the topic understood;
+	try looking.
+
+HPing is an action applying to nothing. Understand "HP" as HPing.
+
+Check HPing:
+	if current stats is 4:
+		say "You've reached your limit for increasing stats." instead;
+	if the location is not Create a Character:
+		say "You can't do that here." instead.
+		
+Carry out HPing:
+	increase current hp by 2;
+	increase current stats by 1;
+	try looking.
+
+STRing is an action applying to nothing. Understand "STR" as STRing.
+
+Check STRing:
+	if current stats is 4:
+		say "You've reached your limit for increasing stats." instead;
+	if the location is not Create a Character:
+		say "You can't do that here." instead.
+		
+Carry out STRing:
+	increase current STR by 1;
+	increase current stats by 1;
+	try looking.
+
+MAGing is an action applying to nothing. Understand "MAG" as MAGing.
+
+Check MAGing:
+	if current stats is 4:
+		say "You've reached your limit for increasing stats." instead;
+	if the location is not Create a Character:
+		say "You can't do that here." instead.
+		
+Carry out MAGing:
+	increase current MAG by 1;
+	increase current stats by 1;
+	try looking.
+	
+SKLing is an action applying to nothing. Understand "SKL" as SKLing.
+
+Check SKLing:
+	if current stats is 4:
+		say "You've reached your limit for increasing stats." instead;
+	if the location is not Create a Character:
+		say "You can't do that here." instead.
+		
+Carry out SKLing:
+	increase current SKL by 1;
+	increase current stats by 1;
+	try looking.
+		
+LUKing is an action applying to nothing. Understand "LUK" as LUKing.
+
+Check LUKing:
+	if current stats is 4:
+		say "You've reached your limit for increasing stats." instead;
+	if the location is not Create a Character:
+		say "You can't do that here." instead.
+		
+Carry out LUKing:
+	increase current LUK by 1;
+	increase current stats by 1;
+	try looking.
+
+DEFing is an action applying to nothing. Understand "DEF" as DEFing.
+
+Check DEFing:
+	if current stats is 4:
+		say "You've reached your limit for increasing stats." instead;
+	if the location is not Create a Character:
+		say "You can't do that here." instead.
+		
+Carry out DEFing:
+	increase current DEF by 1;
+	increase current stats by 1;
+	try looking.
+	
+RESing is an action applying to nothing. Understand "RES" as RESing.
+
+Check RESing:
+	if current stats is 4:
+		say "You've reached your limit for increasing stats." instead;
+	if the location is not Create a Character:
+		say "You can't do that here." instead.
+		
+Carry out RESing:
+	increase current RES by 1;
+	increase current stats by 1;
+	try looking.
+
+SPDing is an action applying to nothing. Understand "SPD" as SPDing.
+
+Check SPDing:
+	if current stats is 4:
+		say "You've reached your limit for increasing stats." instead;
+	if the location is not Create a Character:
+		say "You can't do that here." instead.
+		
+Carry out SPDing:
+	increase current SPD by 1;
+	increase current stats by 1;
+	try looking.
+	
+CONing is an action applying to nothing. Understand "CON" as CONing.
+
+Check CONing:
+	if current stats is 4:
+		say "You've reached your limit for increasing stats." instead;
+	if the location is not Create a Character:
+		say "You can't do that here." instead.
+		
+Carry out CONing:
+	increase current CON by 1;
+	increase current stats by 1;
+	try looking.
+
+HPuping is an action applying to nothing. Understand "HPup" as HPuping.
+STRuping is an action applying to nothing. Understand "STRup" as STRuping.
+MAGuping is an action applying to nothing. Understand "MAGup" as MAGuping.
+SKLuping is an action applying to nothing. Understand "SKLup" as SKLuping.
+LUKuping is an action applying to nothing. Understand "LUKup" as LUKuping.
+DEFuping is an action applying to nothing. Understand "DEFup" as DEFuping.
+RESuping is an action applying to nothing. Understand "RESup" as RESuping.
+SPDuping is an action applying to nothing. Understand "SPDup" as SPDuping.
+
+Check HPuping:
+	if the location is not Create a Character:
+		say "You can't do that here." instead;
+	if progression is 330:
+		say "You've maxed your progression budget already." instead.
+		
+Carry out HPuping:
+	if highprog is true:
+		increase hp prog by 5;
+	increase hp prog by 5;
+	if highprog is true:
+		increase progression by 5;
+	increase progression by 5;	
+	try looking.
+
+
+Check STRuping:
+	if the location is not Create a Character:
+		say "You can't do that here." instead;
+	if progression is 330:
+		say "You've maxed your progression budget already." instead.
+		
+Carry out STRuping:
+	if highprog is true:
+		increase STR prog by 5;	
+	increase STR prog by 5;
+	if highprog is true:
+		increase progression by 5;
+	increase progression by 5;
+	try looking.
+
+
+Check MAGuping:
+	if the location is not Create a Character:
+		say "You can't do that here." instead;
+	if progression is 330:
+		say "You've maxed your progression budget already." instead.
+		
+Carry out MAGuping:
+	if highprog is true:
+		increase MAG prog by 5;	
+	increase MAG prog by 5;
+	if highprog is true:
+		increase progression by 5;
+	increase progression by 5;
+	try looking.
+	
+
+Check SKLuping:
+	if the location is not Create a Character:
+		say "You can't do that here." instead;
+	if progression is 330:
+		say "You've maxed your progression budget already." instead.
+		
+Carry out SKLuping:
+	if highprog is true:
+		increase SKL prog by 5;
+	increase SKL prog by 5;
+	if highprog is true:
+		increase progression by 5;
+	increase progression by 5;
+	try looking.
+		
+
+Check LUKuping:
+	if the location is not Create a Character:
+		say "You can't do that here." instead;
+	if progression is 330:
+		say "You've maxed your progression budget already." instead.
+		
+Carry out LUKuping:
+	if highprog is true:
+		increase LUK prog by 5;
+	increase LUK prog by 5;
+	if highprog is true:
+		increase progression by 5;
+	increase progression by 5;
+	try looking.
+
+
+Check DEFuping:
+	if the location is not Create a Character:
+		say "You can't do that here." instead;
+	if progression is 330:
+		say "You've maxed your progression budget already." instead.
+		
+Carry out DEFuping:
+	if highprog is true:
+		increase DEF prog by 5;
+	increase DEF prog by 5;
+	if highprog is true:
+		increase progression by 5;
+	increase progression by 5;
+	try looking.
+	
+
+Check RESuping:
+	if the location is not Create a Character:
+		say "You can't do that here." instead;
+	if progression is 330:
+		say "You've maxed your progression budget already." instead.
+		
+Carry out RESuping:
+	if highprog is true:
+		increase RES prog by 5;
+	increase RES prog by 5;
+	if highprog is true:
+		increase progression by 5;
+	increase progression by 5;
+	try looking.
+
+
+Check SPDuping:
+	if the location is not Create a Character:
+		say "You can't do that here." instead;
+	if progression is 330:
+		say "You've maxed your progression budget already." instead.
+		
+Carry out SPDuping:
+	if highprog is true:
+		increase SPD prog by 5;
+	increase SPD prog by 5;
+	if highprog is true:
+		increase progression by 5;
+	increase progression by 5;
+	try looking.
+
+The trainees are scenery in create a character. "
+[link]Mage Pupil[as]x Mage Pupil[end link][line break]
+[link]Scout[as]x Scout[end link][line break]
+[link]Dark Trainee[as]x Dark Trainee[end link][line break]
+[link]Journeyman[as]x Journeyman[end link][line break]
+[link]Light  Trainee[as]x Light Trainee[end link][line break]
+[link]Performer[as]x Performer[end link][line break]
+[link]Acolyte[as]x Acolyte[end link][line break]
+[link]Rider[as]x Rider[end link][line break]
+[link]Recruit[as]x Recruit[end link][line break]
+[link]Initiate[as]x Initiate[end link][line break]
+[link]Drifter[as]x Drifter[end link][line break]".
+
+The first classes are scenery in create a character.
+
+Advanced class is a kind of thing. An advanced class is usually scenery.
+
+Mage Pupil is scenery in Create a Character. "Character class now Mage Pupil".
+Scout is scenery in Create a Character. "Character class now Scout".
+Dark Trainee is scenery in Create a Character. "Character class now Dark Trainee".
+Journeyman is scenery in Create a Character. "Character class now Journeyman".
+Light Trainee is scenery in Create a Character. "Character class now Light Trainee".
+Performer is scenery in Create a Character. "Character class now Performer".
+Acolyte is scenery in Create a Character. "Character class now Acolyte".
+Rider is scenery in Create a Character. "Character class now Rider".
+Recruit is scenery in Create a Character. "Character class now Recruit".
+Initiate is scenery in Create a Character. "Character class now Initiate".
+Drifter is scenery in Create a Character. "Character class now Drifter".
+
+Full Mage is an advanced class in Create a Character. "Character class now Mage."
+Mage Knight is an advanced class in Create a Character. "Character class now Mage Knight."
+Sage is an advanced class in Create a Character. "Character class now Sage."
+Scholar is an advanced class in Create a Character. "Character class now Scholar."
+Virtuoso is an advanced class in Create a Character. "Character class now Virtuoso."
+Baron is an advanced class in Create a Character. "Character class now Baron."
+Tactician is an advanced class in Create a Character. "Character class now Tactician."
+Archer is an advanced class in Create a Character. "Character class now Archer."
+Sniper is an advanced class in Create a Character. "Character class now Sniper."
+Nomad is an advanced class in Create a Character. "Character class now Nomad."
+Nomad Healer is an advanced class in Create a Character. "Character class now Nomad Healer."
+Nomad Ranger is an advanced class in Create a Character. "Character class now Nomad Ranger."
+Outlaw is an advanced class in Create a Character. "Character class now Outlaw."
+Shaman is an advanced class in Create a Character. "Character class now Shaman."
+Druid is an advanced class in Create a Character. "Character class now Druid."
+Summoner is an advanced class in Create a Character. "Character class now Summoner."
+Necromancer is an advanced class in Create a Character. "Character class now Necromancer."
+Dark Rider is an advanced class in Create a Character. "Character class now Dark Rider."
+Fighter is an advanced class in Create a Character. "Character class now Fighter."
+Dread Fighter is an advanced class in Create a Character. "Character class now Dread Fighter."
+Warrior is an advanced class in Create a Character. "Character class now Warrior."
+Bandit is an advanced class in Create a Character. "Character class now Bandit."
+Mountain Warrior is an advanced class in Create a Character. "Character class now Mountain Warrior."
+Berserker is an advanced class in Create a Character. "Character class now Berserker."
+Pirate is an advanced class in Create a Character. "Character class now Pirate."
+Swashbuckler is an advanced class in Create a Character. "Character class now Swashbuckler."
+Ascetic is an advanced class in Create a Character. "Character class now Ascetic."
+Crusader is an advanced class in Create a Character. "Character class now Crusader."
+Inquisitor is an advanced class in Create a Character. "Character class now Inquisitor."
+Monk is an advanced class in Create a Character. "Character class now Monk."
+Bishop is an advanced class in Create a Character. "Character class now Bishop."
+Hunter is an advanced class in Create a Character. "Character class now Hunter."
+Battle Mage is an advanced class in Create a Character. "Character class now Battle Mage."
+Holy-Guard is an advanced class in Create a Character. "Character class now Holy Guard."
+Bard is an advanced class in Create a Character. "Character class now Bard."
+Lore Master is an advanced class in Create a Character. "Character class now Lore Master."
+Enchanter is an advanced class in Create a Character. "Character class now Enchanter."
+Trickster is an advanced class in Create a Character. "Character class now Trickster."
+Illusionist is an advanced class in Create a Character. "Character class now Illusionist."
+Dancer  is an advanced class in Create a Character. "Character class now Dancer ."
+Dancing Blade is an advanced class in Create a Character. "Character class now Dancing Blade."
+Trouper is an advanced class in Create a Character. "Character class now Trouper."
+Butler is an advanced class in Create a Character. "Character class now Butler."
+Bodyguard is an advanced class in Create a Character. "Character class now Bodyguard."
+Steward is an advanced class in Create a Character. "Character class now Steward."
+Priest is an advanced class in Create a Character. "Character class now Priest."
+Saint is an advanced class in Create a Character. "Character class now Saint."
+Troubadour is an advanced class in Create a Character. "Character class now Troubadour."
+Valkyrie is an advanced class in Create a Character. "Character class now Valkyrie."
+Pegasus Rider is an advanced class in Create a Character. "Character class now Pegasus Rider."
+Falcon Knight is an advanced class in Create a Character. "Character class now Falcon Knight."
+Wyvern Rider is an advanced class in Create a Character. "Character class now Wyvern Rider."
+Wyvern Hunter is an advanced class in Create a Character. "Character class now Wyvern Hunter."
+Wyvern Knight is an advanced class in Create a Character. "Character class now Wyvern Knight."
+Cavalier is an advanced class in Create a Character. "Character class now Cavalier."
+Duke Knight is an advanced class in Create a Character. "Character class now Duke Knight."
+Paladin is an advanced class in Create a Character. "Character class now Paladin."
+Vanilla Knight is an advanced class in Create a Character. "Character class now Knight."
+General is an advanced class in Create a Character. "Character class now General."
+Great Knight is an advanced class in Create a Character. "Character class now Great Knight."
+Soldier is an advanced class in Create a Character. "Character class now Soldier."
+Sentinel is an advanced class in Create a Character. "Character class now Sentinel."
+Templar is an advanced class in Create a Character. "Character class now Templar."
+Fencer is an advanced class in Create a Character. "Character class now Fencer."
+Shadow Sword is an advanced class in Create a Character. "Character class now Shadow Sword."
+Mercenary is an advanced class in Create a Character. "Character class now Mercenary."
+Commander is an advanced class in Create a Character. "Character class now Commander."
+Hero is an advanced class in Create a Character. "Character class now Hero."
+Myrmidon is an advanced class in Create a Character. "Character class now Myrmidon."
+Samurai is an advanced class in Create a Character. "Character class now Samurai."
+Swordmaster is an advanced class in Create a Character. "Character class now Swordmaster."
+Scavenger is an advanced class in Create a Character. "Character class now Scavenger."
+Wanderer is an advanced class in Create a Character. "Character class now Wanderer."
+Bounty Hunter is an advanced class in Create a Character. "Character class now Bounty Hunter."
+Thief is an advanced class in Create a Character. "Character class now Thief."
+Rogue is an advanced class in Create a Character. "Character class now Rogue."
+Assassin is an advanced class in Create a Character. "Character class now Assassin."
+Vigilante is an advanced class in Create a Character. "Character class now Vigilante."
+
+[To fix up later: Leading to relates various things to various things. The verb to lead to means the leading to relation.
+
+The performer leads to the bard.
+
+Before examining an advanced class in create a character:
+]
+
+After examining Mage Pupil:
+	now current stats is 0;
+	now current class is "Mage Pupil";
+	now current hp is 16;
+	now current str is 0;
+	now current mag is 4;
+	now current skl is 5;
+	now current luk is 2;
+	now current def is 0;
+	now current res is 3;
+	now current spd is 4;
+	now current con is 4;
+	now current aid is 3;
+	now current mov is 4;
+	try looking.
+
+After examining Scout:
+	now current stats is 0;
+	now current class is "Scout";
+	now current hp is 16;
+	now current str is 4;
+	now current mag is 0;
+	now current skl is 5;
+	now current luk is 2;
+	now current def is 2;
+	now current res is 1;
+	now current spd is 4;
+	now current con is 4;
+	now current aid is 3;
+	now current mov is 4;
+	try looking.
+	
+After examining Dark Trainee:
+	now current stats is 0;
+	now current class is "Dark Trainee";
+	now current hp is 18;
+	now current str is 0;
+	now current mag is 5;
+	now current skl is 5;
+	now current luk is 0;
+	now current def is 0;
+	now current res is 3;
+	now current spd is 3;
+	now current con is 5;
+	now current aid is 4;
+	now current mov is 4;
+	try looking.
+	
+After examining Journeyman:
+	now current stats is 0;
+	now current class is "Journeyman";
+	now current hp is 20;
+	now current str is 6;
+	now current mag is 0;
+	now current skl is 2;
+	now current luk is 1;
+	now current def is 3;
+	now current res is 0;
+	now current spd is 2;
+	now current con is 6;
+	now current aid is 5;
+	now current mov is 4;
+	try looking.
+
+
+After examining Light Trainee:
+	now current stats is 0;
+	now current class is "Light Trainee";
+	now current hp is 16;
+	now current str is 0;
+	now current mag is 4;
+	now current skl is 3;
+	now current luk is 3;
+	now current def is 1;
+	now current res is 4;
+	now current spd is 3;
+	now current con is 4;
+	now current aid is 3;
+	now current mov is 4;
+	try looking.
+
+After examining Performer:
+	now current stats is 0;
+	now current class is "Performer";
+	now current hp is 16;
+	now current str is 2;
+	now current mag is 2;
+	now current skl is 2;
+	now current luk is 5;
+	now current def is 1;
+	now current res is 2;
+	now current spd is 5;
+	now current con is 3;
+	now current aid is 2;
+	now current mov is 4;
+	try looking.
+	
+After examining Acolyte:
+	now current stats is 0;
+	now current class is "Acolyte";
+	now current hp is 16;
+	now current str is 2;
+	now current mag is 3;
+	now current skl is 1;
+	now current luk is 4;
+	now current def is 1;
+	now current res is 4;
+	now current spd is 4;
+	now current con is 3;
+	now current aid is 2;
+	now current mov is 4;
+	try looking.
+	
+After examining Rider:
+	now current stats is 0;
+	now current class is "Rider";
+	now current hp is 18;
+	now current str is 4;
+	now current mag is 0;
+	now current skl is 4;
+	now current luk is 1;
+	now current def is 3;
+	now current res is 1;
+	now current spd is 3;
+	now current con is 5;
+	now current aid is 4;
+	now current mov is 4;
+	try looking.
+
+After examining Recruit:
+	now current stats is 0;
+	now current class is "Recruit";
+	now current hp is 10;
+	now current str is 4;
+	now current mag is 0;
+	now current skl is 3;
+	now current luk is 1;
+	now current def is 5;
+	now current res is 0;
+	now current spd is 2;
+	now current con is 5;
+	now current aid is 4;
+	now current mov is 4;
+	try looking.
+
+After examining Initiate:
+	now current stats is 0;
+	now current class is "Initiate";
+	now current hp is 18;
+	now current str is 4;
+	now current mag is 0;
+	now current skl is 5;
+	now current luk is 2;
+	now current def is 2;
+	now current res is 0;
+	now current spd is 4;
+	now current con is 4;
+	now current aid is 3;
+	now current mov is 4;
+	try looking.
+
+After examining Drifter:
+	now current stats is 0;
+	now current class is "Drifter";
+	now current hp is 16;
+	now current str is 4;
+	now current mag is 0;
+	now current skl is 4;
+	now current luk is 4;
+	now current def is 1;
+	now current res is 1;
+	now current spd is 4;
+	now current con is 4;
+	now current aid is 3;
+	now current mov is 5;
+	try looking.
+	
+Chapter Skills
+
+current skills is scenery in create a character. "[link]Adept[as]x Adept[end link][line break]
+[link]Adept+[as]x Adept+[end link][line break]
+[link]Awareness[as]x Awareness[end link][line break]
+[link]Blossom[as]x Blossom[end link][line break]
+[link]Cancel[as]x Cancel[end link][line break]
+[link]Cancel+[as]x Cancel+[end link][line break]
+[link]Celerity[as]x Celerity[end link][line break]
+[link]Celerity+[as]x Celerity+[end link][line break]
+[link]Center[as]x Center[end link][line break]
+[link]Charisma[as]x Charisma[end link][line break]
+[link]Charisma+[as]x Charisma+[end link][line break]
+[link]Counter[as]x Counter[end link][line break]
+[link]Counter+[as]x Counter+[end link][line break]
+[link]Daunt[as]x Daunt[end link][line break]
+[link]Daunt+[as]x Daunt+[end link][line break]
+[link]Deep Pockets[as]x Deep Pockets[end link][line break]
+[link]Discipline[as]x Discipline[end link][line break]
+[link]Fortune[as]x Fortune[end link][line break]
+[link]Gamble[as]x Gamble[end link][line break]
+[link]Gamble+[as]x Gamble+[end link][line break]
+[link]Guard[as]x Guard[end link][line break]
+[link]Guard+[as]x Guard+[end link][line break]
+[link]Ignis[as]x Ignis[end link][line break]
+[link]Imbue[as]x Imbue[end link][line break]
+[link]Luna[as]x Luna[end link][line break]
+[link]Luna+[as]x Luna+[end link][line break]
+[link]Maturity[as]x Maturity[end link][line break]
+[link]Miracle[as]x Miracle[end link][line break]
+[link]Miracle+[as]x Miracle+[end link][line break]
+[link]Nullify[as]x Nullify[end link][line break]
+[link]Nullify+[as]x Nullify+[end link][line break]
+[link]Parity[as]x Parity[end link][line break]
+[link]Pass[as]x Pass[end link][line break]
+[link]Provoke[as]x Provoke[end link][line break]
+[link]Renewal[as]x Renewal[end link][line break]
+[link]Resolve[as]x Resolve[end link][line break]
+[link]Savior[as]x Savior[end link][line break]
+[link]Stillness[as]x Stillness[end link][line break]
+[link]Sol[as]x Sol[end link][line break]
+[link]Taunt[as]x Taunt[end link][line break]
+[link]Vantage[as]x Vantage[end link][line break]
+[link]Vantage+[as]x Vantage+[end link][line break]
+[link]Weapon Saver[as]x Weapon Saver[end link][line break]
+[link]Wrath[as]x Wrath[end link][line break]
+[link]Wrath+[as]x Wrath+[end link][line break]"
+
+Adept is scenery in Create a Character. "current skill is now Adept".
+Adept+ is scenery in Create a Character. "current skill is now Adept+."
+Awareness is scenery in Create a Character. "current skill is now Awareness."
+Blossom is scenery in Create a Character. "current skill is now Blossom."
+Cancel is scenery in Create a Character. "current skill is now Cancel."
+Cancel+ is scenery in Create a Character. "current skill is now Cancel+."
+Celerity is scenery in Create a Character. "current skill is now Celerity."
+Celerity+ is scenery in Create a Character. "current skill is now Celerity+."
+Center is scenery in Create a Character. "current skill is now Center."
+Charisma is scenery in Create a Character. "current skill is now Charisma."
+Charisma+ is scenery in Create a Character. "current skill is now Charisma+."
+Counter is scenery in Create a Character. "current skill is now Counter."
+Counter+ is scenery in Create a Character. "current skill is now Counter+."
+Daunt is scenery in Create a Character. "current skill is now Daunt."
+Daunt+ is scenery in Create a Character. "current skill is now Daunt+."
+Deep Pockets is scenery in Create a Character. "current skill is now Deep Pockets."
+Discipline is scenery in Create a Character. "current skill is now Discipline."
+Fortune is scenery in Create a Character. "current skill is now Fortune."
+Gamble is scenery in Create a Character. "current skill is now Gamble."
+Gamble+ is scenery in Create a Character. "current skill is now Gamble+."
+Guard is scenery in Create a Character. "current skill is now Guard."
+Guard+ is scenery in Create a Character. "current skill is now Guard+."
+Ignis is scenery in Create a Character. "current skill is now Ignis."
+Imbue is scenery in Create a Character. "current skill is now Imbue."
+Luna is scenery in Create a Character. "current skill is now Luna."
+Luna+ is scenery in Create a Character. "current skill is now Luna+."
+Maturity is scenery in Create a Character. "current skill is now Maturity."
+Miracle is scenery in Create a Character. "current skill is now Miracle."
+Miracle+ is scenery in Create a Character. "current skill is now Miracle+."
+Nullify is scenery in Create a Character. "current skill is now Nullify."
+Nullify+ is scenery in Create a Character. "current skill is now Nullify+."
+Parity is scenery in Create a Character. "current skill is now Parity."
+Pass is scenery in Create a Character. "current skill is now Pass."
+Provoke is scenery in Create a Character. "current skill is now Provoke."
+Renewal is scenery in Create a Character. "current skill is now Renewal."
+Resolve is scenery in Create a Character. "current skill is now Resolve."
+Savior is scenery in Create a Character. "current skill is now Savior."
+Stillness is scenery in Create a Character. "current skill is now Stillness."
+Sol is scenery in Create a Character. "current skill is now Sol."
+Taunt is scenery in Create a Character. "current skill is now Taunt."
+Vantage is scenery in Create a Character. "current skill is now Vantage."
+Vantage+ is scenery in Create a Character. "current skill is now Vantage+."
+Weapon Saver is scenery in Create a Character. "current skill is now Weapon Saver."
+Wrath is scenery in Create a Character. "current skill is now Wrath."
+Wrath+ is scenery in Create a Character. "current skill is now Wrath+."
+
+After examining Adept:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Adept";
+	try looking.
+After examining Adept+:
+	if advanced is true:
+		decrease progression by 30;
+	now advanced is true;
+	now current skill is "Adept+";
+	increase progression by 30;
+	try looking.
+After examining Awareness:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Awareness";
+	try looking.
+After examining Blossom:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Blossom";
+	try looking.
+After examining Cancel:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Cancel";
+	try looking.
+After examining Cancel+:
+	if advanced is true:
+		decrease progression by 30;
+	now advanced is true;
+	now current skill is "Cancel+";
+	increase progression by 30;
+	try looking.
+After examining Celerity:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Celerity";
+	try looking.
+After examining Celerity+:
+	if advanced is true:
+		decrease progression by 30;
+	now advanced is true;
+	now current skill is "Celerity+";
+	increase progression by 30;
+	try looking.
+After examining Center:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Center";
+	try looking.
+After examining Charisma:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Charisma";
+	try looking.
+After examining Charisma+:
+	if advanced is true:
+		decrease progression by 30;
+	now advanced is true;
+	now current skill is "Charisma+";
+	increase progression by 30;
+	try looking.
+After examining Counter:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Counter";
+	try looking.
+After examining Counter+:
+	if advanced is true:
+		decrease progression by 30;
+	now advanced is true;
+	now current skill is "Counter+";
+	increase progression by 30;
+	try looking.
+After examining Daunt:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Daunt";
+	try looking.
+After examining Daunt+:
+	if advanced is true:
+		decrease progression by 30;
+	now advanced is true;
+	now current skill is "Daunt+";
+	increase progression by 30;
+	try looking.
+After examining Deep Pockets:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Deep Pockets";
+	try looking.
+After examining Discipline:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Discipline";
+	try looking.
+After examining Fortune:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Fortune";
+	try looking.
+After examining Gamble:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Gamble";
+	try looking.
+After examining Gamble+:
+	if advanced is true:
+		decrease progression by 30;
+	now advanced is true;
+	now current skill is "Gamble+";
+	increase progression by 30;
+	try looking.
+After examining Guard:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Guard";
+	try looking.
+After examining Guard+:
+	if advanced is true:
+		decrease progression by 30;
+	now advanced is true;
+	now current skill is "Guard+";
+	increase progression by 30;
+	try looking.
+After examining Ignis:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Ignis";
+	try looking.
+After examining Imbue:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Imbue";
+	try looking.
+After examining Luna:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Luna";
+	try looking.
+After examining Luna+:
+	if advanced is true:
+		decrease progression by 30;
+	now advanced is true;
+	now current skill is "Luna+";
+	increase progression by 30;
+	try looking.
+After examining Maturity:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Maturity";
+	try looking.
+After examining Miracle:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Miracle";
+	try looking.
+After examining Miracle+:
+	if advanced is true:
+		decrease progression by 30;
+	now advanced is true;
+	now current skill is "Miracle+";
+	increase progression by 30;
+	try looking.
+After examining Nullify:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Nullify";
+	try looking.
+After examining Nullify+:
+	if advanced is true:
+		decrease progression by 30;
+	now advanced is true;
+	now current skill is "Nullify+";
+	increase progression by 30;
+	try looking.
+After examining Parity:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Parity";
+	try looking.
+After examining Pass:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Pass";
+	try looking.
+After examining Provoke:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Provoke";
+	try looking.
+After examining Renewal:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Renewal";
+	try looking.
+After examining Resolve:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Resolve";
+	try looking.
+After examining Savior:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Savior";
+	try looking.
+After examining Stillness:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Stillness";
+	try looking.
+After examining Sol:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Sol";
+	try looking.
+After examining Taunt:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Taunt";
+	try looking.
+After examining Vantage:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Vantage";
+	try looking.
+After examining Vantage+:
+	if advanced is true:
+		decrease progression by 30;
+	now advanced is true;
+	now current skill is "Vantage+";
+	increase progression by 30;
+	try looking.
+After examining Weapon Saver:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Weapon Saver";
+	try looking.
+After examining Wrath:
+	if advanced is true:
+		decrease progression by 30;
+		now advanced is false;
+	now current skill is "Wrath";
+	try looking.
+After examining Wrath+:
+	if advanced is true:
+		decrease progression by 30;
+	now advanced is true;
+	now current skill is "Wrath+";
+	increase progression by 30;
+	try looking.
+
+Before examining Adept+:
+	if progression is greater than 300 and advanced is false:
+		say "You don't have enough progression to take that stat." instead.
+Before examining Cancel+:
+	if progression is greater than 300 and advanced is false:
+		say "You don't have enough progression to take that stat." instead.
+Before examining Celerity+:
+	if progression is greater than 300 and advanced is false:
+		say "You don't have enough progression to take that stat." instead.
+Before examining Charisma+:
+	if progression is greater than 300 and advanced is false:
+		say "You don't have enough progression to take that stat." instead.
+Before examining Counter+:
+	if progression is greater than 300 and advanced is false:
+		say "You don't have enough progression to take that stat." instead.
+Before examining Daunt+:
+	if progression is greater than 300 and advanced is false:
+		say "You don't have enough progression to take that stat." instead.
+Before examining Gamble+:
+	if progression is greater than 300 and advanced is false:
+		say "You don't have enough progression to take that stat." instead.
+Before examining Guard+:
+	if progression is greater than 300 and advanced is false:
+		say "You don't have enough progression to take that stat." instead.
+Before examining Luna+:
+	if progression is greater than 300 and advanced is false:
+		say "You don't have enough progression to take that stat." instead.
+Before examining Miracle+:
+	if progression is greater than 300 and advanced is false:
+		say "You don't have enough progression to take that stat." instead.
+Before examining Nullify+:
+	if progression is greater than 300 and advanced is false:
+		say "You don't have enough progression to take that stat." instead.
+Before examining Vantage+:
+	if progression is greater than 300 and advanced is false:
+		say "You don't have enough progression to take that stat." instead.
+Before examining Wrath+:
+	if progression is greater than 300 and advanced is false:
+		say "You don't have enough progression to take that stat." instead.
+
+After examining Adept:
+	now advanced is false.
+After examining Awareness:
+	now advanced is false.
+After examining Blossom:
+	now advanced is false.
+After examining Cancel:
+	now advanced is false.
+After examining Celerity:
+	now advanced is false.
+After examining Center:
+	now advanced is false.
+After examining Charisma:
+	now advanced is false.
+After examining Counter:
+	now advanced is false.
+After examining Daunt:
+	now advanced is false.
+After examining Deep Pockets:
+	now advanced is false.
+After examining Discipline:
+	now advanced is false.
+After examining Fortune:
+	now advanced is false.
+After examining Gamble:
+	now advanced is false.
+After examining Guard:
+	now advanced is false.
+After examining Ignis:
+	now advanced is false.
+After examining Imbue:
+	now advanced is false.
+After examining Luna:
+	now advanced is false.
+After examining Maturity:
+	now advanced is false.
+After examining Miracle:
+	now advanced is false.
+After examining Nullify:
+	now advanced is false.
+After examining Parity:
+	now advanced is false.
+After examining Pass:
+	now advanced is false.
+After examining Provoke:
+	now advanced is false.
+After examining Renewal:
+	now advanced is false.
+After examining Resolve:
+	now advanced is false.
+After examining Savior:
+	now advanced is false.
+After examining Stillness:
+	now advanced is false.
+After examining Sol:
+	now advanced is false.
+After examining Taunt:
+	now advanced is false.
+After examining Vantage:
+	now advanced is false.
+After examining Weapon Saver:
+	now advanced is false.
+After examining Wrath:
+	now advanced is false.
+
+To say celeriac:
+	if current skill is "Celerity":
+		say " [bracket]+1[close bracket]";
+	if current skill is "Celerity+":
+		say " [bracket]+2[close bracket]".
+
+Chapter Enemies
+
+Enemies are scenery in create a character. "Pick one of the following enemy types to overwrite everything with that enemy template. Remember to pick a name afterwards.
+
+[link]Ghoul[as]x ghoul[end link][line break]
+[link]Bone Warrior (Sword)[as]x bone warrior sword[end link][line break]
+[link]Bone Warrior (Lance)[as]x bone warrior lance[end link][line break]
+[link]Bone Warrior (Bow)[as]x bone warrior bow[end link]."
+
+The ghoul is scenery in create a character. "You select the ghoul."
+The bone warrior sword is scenery in create a character. "You select the bone warrior with the sword."
+The bone warrior lance is scenery in create a character. "You select the bone warrior with the lance."
+The bone warrior bow is scenery in create a character. "You select the bone warrior with the bow."
+
+After examining the ghoul:
+	reset all the stats;
+	now current weapon is "Claws";
+	now current mount is "NONE";
+	now current name is "Ghoul";
+	now current class is "Ghoul";
+	now current skill is "NONE";
+	now advanced is false;
+	now current hp is 21;
+	now current str is 7;
+	now current mag is 0;
+	now current skl is 4;
+	now current luk is 0;
+	now current def is 5;
+	now current res is 1;
+	now current spd is 3;
+	now current con is 8;
+	now current aid is 7;
+	now current mov is 4;
+	now current stats is 0;
+	now progression is 330;
+	try looking.
+
+After examining the bone warrior sword:
+	reset all the stats;
+	now current weapon is "Rusted Sword";
+	now current mount is "NONE";
+	now current name is "Bone Warrior (with Sword)";
+	now current class is "Bonewalker";
+	now current skill is "NONE";
+	now advanced is false;
+	now current hp is 19;
+	now current str is 5;
+	now current mag is 0;
+	now current skl is 5;
+	now current luk is 1;
+	now current def is 4;
+	now current res is 2;
+	now current spd is 5;
+	now current con is 6;
+	now current aid is 5;
+	now current mov is 5;
+	now current stats is 0;
+	now progression is 330;
+	try looking.
+
+After examining the bone warrior lance: 
+	reset all the stats;
+	now current weapon is "Rusted Lance";
+	now current mount is "NONE";
+	now current name is "Bone Warrior (with Lance)";
+	now current class is "Bonewalker";
+	now current skill is "NONE";
+	now advanced is false;
+	now current hp is 19;
+	now current str is 5;
+	now current mag is 0;
+	now current skl is 5;
+	now current luk is 1;
+	now current def is 4;
+	now current res is 2;
+	now current spd is 5;
+	now current con is 6;
+	now current aid is 5;
+	now current mov is 5;
+	now current stats is 0;
+	now progression is 330;
+	try looking.
+
+After examining the bone warrior bow:
+	reset all the stats;
+	now current weapon is "Shoddy Bow";
+	now current mount is "NONE";
+	now current name is "Bone Warrior (with Bow)";
+	now current class is "Bonewalker";
+	now current skill is "NONE";
+	now advanced is false;
+	now current hp is 19;
+	now current str is 5;
+	now current mag is 0;
+	now current skl is 5;
+	now current luk is 1;
+	now current def is 4;
+	now current res is 2;
+	now current spd is 5;
+	now current con is 6;
+	now current aid is 5;
+	now current mov is 5;
+	now current stats is 0;
+	now progression is 330.
+
+Chapter Saving
+
+Up from Create a Character is Create a Character.
+
+Check going south from Create a Character:
+	say "Your character is saved.";
+	save to the sheet;
+	reset all the stats;
+	say "If you made a mistake please type UNDO.".
+
+To save to the sheet:
+	choose a blank row in the Table of Characters;
+	if importation is false:
+		implement skills;
+	now name entry is current name;
+	now class entry is current class;
+	now HP entry is current hp;
+	now current HP entry is current hp;
+	now STR entry is current str;
+	now MAG entry is current mag;
+	now SKL entry is current skl;
+	now LUK entry is current luk;
+	now DEF entry is current def;
+	now RES entry is current res;
+	now SPD entry is current spd;
+	now CON entry is current con;
+	now AID entry is current aid;
+	now MOV entry is current mov;
+	now mount entry is current mount;
+	now weapon entry is current weapon;
+ 	now HP prog entry is hp prog;
+	now STR prog entry is str prog;
+	now MAG prog entry is mag prog;
+	now SKL prog entry is skl prog;
+	now LUK prog entry is luk prog;
+	now DEF prog entry is def prog;
+	now RES prog entry is res prog;
+	now SPD prog entry is spd prog;
+	now the level entry is current level;
+	now the skill entry is current skill;
+	now progression entry is progression;
+	now bonus stats entry is current stats.
+
+To implement skills:
+	if current skill is "Celerity":
+		increase current mov by 1;
+		say " MOV increased by 1 from Celerity. ";
+	else if current skill is "Celerity+":
+		increase current mov by 2;
+		say " MOV increased by 2 from Celerity+. ";
+	else if current skill is "Maturity":
+		say " All progression stats increased by 5 from Maturity. ";
+		increase HP prog by 5;
+		increase STR prog by 5;
+		increase MAG prog by 5;
+		increase SKL prog by 5;
+		increase LUK prog by 5;
+		increase DEF prog by 5;
+		increase RES prog by 5;
+		increase SPD prog by 5.
+	
+
+Table of Characters
+Name (text)	Class (text)	Level (a number)	Skill (text)	HP (a number)	STR (a number)	MAG (a number)	SKL (a number)	LUK (a number)	DEF (a number)	RES (a number)	SPD (a number)	CON (a number)	AID (a number)	MOV (a number)	HP prog (a number)	STR prog (a number)	MAG prog (a number)	SKL prog (a number)	LUK prog (a number)	DEF prog (a number)	RES prog (a number)	SPD prog (a number)	Mount (text)	Weapon (text)	Bonus Stats (number)	Progression (a number)	Current HP (a number)
+“Elana Farrugia”	“Performer”	1	"Charisma+"	16	2	2	2	6	2	2	7	3	2	4	70	0	60	10	70	10	10	70	“None”	“Lucky Stars”	4	330	16
+with 100 blank rows
+
+
+Chapter Additional Commands
+
+Highprog is truth state that varies. Highprog is false.
+
+Toggling is an action applying to nothing. Understand "toggle" as toggling.
+
+Carry out toggling:
+	if highprog is true:
+		say "Now progression will increase in increments of 5%.";
+		now highprog is false;
+	else:
+		now highprog is true;
+		say "Now progression will increase in increments of 10%.".
+		
+
+Helping is an action out of world. Understand "help" or "commands" or "hint" or "hints" or "info" as helping.
+
+Carry out helping:
+	say "[bold type]Commands[roman type]
+
+Type [bold type]HP/STR/etc[roman type] to increase the stat value. In edit mode, add a number after the command to set a new value.
+
+Type [bold type]HPup/STRup/etc[roman type] to increase the progression value. In edit mode, add a number after the command to set a new value.
+
+Type [bold type]Max HP[roman type] followed by a number to set a new max HP.
+
+Type [bold type]undo[roman type] to go back if you make a mistake.
+
+Type [bold type]u[roman type] to reset absolutely everything and start again from scratch in the character creator.
+
+Type [bold type]x current skill/class/weapon/etc[roman type] to select it.
+
+Type [bold type]l[roman type] or [bold type]look[roman type] to refresh the page.
+
+Type [bold type]toggle[roman type] to toggle between increasing progression by 5% or 10%. The default is 5%.
+
+Type [bold type]save[roman type] or [bold type]restore[roman type] to save or restore a file. You can do this anywhere.
+
+[bold type]Tips[roman type]
+
+Don't worry about whether you type in upper or lower case, the commands work either way.
+
+Clicking a hyperlinked stat will increase that stat.
+
+Everything can be done by typing if you prefer, and most things can be done just by link clicking. Conversely, only setting names and editing characters require typing."
+
+Part 2 - Character Suite
+
+Character Suite is east of Main Menu. The description of Character Suite is "[bold type]List of Characters Made[roman type]
+[party]
+
+[link][bracket]Import[close bracket] Characters[as]Import[end link][line break]
+[link][bracket]Export[close bracket] Characters[as]Export[end link][line break]
+[link][bracket]M[close bracket]ain Menu[line break][as]w[end link]".
+
+
+Check going west from Character Suite:
+	reset all the stats;
+
+Table of Importing
+Name (text)	Class (text)	Level (a number)	Skill (text)	HP (a number)	STR (a number)	MAG (a number)	SKL (a number)	LUK (a number)	DEF (a number)	RES (a number)	SPD (a number)	CON (a number)	AID (a number)	MOV (a number)	HP prog (a number)	STR prog (a number)	MAG prog (a number)	SKL prog (a number)	LUK prog (a number)	DEF prog (a number)	RES prog (a number)	SPD prog (a number)	Mount (text)	Weapon (text)	Bonus Stats (number)	Progression (a number)	Current HP (a number)
+with 100 blank rows
+
+Importing is an action out of world. Understand "Import" as importing.
+Exporting is an action out of world. Understand "Export" as exporting.
+
+The File of Character Sheets (owned by another project) is called "character".
+
+Carry out exporting when the location is Character Suite:
+	write File of Character Sheets from the table of characters;
+	say "Export successful!".
+
+Importation is a truth state that varies. Importation is false.
+
+Carry out importing when the location is Character Suite:
+	if the file of character sheets exists:
+		now importation is true;
+		read File of Character Sheets into the table of importing;
+		repeat through the table of importing:
+			now current weapon is weapon entry;
+			now current mount is mount entry;
+			now current name is name entry;
+			now current class is class entry;
+			now current skill is skill entry;
+			now current hp is current hp entry;
+			now max hp is hp entry;
+			now current str is str entry;
+			now current mag is mag entry;
+			now current skl is skl entry;
+			now current luk is luk entry;
+			now current def is def entry;
+			now current res is res entry;
+			now current spd is spd entry;
+			now current con is con entry;
+			now current aid is aid entry;
+			now current mov is mov entry;
+			now current stats is Bonus Stats entry;
+			now progression is progression entry;
+			save to the sheet;
+		say "Import successful.";
+		now importation is false;
+		try looking;
+	else:
+		say "There is no character file to import.".
+
+Understand "M" as west when the location is the Character Suite.
+
+Chapter Character Editing
+
+To say party:
+	if the table of characters is empty:
+		say "You haven't made any characters.";
+	else:
+		say "#	Name	Class	Level[line break]";
+		let N be 0;
+		repeat through the table of characters:
+			increase N by 1;
+			say "[link][N]: [Name entry]	[Class entry]	[level entry][as]pick [n][end link]";
+			say line break.
+			
+Current listing is a number that varies. Current listing is 0.
+
+Picking is an action applying to one number. Understand "pick [number]" as picking.
+
+To rip from the character table:
+	let N be the number understood;
+	if there is no name in row N of the table of characters:
+		say "There's no such character." instead;
+	choose row N in the table of characters;
+	now current weapon is weapon entry;
+	now current mount is mount entry;
+	now current name is name entry;
+	now current class is class entry;
+	now current skill is skill entry;
+	now current hp is current hp entry;
+	now max hp is hp entry;
+	now current str is str entry;
+	now current mag is mag entry;
+	now current skl is skl entry;
+	now current luk is luk entry;
+	now current def is def entry;
+	now current res is res entry;
+	now current spd is spd entry;
+	now current con is con entry;
+	now current aid is aid entry;
+	now current mov is mov entry;
+	now current stats is Bonus Stats entry;
+	now progression is progression entry;
+	now current listing is N.
+
+Check picking when the location is Character Suite:
+	rip from the character table;
+	say "#: [current listing][line break]
+Name: [current name][line break]
+Class: [current class][line break]
+Skill: [current skill][line break]
+Weapon: [current weapon][line break][ride]
+HP [current hp]/[max hp][bracket][hp prog]%[close bracket][line break]
+STR: [current str] [bracket][str prog]%[close bracket][line break]
+MAG: [current mag] [bracket][mag prog]%[close bracket][line break]
+SKL: [current skl] [bracket][skl prog]%[close bracket][line break]
+LUK: [current luk] [bracket][luk prog]%[close bracket][line break]
+DEF: [current def] [bracket][def prog]%[close bracket][line break]
+RES: [current res] [bracket][res prog]%[close bracket][line break]
+SPD: [current spd] [bracket][spd prog]%[close bracket][celeriac][paragraph break]
+CON: [current con][line break]
+AID: [current aid][line break]
+MOV: [current mov][line break]
+
+Progression Spent: [progression]/330[line break]
+Bonus stats: [current stats]/4
+
+[link][bracket]E[close bracket]dit this character[as]E[end link][line break]
+[link][bracket]D[close bracket]elete this character[as]D[end link][line break]";
+	
+Before going east from the character suite:
+	if the current listing is 0:
+		say "There is no character selected to edit." instead.
+		
+Check going down when the location is character suite:
+	if the current listing is 0:
+		say "There is no character selected to delete." instead.
+
+Carry out going down when the location is character suite:
+	let N be the current listing;
+	choose row N in the table of characters;
+	blank out the whole row
+	
+After going down when the location is character suite :
+	now the current listing is 0;
+	try looking.
+	
+Down from the character suite is the character suite.
+		
+Chapter - Character Editor
+
+Character Editor is east of the Character Suite. The description is
+"#: [current listing][line break]
+Name: [current name][line break]
+Class: [current class][line break]
+Skill: [current skill][line break]
+Weapon: [current weapon][line break][ride]
+HP [current hp]/[max hp][bracket][hp prog]%[close bracket][line break]
+STR: [current str] [bracket][str prog]%[close bracket][line break]
+MAG: [current mag] [bracket][mag prog]%[close bracket][line break]
+SKL: [current skl] [bracket][skl prog]%[close bracket][line break]
+LUK: [current luk] [bracket][luk prog]%[close bracket][line break]
+DEF: [current def] [bracket][def prog]%[close bracket][line break]
+RES: [current res] [bracket][res prog]%[close bracket][line break]
+SPD: [current spd] [bracket][spd prog]%[close bracket][celeriac][paragraph break]
+CON: [current con][line break]
+AID: [current aid][line break]
+MOV: [current mov][line break]
+
+Progression Spent: [progression]/330[line break]
+Added stats: [current stats]
+
+[link][bracket]D[close bracket]iscard changes and return to the character suite[as]d[end link][line break]
+[link][bracket]S[close bracket]ave changes and return to the character suite[as]s[end link][line break]"
+
+Classing is an action applying to one topic. Understand "class [text]" as classing.
+
+Skilling is an action applying to one topic. Understand "skill [text]" as skilling.
+
+Carry out classing:
+	now the current class is the topic understood.
+
+Carry out skilling:
+	now the current skill is the topic understood.
+	
+HPnuming is an action applying to one number. Understand "HP [number]" as HPnuming.
+		
+Carry out HPnuming:
+	now current hp is the number understood.
+
+STRnuming is an action applying to one number. Understand "STR [number]" as STRnuming.
+
+		
+Carry out STRnuming:
+	now current STR is the number understood.
+
+MAGnuming is an action applying to one number. Understand "MAG [number]" as MAGnuming.
+
+Carry out MAGnuming:
+	now current MAG is the number understood.	
+SKLnuming is an action applying to one number. Understand "SKL [number]" as SKLnuming.
+
+Carry out SKLnuming:
+	now current SKL is the number understood.
+		
+LUKnuming is an action applying to one number. Understand "LUK [number]" as LUKnuming.
+
+Carry out LUKnuming:
+	now current LUK is the number understood.
+
+DEFnuming is an action applying to one number. Understand "DEF [number]" as DEFnuming.
+
+Carry out DEFnuming:
+	now current DEF is the number understood.
+	
+RESnuming is an action applying to one number. Understand "RES [number]" as RESnuming.
+
+Carry out RESnuming:
+	now current RES is the number understood.
+
+SPDnuming is an action applying to one number. Understand "SPD [number]" as SPDnuming.
+
+Carry out SPDnuming:
+	now current SPD is the number understood.
+	
+CONnuming is an action applying to one number. Understand "CON [number]" as CONnuming.
+
+Carry out CONnuming:
+	now current CON is the number understood.
+
+Maxhping is an action applying to one number. Understand "HP Max [number]" as Maxhping.
+
+Carry out maxhping:
+	now max hp is the number understood.
+
+HPupnuming is an action applying to one number. Understand "HPup [number]" as HPupnuming.
+STRupnuming is an action applying to one number. Understand "STRup [number]" as STRupnuming.
+MAGupnuming is an action applying to one number. Understand "MAGup [number]" as MAGupnuming.
+SKLupnuming is an action applying to one number. Understand "SKLup [number]" as SKLupnuming.
+LUKupnuming is an action applying to one number. Understand "LUKup [number]" as LUKupnuming.
+DEFupnuming is an action applying to one number. Understand "DEFup [number]" as DEFupnuming.
+RESupnuming is an action applying to one number. Understand "RESup [number]" as RESupnuming.
+SPDupnuming is an action applying to one number. Understand "SPDup [number]" as SPDupnuming.
+
+Carry out HPupnuming:
+	now HP prog is the number understood.
+
+Carry out STRupnuming:
+	now STR prog is the number understood.
+
+Carry out MAGupnuming:
+	now MAG prog is the number understood.
+		
+Carry out SKLupnuming:
+	now SKL prog is the number understood.
+		
+Carry out LUKupnuming:
+	now LUK prog is the number understood.
+
+Carry out DEFupnuming:
+	now DEF prog is the number understood.
+Carry out RESupnuming:
+	now RES prog is the number understood.
+
+Carry out SPDupnuming:
+	now SPD prog is the number understood.
+
+Character suite is south of the character editor.
+
+Character suite is below the character editor.
+
+Before going south from the character editor:
+	choose row current listing in the table of characters;
+	blank out the whole row;
+	say "Your character is saved.";
+	save to the sheet;
+	reset all the stats;
+	say "If you made a mistake please type UNDO.".
+
+Before going down from the character editor:
+	say "All changes discarded.";
+	reset all the stats.
+
+
+Part 3 - Weapon Creation
+
+Weapon Editor is west of the main menu. "[link]List all [number of filled rows in the table of weapons] weapons[as]x armoury[end link] (WARNING: very slow right now)[line break]
+Create a new weapon (NOT IMPLEMENTED YET).[line break]
+[link]Main m[bracket]e[close bracket]nu[as]e[end link]"
+
+To say list weapons:
+	say "#	Name[line break]";
+	let N be 0;
+	repeat through the table of weapons:
+		increase N by 1;
+		say "[link][N]: [Name entry][as]pick [n][end link]";
+		say line break.
+
+
+Armoury is scenery in the Weapon Editor. "[list weapons]".
+
+Ranking is an action applying to one topic. Understand "rank [text]" as ranking.
+
+Carry out ranking:
+	now the current rank is the topic understood.
+
+Carry out naming when the location is the weapon editor:
+	now the current weapon is the topic understood.
+
+
+
+Carry out picking when the location is the weapon editor:
+	let N be the number understood;
+	if there is no name in row N of the table of weapons:
+		say "There's no such weapon." instead;
+	choose row N in the table of weapons;
+	now current weapon is the name entry;
+	now current rank is the rank entry;
+	now current type is the type entry;
+	now current rng is the rng entry;
+	now current mt is the mt entry;
+	now current wt is the wt entry;
+	now current hit is the hit entry;
+	now current crit is the crit entry;
+	now current ql is the ql entry;
+	now the current listing is N;
+	show the weapon.
+
+To show the weapon:
+	say "
+#[current listing][line break]
+[bold type][current weapon][roman type][line break]
+Type: [current type][line break]
+Rank: [current rank][line break]
+MT: [current mt][line break]
+WT: [current wt][line break]
+Hit: [current hit][line break]
+Crit: [current crit][line break]
+
+
+[link][bracket]D[close bracket]elete this weapon[as]D[end link][line break]"
+
+Check going down when the location is weapon editor:
+	if the current listing is 0:
+		say "There is no weapon selected to delete." instead.
+
+Carry out going down when the location is character suite:
+	let N be the current listing;
+	choose row N in the table of weapons;
+	blank out the whole row.
+	
+After going down when the location is character suite:
+	now the current listing is 0;
+	try looking.
+	
+Down from the weapon editor is the weapon editor.
+	
+
+Current rank is a text that varies.
+Current weapon is a text that varies.
+Current type is a text that varies.
+Current RNG is a text that varies.
+Current mt is a number that varies.
+current wt is a number that varies.
+current hit is a number that varies.
+current crit is a number that varies.
+current ql is a number that varies.
+
+Table of Weapons
+Name	Type	Rank	RNG	MT	WT	Hit	Crit	QL	Category	Bonus
+"Claws"	“Null”	“F”	"1"	7	5	85	0	1000	“Physical”	“None”
+"Rusted Sword"	"Slashing"	"F"	"1"	3	4	75	0	20	“Physical”	“None”
+"Rusted Lance"	"Piercing"	"F"	"1"	5	7	70	0	20	“Physical”	“None”
+"Shoddy Bow"	"Recurve"	"F"	"2"	4	5	75	0	20	“Physical”	“None”
+"Iron Sword"	"Slashing"	"E"	"1"	4	5	85	0	40	“Physical”	“None”
+"Devil Sword"	"Slashing"	"E"	"1"	13	15	65	0	40	“Physical”	“Unlucky”
+"Steel Sword"	"Slashing"	"D"	"1"	6	7	80	5	35	“Physical”	“None”
+"Quick Sword"	"Slashing"	"D"	"1"	5	2	85	0	40	“Physical”	“Followup”
+"Silver Sword"	"Slashing"	"C"	"1"	7	8	80	10	30	“Physical”	“None”
+"Killing Edge"	"Slashing"	"C"	"1"	10	7	75	25	30	“Physical”	“None”
+"Sabre"	"Slashing"	"B"	"1"	10	9	75	20	25	“Physical”	“None”
+"Brave Sword"	"Slashing"	"B"	"1"	13	7	70	0	30	“Physical”	“Brave”
+"Katana"	"Slashing"	"A"	"1"	12	10	80	25	20	“Physical”	“None”
+"Rune Sabre"	"Slashing"	"A"	"1-2"	15	8	65	0	20	“Legendary”	“None”
+"Wo Dao"	"Slashing"	"S"	"1"	14	11	85	30	15	“Physical”	“None”
+"Valmanway"	"Slashing"	"S"	"1"	15	9	80	10	20	“Physical”	“None”
+"Slim Sword"	"Thrusting"	"E"	"1"	4	3	100	5	40	“Physical”	“Brave”
+"Iron Rapier"	"Thrusting"	"E"	"1"	4	6	75	0	40	“Physical”	“None”
+"Steel Rapier"	"Thrusting"	"D"	"1"	7	8	80	0	35	“Physical”	“None”
+"Longsword"	"Thrusting"	"D"	"1"	7	6	70	0	35	“Physical”	“Horseback Effective”
+"Silver Rapier"	"Thrusting"	"C"	"1"	9	10	75	5	30	“Physical”	“None”
+"Winged Rapier"	"Thrusting"	"C"	"1"	8	7	70	0	30	“Physical”	“Flying Effective”
+"Estoc"	"Thrusting"	"B"	"1"	12	11	70	0	25	“Physical”	“Armor-piercing”
+"Wind Sword"	"Thrusting"	"B"	"1-2"	10	8	75	0	25	“Legendary”	“None”
+"Fleuret"	"Thrusting"	"A"	"1"	12	13	80	10	20	“Physical”	“None”
+"Colichemarde"	"Thrusting"	"A"	"1"	13	10	70	5	20	“Physical”	“Horseback Effective”
+"Wyrmslayer"	"Thrusting"	"A"	"1"	14	11	65	0	20	“Physical”	“Wyvern Effective”
+"Joyeuse"	"Thrusting"	"S"	"1"	16	12	70	5	15	“Physical”	“Armor-piercing”
+"Sieglinde"	"Thrusting"	"S"	"1"	16	12	75	0	15	“Physical”	“Mounted”
+"Flamberge"	"Thrusting"	"S"	"1-2"	16	14	75	0	15	“Legendary”	“None”
+"Wooden Sword"	"Crushing"	"E"	"1"	5	6	80	0	40	“Physical”	“None”
+"Iron Blade"	"Crushing"	"E"	"1"	7	8	70	0	40	“Physical”	“None”
+"Steel Blade"	"Crushing"	"D"	"1"	9	10	70	0	35	“Physical”	“None”
+"Armorbreaker"	"Crushing"	"D"	"1"	10	8	70	0	35	“Physical”	“Armor-piercing”
+"Silver Blade"	"Crushing"	"C"	"1"	10	12	65	0	30	“Physical”	“None”
+"Lancereaver"	"Crushing"	"C"	"1"	9	9	70	5	30	“Physical”	“Reaver”
+"Light Brand"	"Crushing"	"C"	"1-2"	12	8	75	0	30	“Physical”	“None”
+"Broadsword"	"Crushing"	"B"	"1"	13	14	65	5	25	“Physical”	“None”
+"Armorslayer"	"Crushing"	"B"	"1"	16	11	60	0	25	“Physical”	“Armor effective”
+"Mage Masher"	"Crushing"	"B"	"1"	13	9	75	0	25	“Physical”	“Levitation”
+"Zweihander"	"Crushing"	"A"	"1"	14	16	70	0	20	“Physical”	“None”
+"Claymore"	"Crushing"	"A"	"1-2"	16	14	75	5	20	“Physical”	“None”
+"Falchion"	"Crushing"	"S"	"1"	17	18	70	10	15	“Physical”	“None”
+"Durandal"	"Crushing"	"S"	"1"	18	13	70	0	15	“Physical”	“Wyvern”
+"Vorpal Blade"	"Crushing"	"S"	"1-2"	20	17	65	0	15	“Legendary”	“None”
+"Slim Lance"	"Piercing"	"E"	"1"	5	5	85	5	40	“Physical”	“None”
+"Iron Lance"	"Piercing"	"E"	"1"	7	7	80	0	40	“Physical”	“None”
+"Devil Lance"	"Piercing"	"E"	"1"	14	16	60	0	40	“Physical”	“None”
+"Steel Lance"	"Piercing"	"D"	"1"	8	9	75	0	35	“Physical”	“Unlucky”
+"Heavy Lance"	"Piercing"	"D"	"1"	10	8	70	0	35	“Physical”	“Armor-piercing”
+"Silver Lance"	"Piercing"	"C"	"1"	10	11	75	0	30	“Physical”	“None”
+"Killer Lance"	"Piercing"	"C"	"1"	11	8	70	25	30	“Physical”	“None”
+"Axereaver"	"Piercing"	"C"	"1"	10	10	65	5	30	“Physical”	“Reaver”
+"Great Lance"	"Piercing"	"B"	"1"	12	13	70	5	25	“Physical”	“None”
+"Brave Lance"	"Piercing"	"B"	"1"	16	9	65	0	30	“Physical”	“Brave”
+"Greater Lance"	"Piercing"	"A"	"1"	14	15	70	10	20	“Physical”	“None”
+"Borehole"	"Piercing"	"A"	"1"	15	11	65	5	20	“Physical”	“Armor effective”
+"Rex Hasta"	"Piercing"	"S"	"1"	18	17	75	15	15	“Physical”	“None”
+"Gungnir"	"Piercing"	"S"	"1-2"	18	15	65	10	15	“Legendary”	“None”
+"Iron Javelin"	"Spear"	"E"	"1-2"	6	5	75	0	40	“Physical”	“None”
+"Iron Pilum"	"Spear"	"E"	"2"	7	3	80	0	40	“Physical”	“Followup”
+"Steel Javelin"	"Spear"	"D"	"1-2"	8	7	75	0	35	“Physical”	“None”
+"Wing Clipper"	"Spear"	"D"	"1-2"	10	5	75	5	35	“Physical”	“Pegasus Effective”
+"Silver Javelin"	"Spear"	"C"	"1-2"	9	9	70	0	30	“Physical”	“None”
+"Steel Pilum"	"Spear"	"C"	"2"	10	7	75	0	30	“Physical”	“Followup”
+"Short Spear"	"Spear"	"B"	"1-2"	11	11	70	0	25	“Physical”	“None”
+"Flame Thrower"	"Spear"	"B"	"1-2"	11	9	70	0	25	“Legendary”	“None”
+"Trident"	"Spear"	"A"	"1-2"	13	13	70	5	20	“Physical”	“None”
+"Silver Pilum"	"Spear"	"A"	"2"	14	12	70	0	20	“Physical”	“Followup”
+"Gae Bolg"	"Spear"	"S"	"1-2"	17	16	70	10	15	“Physical”	“None”
+"Longinus"	"Spear"	"S"	"1-2"	14	12	80	5	15	“Legendary”	“None”
+"Iron Halberd"	"Polearm"	"E"	"1"	8	7	70	0	40	“Physical”	“Antimount”
+"Pike"	"Polearm"	"E"	"1"	9	6	80	10	40	“Physical”	“Pike”
+"Steel Halberd"	"Polearm"	"D"	"1"	10	9	70	0	35	“Physical”	“Antimount”
+"Glaive"	"Polearm"	"D"	"1"	10	7	70	0	35	“Physical”	“Horseback Effective”
+"Silver Halberd"	"Polearm"	"C"	"1"	13	12	65	0	30	“Physical”	“Antimount”
+"Flak Halberd"	"Polearm"	"C"	"1"	11	7	80	5	30	“Physical”	“Pegasus Effective”
+"Blessed Halberd"	"Polearm"	"C"	"1-2"	11	6	75	0	30	“Legendary”	“Blessed”
+"Alabarda"	"Polearm"	"B"	"1"	15	13	65	0	25	“Physical”	“Alabarda”
+"Dragoon Pike"	"Polearm"	"B"	"1"	15	10	70	0	25	“Physical”	“Wyvern Effective”
+"Bec de Corbin"	"Polearm"	"A"	"1"	17	17	70	5	20	“Physical”	“Antimount”
+"Partizan"	"Polearm"	"A"	"1"	17	12	65	0	20	“Physical”	“Horseback Effective”
+"Lunar Halberd"	"Polearm"	"A"	"1"	19	13	60	0	20	“Physical”	“Armor Effective”
+"Siegmund"	"Polearm"	"S"	"1"	19	13	70	5	15	“Physical”	“Mounted Effective”
+"Gradivus"	"Polearm"	"S"	"1"	20	19	75	10	15	“Physical”	“None”
+"Iron Axe"	"Hacking"	"E"	"1"	8	8	75	0	40	“Physical”	“None”
+"Devil Axe"	"Hacking"	"E"	"1"	16	17	60	0	40	“Physical”	“Unlucky”
+"Steel Axe"	"Hacking"	"D"	"1"	11	11	70	0	35	“Physical”	“None”
+"Poleaxe"	"Hacking"	"D"	"1"	12	8	65	0	35	“Physical”	“Horseback Effective”
+"Silver Axe"	"Hacking"	"C"	"1"	12	13	65	0	30	“Physical”	“None”
+"Killer Axe"	"Hacking"	"C"	"1"	14	10	65	25	30	“Physical”	“None”
+"Swordreaver"	"Hacking"	"C"	"1"	12	11	65	5	25	“Physical”	“Reaver”
+"Crescent Axe"	"Hacking"	"B"	"1"	15	15	65	5	25	“Physical”	“None”
+"Brave Axe"	"Hacking"	"B"	"1"	17	10	60	0	30	“Physical”	“None”
+"Swordslayer"	"Hacking"	"B"	"1"	15	9	65	5	25	“Physical”	“Swordkiller”
+"Basilikos"	"Hacking"	"A"	"1"	18	18	60	10	20	“Physical”	“None”
+"Runic Axe"	"Hacking"	"A"	"1-2"	20	11	60	0	20	“Legendary”	“Draining”
+"Golden Axe"	"Hacking"	"S"	"1"	20	20	65	10	15	“Physical”	“None”
+"Armads"	"Hacking"	"S"	"1"	22	15	60	0	15	“Physical”	“Wyvern Effective”
+"Quarterstaff"	"Bludgeon"	"E"	"1"	7	7	80	0	40	“Physical”	“None”
+"Iron Mace"	"Bludgeon"	"E"	"1"	8	8	75	0	40	“Physical”	“None”
+"Steel Mace"	"Bludgeon"	"D"	"1"	10	9	70	0	35	“Physical”	“Minor Armorpiercing”
+"Hammer"	"Bludgeon"	"D"	"1"	15	9	65	0	35	“Physical”	“None”
+"Silver Mace"	"Bludgeon"	"C"	"1"	12	10	70	0	30	“Physical”	“None”
+"Warhammer"	"Bludgeon"	"C"	"1"	18	11	60	0	30	“Physical”	“None”
+"Morningstar"	"Bludgeon"	"B"	"1"	14	12	70	0	25	“Physical”	“None”
+"Provost’s Mace"	"Bludgeon"	"B"	"1"	15	10	70	0	25	“Physical”	“None”
+"Maul"	"Bludgeon"	"A"	"1"	15	14	70	0	20	“Physical”	“None”
+"Ball and Chain"	"Bludgeon"	"A"	"1-2"	17	16	65	0	20	“Physical”	“None”
+"Lucerne"	"Bludgeon"	"S"	"1"	18	17	70	0	15	“Physical”	“None”
+"Sharur"	"Bludgeon"	"S"	"1"	22	15	60	0	15	“Physical”	“None”
+"Earthsplitter"	"Bludgeon"	"S"	"1-2"	18	16	65	0	15	“Legendary”	“None”
+"Hatchet"	"Throwing"	"E"	"1-2"	6	4	80	5	40	“Physical”	“None”
+"Hand Axe"	"Throwing"	"E"	"1-2"	9	7	70	0	40	“Physical”	“None”
+"Steel Hand"	"Throwing"	"D"	"1-2"	11	9	70	0	35	“Physical”	“None”
+"Poison Hand"	"Throwing"	"D"	"1-2"	10	7	70	5	35	“Physical”	“None”
+"Silver Hand"	"Throwing"	"C"	"1-2"	14	12	65	0	30	“Physical”	“None”
+"Short Axe"	"Throwing"	"C"	"1-2"	11	9	80	0	30	“Physical”	“None”
+"Francisca"	"Throwing"	"B"	"1-2"	15	13	60	10	25	“Physical”	“None”
+"Bolt Axe"	"Throwing"	"B"	"1-2"	17	12	60	10	25	“Legendary”	“None”
+"Tomahawk"	"Throwing"	"A"	"1-2"	18	16	60	10	20	“Physical”	“None”
+"Merciless"	"Throwing"	"A"	"1-2"	19	14	55	25	20	“Physical”	“None”
+"Master Hand"	"Throwing"	"S"	"1-2"	21	18	60	15	15	“Physical”	“None”
+"Volant Axe"	"Throwing"	"S"	"1-2"	20	12	75	0	15	“Physical”	“None”
+"Iron Dagger"	"Dagger"	"E"	"1"	4	4	85	10	40	“Physical”	“None”
+"Devil Dagger"	"Dagger"	"E"	"1"	12	14	70	0	40	“Physical”	“None”
+"Steel Dagger"	"Dagger"	"D"	"1"	5	6	80	10	35	“Physical”	“None”
+"Parrying Dagger"	"Dagger"	"D"	"1"	7	5	80	5	35	“Physical”	“None”
+"Silver Dagger"	"Dagger"	"C"	"1"	7	7	80	10	30	“Physical”	“None”
+"Cutthroat"	"Dagger"	"C"	"1"	9	6	80	25	30	“Physical”	“None”
+"Cinquedea"	"Dagger"	"B"	"1"	10	9	80	10	25	“Physical”	“None”
+"Swordbreaker"	"Dagger"	"B"	"1"	12	8	80	5	25	“Physical”	“None”
+"Dark Dagger"	"Dagger"	"B"	"1-2"	12	9	70	5	25	“Legendary”	“None”
+"Switchblade"	"Dagger"	"A"	"1"	12	10	85	15	20	“Physical”	“None”
+"Mercy"	"Dagger"	"A"	"1"	10	8	75	0	25	“Physical”	“None”
+"Death Dealer"	"Dagger"	"S"	"1"	14	11	80	20	15	“Physical”	“None”
+"Sacrificial Dagger"	"Dagger"	"S"	"1"	15	10	80	15	15	“Physical”	“None”
+"Iron Knife"	"Knife"	"E"	"1-2"	5	4	80	0	40	“Physical”	“None”
+"Chakram"	"Knife"	"E"	"1-2"	5	3	75	0	40	“Physical”	“None”
+"Steel Knife"	"Knife"	"D"	"1-2"	6	6	75	0	35	“Physical”	“None”
+"Shuriken"	"Knife"	"D"	"1-2"	8	6	70	10	35	“Physical”	“None”
+"Silver Knife"	"Knife"	"C"	"1-2"	8	7	80	0	30	“Physical”	“None”
+"Silencer"	"Knife"	"C"	"1-2"	9	6	70	0	30	“Physical”	“None”
+"Killer Shuriken"	"Knife"	"C"	"1-2"	10	6	65	25	30	“Physical”	“None”
+"Stiletto"	"Knife"	"B"	"1-2"	10	9	80	5	25	“Physical”	“None”
+"Flame Shuriken"	"Knife"	"B"	"1-2"	11	8	70	10	25	“Legendary”	“None”
+"Pinwheel"	"Knife"	"B"	"1-3"	12	8	70	0	25	“Physical”	“None”
+"Baselard"	"Knife"	"A"	"1-2"	12	11	80	10	20	“Physical”	“None”
+"Kaiser Knife"	"Knife"	"A"	"1-2"	15	7	70	0	24	“Physical”	“None”
+"The World"	"Knife"	"S"	"1-2"	18	10	75	0	15	“Physical”	“None”
+"Shred Shuriken"	"Knife"	"S"	"1-2"	15	10	70	10	15	“Physical”	“None”
+"Poison Dart"	"Exotic"	"E"	"1-2"	4	2	85	0	40	“Physical”	“None”
+"Bolas"	"Exotic"	"E"	"1-2"	4	2	80	0	40	“Physical”	“None”
+"Caltrops"	"Exotic"	"D"	"1-2"	5	2	85	0	35	“Physical”	“None”
+"Blinding Bomb"	"Exotic"	"D"	"1-2"	6	3	80	0	35	“Physical”	“None”
+"Glue Pack"	"Exotic"	"D"	"1-2"	5	3	75	0	35	“Physical”	“None”
+"Plague Dart"	"Exotic"	"C"	"1-2"	6	4	80	0	30	“Physical”	“None”
+"Spiked Bolas"	"Exotic"	"C"	"1-2"	7	5	70	5	30	“Physical”	“None”
+"Somniferum"	"Exotic"	"C"	"1-2"	6	4	75	0	30	“Physical”	“None”
+"Corrosive Acid"	"Exotic"	"B"	"1-2"	8	7	75	0	25	“Physical”	“None”
+"Hallucinogen"	"Exotic"	"B"	"1-2"	8	5	75	0	25	“Physical”	“None”
+"Black Firebomb"	"Exotic"	"B"	"1-2"	12	7	65	0	25	“Legendary”	“None”
+"Toxic Bomb"	"Exotic"	"A"	"1-2"	11	7	80	0	20	“Physical”	“None”
+"Neurotoxin Shot"	"Exotic"	"A"	"1-2"	9	6	85	0	20	“Physical”	“None”
+"Cursed Needle"	"Exotic"	"A"	"1-2"	10	7	80	0	20	“Physical”	“None”
+"Gyroblade"	"Exotic"	"S"	"1-2"	9	9	75	10	15	“Physical”	“None”
+"Armor Eater"	"Exotic"	"S"	"1-2"	10	8	75	0	15	“Physical”	“None”
+"Curare Dart"	"Exotic"	"S"	"1-2"	9	7	80	0	15	“Physical”	“None”
+"Training Bow"	"Recurve"	"E"	"2"	4	4	95	5	40	“Physical”	“Flying Effective”
+"Iron Bow"	"Recurve"	"E"	"2"	5	6	85	0	40	“Physical”	“Flying Effective”
+"Steel Bow"	"Recurve"	"D"	"2"	6	8	80	0	35	“Physical”	“Flying Effective”
+"Poison Bow"	"Recurve"	"D"	"2"	7	7	80	5	35	“Physical”	“Flying Effective”
+"Silver Bow"	"Recurve"	"C"	"2"	9	10	80	5	30	“Physical”	“Flying Effective”
+"Killer Bow"	"Recurve"	"C"	"2"	9	7	75	25	30	“Physical”	“Flying Effective”
+"Reflex Bow"	"Recurve"	"B"	"2"	10	11	80	10	25	“Physical”	“Flying Effective”
+"Brave Bow"	"Recurve"	"B"	"2"	12	7	70	0	30	“Physical”	“Flying Effective”
+"Crescent Bow"	"Recurve"	"A"	"2"	13	14	80	10	20	“Physical”	“Flying Effective”
+"Moon Bow"	"Recurve"	"A"	"2"	14	11	70	0	20	“Physical”	“Flying Effective”
+"Blackout Bow"	"Recurve"	"A"	"1-2"	14	9	70	0	20	“Legendary”	“Flying Effective”
+"Reinefleche"	"Recurve"	"S"	"2"	14	15	80	15	15	“Physical”	“Flying Effective”
+"Mulagir"	"Recurve"	"S"	"2"	16	14	85	15	15	“Physical”	“Flying Effective”
+"Iron Longbow"	"Longbow"	"E"	"2-3"	6	5	80	0	40	“Physical”	“Flying Effective”
+"Yew Bow"	"Longbow"	"E"	"2-3"	7	4	75	0	40	“Physical”	“Flying Effective”
+"Steel Longbow"	"Longbow"	"D"	"2-3"	7	7	75	0	35	“Physical”	“Flying Effective”
+"Eagle Longbow"	"Longbow"	"D"	"2-3"	8	5	80	15	35	“Physical”	“Flying Effective”
+"Silver Longbow"	"Longbow"	"C"	"2-3"	9	8	75	0	30	“Physical”	“Flying Effective”
+"Ballista Bow"	"Longbow"	"C"	"2-4"	12	7	65	0	30	“Physical”	“Flying Effective”
+"Yumi"	"Longbow"	"B"	"2-3"	11	11	75	0	25	“Physical”	“Flying Effective”
+"Sunset Longbow"	"Longbow"	"B"	"2-3"	10	7	75	0	25	“Physical”	“Flying Effective”
+"Bright Bow"	"Longbow"	"B"	"2-3"	10	8	80	0	25	“Legendary”	“Flying Effective”
+"Towering Bow"	"Longbow"	"A"	"2-3"	12	13	75	0	20	“Physical”	“Flying Effective”
+"Dreadwind"	"Longbow"	"A"	"2-4"	16	9	65	0	20	“Physical”	“Flying Effective”
+"Sagittarius"	"Longbow"	"S"	"2-3"	15	14	75	15	15	“Physical”	“Flying Effective”
+"Fujin Yumi"	"Longbow"	"S"	"2-3"	16	13	90	0	15	“Legendary”	“Flying Effective”
+"Wooden Greatbow"	"Greatbow"	"E"	"2"	5	6	85	0	40	“Physical”	“Flying Effective”
+"Iron Greatbow"	"Greatbow"	"E"	"2"	6	8	70	0	40	“Physical”	“Flying Effective”
+"Iron Crossbow"	"Greatbow"	"E"	"1-2"	14	24	75	0	40	“Physical”	“Flying Effective”
+"Steel Greatbow"	"Greatbow"	"D"	"2"	8	10	70	0	35	“Physical”	“Flying Effective”
+"Steel Crossbow"	"Greatbow"	"D"	"1-2"	15	28	75	0	35	“Physical”	“Flying Effective”
+"Metal Punch"	"Greatbow"	"D"	"2"	9	8	70	0	35	“Physical”	“Flying Effective”
+"Silver Greatbow"	"Greatbow"	"C"	"2"	10	12	70	0	30	“Physical”	“Flying Effective”
+"Silver Crossbow"	"Greatbow"	"C"	"1-2"	16	32	75	0	30	“Physical”	“Flying Effective”
+"Composite Bow"	"Greatbow"	"B"	"2"	13	15	65	0	25	“Physical”	“Flying Effective”
+"Taksh"	"Greatbow"	"B"	"1-2"	17	36	70	0	25	“Physical”	“Flying Effective”
+"Thundergun"	"Greatbow"	"B"	"1-2"	21	32	70	15	25	“Legendary”	“Flying Effective”
+"Twinhead Bow"	"Greatbow"	"A"	"2"	16	18	65	0	20	“Physical”	“Flying Effective”
+"Windlass Bow"	"Greatbow"	"A"	"1-2"	20	40	75	0	20	“Physical”	“Flying Effective”
+"Chu-Ko-Nu"	"Greatbow"	"A"	"1-2"	23	32	65	0	20	“Physical”	“Flying Effective”
+"Parthia"	"Greatbow"	"S"	"2"	19	20	65	10	15	“Physical”	“Flying Effective”
+"Arbalest"	"Greatbow"	"S"	"1-2"	22	44	70	5	15	“Physical”	“Flying Effective”
+"Fire"	"Anima"	"E"	"1-2"	4	4	75	0	40	“Magical”	“Undead Effective”
+"Singe"	"Anima"	"E"	"1-2"	5	3	80	0	40	“Magical”	“Undead Effective”
+"Elfire"	"Anima"	"D"	"1-2"	6	6	75	0	35	“Magical”	“Undead Effective”
+"Blazing Sun"	"Anima"	"D"	"1-2"	8	5	70	0	35	“Magical”	“Undead Effective”
+"Arcfire"	"Anima"	"C"	"1-2"	8	8	75	0	30	“Magical”	“Undead Effective”
+"Meteor"	"Anima"	"C"	"3-10"	20	10	65	0	5	“Magical”	“Undead Effective”
+"Inferno"	"Anima"	"B"	"1-2"	11	11	70	0	25	“Magical”	“Undead Effective”
+"Hellfire"	"Anima"	"B"	"1-2"	13	8	70	25	25	“Magical”	“Undead Effective”
+"Efreeti Fire"	"Anima"	"B"	"1-2"	14	32	75	0	25	“Magical”	“Undead Effective”
+"Flame Thrower"	"Anima"	"B"	"1-2"	11	9	70	0	25	“Legendary”	“Undead Effective”
+"Flame Shuriken"	"Anima"	"B"	"1-2"	11	8	70	10	25	“Legendary”	“Undead Effective”
+"Bolganone"	"Anima"	"A"	"1-2"	12	13	70	0	20	“Magical”	“Undead Effective”
+"Napalm"	"Anima"	"A"	"1-2"	14	13	65	5	20	“Magical”	“Undead Effective”
+"Forblaze"	"Anima"	"S"	"1-2"	16	16	70	5	15	“Magical”	“Undead Effective”
+"Armageddon"	"Anima"	"S"	"3-10"	20	13	75	0	10	“Magical”	“Undead Effective”
+"Flamberge"	"Anima"	"S"	"1-2"	16	14	75	0	15	“Legendary”	“Undead Effective”
+"Earthsplitter"	"Anima"	"S"	"1-2"	18	16	65	0	15	“Legendary”	“Undead Effective”
+"Wind"	"Wind"	"E"	"2-3"	4	3	90	0	40	“Magical”	“Pegasus Effective”
+"Ice Shard"	"Wind"	"E"	"1-2"	4	3	85	0	40	“Magical”	“Pegasus Effective”
+"Elwind"	"Wind"	"D"	"2-3"	4	4	90	0	35	“Magical”	“Pegasus Effective”
+"Icicle Shower"	"Wind"	"D"	"1-2"	6	5	85	0	35	“Magical”	“Pegasus Effective”
+"Arcwind"	"Wind"	"C"	"2-3"	8	6	85	0	30	“Magical”	“Pegasus Effective”
+"Blizzard"	"Wind"	"C"	"3-10"	18	8	75	0	5	“Magical”	“Pegasus Effective”
+"Vortex"	"Wind"	"B"	"2-3"	9	8	95	0	25	“Magical”	“Pegasus Effective”
+"Frost Nova"	"Wind"	"B"	"1-2"	12	7	75	25	25	“Magical”	“Pegasus Effective”
+"Wind Sword"	"Wind"	"B"	"1-2"	10	8	75	0	25	“Legendary”	“Pegasus Effective”
+"Tornado"	"Wind"	"A"	"2-3"	11	11	85	5	20	“Magical”	“Pegasus Effective”
+"Avalanche"	"Wind"	"A"	"1-3"	15	9	85	5	20	“Magical”	“Pegasus Effective”
+"Excalibur"	"Wind"	"S"	"2-3"	13	14	80	5	15	“Magical”	“Pegasus Effective”
+"Fimbulvetr"	"Wind"	"S"	"1-2"	14	13	85	10	15	“Magical”	“Pegasus Effective”
+"Fujin Yumi"	"Wind"	"S"	"2-3"	16	13	90	0	15	“Legendary”	“Pegasus Effective”
+"Thunder"	"Thunder"	"E"	"1-2"	6	5	70	5	40	“Magical”	“Monster Effective”
+"Jolt"	"Thunder"	"E"	"1-2"	6	4	75	0	40	“Magical”	“Monster Effective”
+"Elthunder"	"Thunder"	"D"	"1-2"	7	7	65	5	35	“Magical”	“Monster Effective”
+"Primer Bolt"	"Thunder"	"D"	"1-2"	6	5	70	10	35	“Magical”	“Monster Effective”
+"Arcthunder"	"Thunder"	"C"	"1-2"	10	9	65	10	30	“Magical”	“Monster Effective”
+"Bolting"	"Thunder"	"C"	"3-10"	22	11	55	10	5	“Magical”	“Monster Effective”
+"Killer Thunder"	"Thunder"	"C"	"1-2"	11	7	60	25	30	“Magical”	“Monster Effective”
+"Storm"	"Thunder"	"B"	"1-2"	13	11	60	15	25	“Magical”	“Monster Effective”
+"Paraball"	"Thunder"	"B"	"1-2"	12	7	60	5	25	“Magical”	“Monster Effective”
+"Bolt Axe"	"Thunder"	"B"	"1-2"	17	12	60	10	25	“Legendary”	“Monster Effective”
+"Thundergun"	"Thunder"	"B"	"1-2"	21	32	70	15	25	“Legendary”	“Monster Effective”
+"Thoron"	"Thunder"	"A"	"1-2"	15	13	65	15	20	“Magical”	“Monster Effective”
+"Dire Thunder"	"Thunder"	"A"	"1-2"	16	9	60	0	20	“Magical”	“Monster Effective”
+"Titan Thunder"	"Thunder"	"A"	"1-2"	18	40	60	15	20	“Magical”	“Monster Effective”
+"Mjollnir"	"Thunder"	"S"	"1-2"	18	15	65	20	15	“Magical”	“Monster Effective”
+"Blitz Bolt"	"Thunder"	"S"	"1-2"	20	14	60	5	15	“Magical”	“Monster Effective”
+"Gungnir"	"Thunder"	"S"	"1-2"	18	15	65	10	15	“Legendary”	“Monster Effective”
+"Lightning"	"Lightning"	"E"	"1-2"	4	3	80	5	40	“Magical”	“None”
+"Photon"	"Lightning"	"E"	"1-2"	5	2	90	10	40	“Magical”	“None”
+"Shine"	"Lightning"	"D"	"1-2"	5	4	80	10	35	“Magical”	“None”
+"Moonlight"	"Lightning"	"D"	"1-2"	7	4	80	10	35	“Magical”	“None”
+"Divine"	"Lightning"	"C"	"1-2"	6	5	75	15	30	“Magical”	“None”
+"Resire"	"Lightning"	"C"	"1-2"	13	6	70	0	30	“Magical”	“None”
+"Light Brand"	"Lightning"	"C"	"1-2"	12	8	75	0	30	“Magical”	“None”
+"Aurora"	"Lightning"	"B"	"1-2"	9	7	70	20	25	“Magical”	“None”
+"Purge"	"Lightning"	"B"	"3-10"	17	7	70	15	5	“Magical”	“None”
+"Angel Light"	"Lightning"	"B"	"1-2"	13	28	75	10	25	“Magical”	“None”
+"Bright Bow"	"Lightning"	"B"	"2-3"	10	8	80	0	25	“Legendary”	“None”
+"Aura"	"Lightning"	"A"	"1-2"	12	9	70	25	20	“Magical”	“None”
+"Starlight"	"Lightning"	"A"	"1-2"	13	9	80	10	20	“Magical”	“None”
+"Luce"	"Lightning"	"S"	"1-2"	15	11	70	30	15	“Magical”	“None”
+"Naga"	"Lightning"	"S"	"1-2"	14	11	80	20	15	“Magical”	“None”
+"Longinus"	"Lightning"	"S"	"1-2"	14	12	80	5	15	“Legendary”	“None”
+"Prelude"	"Judgement"	"E"	"1-2"	5	4	80	0	40	“Magical”	“None”
+"Flash"	"Judgement"	"E"	"1-2"	4	3	85	0	40	“Magical”	“None”
+"Ray"	"Judgement"	"D"	"1-2"	7	5	90	0	35	“Magical”	“None”
+"Thani"	"Judgement"	"D"	"1-2"	8	4	85	0	35	“Magical”	“None”
+"Cleanse"	"Judgement"	"C"	"1-2"	10	8	85	0	30	“Magical”	“None”
+"Leviathan"	"Judgement"	"C"	"1-2"	8	5	80	0	30	“Magical”	“None”
+"God Hand"	"Judgement"	"B"	"1-2"	12	10	85	0	25	“Magical”	“None”
+"Retribution"	"Judgement"	"B"	"1-2"	11	6	75	0	25	“Magical”	“None”
+"Valaura"	"Judgement"	"A"	"1-2"	13	12	85	0	20	“Magical”	“None”
+"Avalon"	"Judgement"	"A"	"1-2"	14	9	75	0	20	“Magical”	“None”
+"Creiddylad"	"Judgement"	"S"	"1-2"	16	15	85	0	15	“Magical”	“None”
+"White Lightning"	"Judgement"	"S"	"1-2"	18	7	75	0	15	“Magical”	“None”
+"Blessed Iron"	"Warding"	"E"	"1-2"	5	3	75	0	40	“Magical”	“None”
+"Light Screen"	"Warding"	"E"	"1-2"	6	4	70	0	40	“Magical”	“None”
+"Celestial Fire"	"Warding"	"D"	"1-2"	6	5	70	0	35	“Magical”	“None”
+"Sacred Armor"	"Warding"	"D"	"1-2"	7	4	85	0	35	“Magical”	“None”
+"Sacred Steel"	"Warding"	"C"	"1-2"	8	6	75	0	30	“Magical”	“None”
+"Magic Seal"	"Warding"	"C"	"1-2"	9	7	70	0	30	“Magical”	“None”
+"Blessed Halberd"	"Warding"	"C"	"1-2"	11	6	75	0	30	“Legendary”	“None”
+"Divine Thunder"	"Warding"	"B"	"1-2"	10	7	70	10	25	“Magical”	“None”
+"Communion"	"Warding"	"B"	"1-2"	11	8	75	0	25	“Magical”	“None”
+"Divine Silver"	"Warding"	"A"	"1-2"	13	10	70	5	20	“Magical”	“None”
+"Light Barrier"	"Warding"	"A"	"1-2"	14	11	70	0	20	“Magical”	“None”
+"Great Barrier"	"Warding"	"S"	"1-2"	17	12	75	0	15	“Magical”	“None”
+"Divine Ward"	"Warding"	"S"	"1-2"	18	11	70	15	15	“Magical”	“None”
+"Flux"	"Worm"	"E"	"1-2"	7	6	70	0	40	“Magical”	“None”
+"Worm"	"Worm"	"E"	"1-2"	6	4	80	5	40	“Magical”	“None”
+"Carrion"	"Worm"	"D"	"1-2"	9	8	70	0	35	“Magical”	“None”
+"Hex"	"Worm"	"D"	"1-2"	10	8	60	0	35	“Magical”	“None”
+"Sin"	"Worm"	"C"	"1-2"	12	11	65	0	30	“Magical”	“None”
+"Hel"	"Worm"	"C"	"3-10"	14	--	55	--	5	“Magical”	“None”
+"Mire"	"Worm"	"C"	"1-3"	12	8	60	0	30	“Magical”	“None”
+"Ruin"	"Worm"	"B"	"1-2"	14	13	65	0	25	“Magical”	“None”
+"Luna"	"Worm"	"B"	"1-2"	15	0	60	0	25	“Magical”	“None”
+"Shadowshot"	"Worm"	"B"	"3-10"	20	12	55	0	5	“Magical”	“None”
+"Dark Dagger"	"Worm"	"B"	"1-2"	12	9	70	5	20	“Legendary”	“None”
+"Faust"	"Worm"	"B"	"1-2"	16	36	65	5	20	“Magical”	“None”
+"Fenrir"	"Worm"	"A"	"1-2"	15	15	65	0	20	“Magical”	“None”
+"Gravity"	"Worm"	"A"	"1-2"	17	11	60	0	20	“Magical”	“None”
+"Rune Sabre"	"Worm"	"A"	"1-2"	15	8	65	0	20	“Legendary”	“None”
+"Runic Axe"	"Worm"	"A"	"1-2"	20	11	60	0	20	“Legendary”	“None”
+"Apocalypse"	"Worm"	"S"	"1-2"	19	18	65	5	15	“Magical”	“None”
+"Ereshkigal"	"Worm"	"S"	"1-2"	19	16	90	0	15	“Magical”	“None”
+"Miasma"	"Grimoire"	"E"	"1"	7	8	70	0	40	“Magical”	“None”
+"Shade"	"Grimoire"	"E"	"1"	7	7	75	5	40	“Magical”	“None”
+"Banshee"	"Grimoire"	"D"	"1"	9	9	70	10	35	“Magical”	“None”
+"Nosferatu"	"Grimoire"	"D"	"1"	11	7	70	0	35	“Magical”	“None”
+"Acid"	"Grimoire"	"D"	"1"	10	7	65	5	35	“Magical”	“None”
+"Goeti"	"Grimoire"	"C"	"1"	10	11	75	0	30	“Magical”	“None”
+"Death"	"Grimoire"	"C"	"1"	12	9	65	25	30	“Magical”	“None”
+"Dark Spikes"	"Grimoire"	"C"	"1"	13	9	65	0	30	“Magical”	“None”
+"Void"	"Grimoire"	"B"	"1"	12	13	70	5	25	“Magical”	“None”
+"Waste"	"Grimoire"	"B"	"1"	15	10	50	0	25	“Magical”	“None”
+"Warlock Fist"	"Grimoire"	"B"	"1"	12	-0	70	10	25	“Magical”	“None”
+"Nightmare"	"Grimoire"	"A"	"1"	14	15	70	10	20	“Magical”	“None”
+"Janura"	"Grimoire"	"A"	"1"	16	13	60	0	20	“Magical”	“None”
+"Naglfar"	"Grimoire"	"S"	"1"	18	18	65	15	15	“Magical”	“None”
+"Loptous"	"Grimoire"	"S"	"1"	19	13	65	10	15	“Magical”	“None”
+"Vorpal Blade"	"Grimoire"	"S"	"1-2"	20	17	65	0	15	“Legendary”	“None”
+"Swarm"	"Ancient"	"E"	"1-2"	6	5	65	0	40	“Magical”	“None”
+"Hustle"	"Ancient"	"E"	"1-2"	7	5	70	0	40	“Magical”	“None”
+"Toxic"	"Ancient"	"D"	"1-2"	9	7	65	5	35	“Magical”	“None”
+"Eclipse"	"Ancient"	"D"	"1-2"	10	6	65	0	35	“Magical”	“None”
+"Jormungand"	"Ancient"	"C"	"1-2"	12	8	60	0	30	“Magical”	“None”
+"Tomaharn"	"Ancient"	"C"	"1-2"	11	8	60	0	30	“Magical”	“None”
+"Gorgon Eye"	"Ancient"	"B"	"1-2"	14	9	55	0	25	“Magical”	“None”
+"Carreau"	"Ancient"	"B"	"1-2"	13	10	60	5	25	“Magical”	“None”
+"Black Firebomb"	"Ancient"	"B"	"1-2"	12	7	65	0	25	“Legendary”	“None”
+"Zahhak"	"Ancient"	"A"	"1-2"	0	11	60	0	20	“Magical”	“None”
+"Verrine"	"Ancient"	"A"	"1-2"	0	13	65	0	20	“Magical”	“None”
+"Blackout Bow"	"Ancient"	"A"	"1-2"	0	9	70	0	20	“Legendary”	“None”
+"Gespenst"	"Ancient"	"S"	"1-2"	0	14	60	0	15	“Magical”	“None”
+"Balberith"	"Ancient"	"S"	"1-2"	0	15	55	0	15	“Magical”	“None”
+"Heal"	"Healing"	"E"	“1”	0	0	--	0	30	“Noncombat”	“None”
+"Antidote"	"Healing"	"E"	"1"	0	0	--	0	30	“Noncombat”	“None”
+"Mend"	"Healing"	"D"	"1"	0	0	--	0	25	“Noncombat”	“None”
+"Soothe"	"Healing"	"D"	"1"	0	0	--	0	25	“Noncombat”	“None”
+"Inspire"	"Healing"	"C"	"1-3"	0	0	--	0	20	“Noncombat”	“None”
+"Kia"	"Healing"	"C"	"1"	0	0	--	0	20	“Noncombat”	“None”
+"Physic"	"Healing"	"B"	"1-MAG/2"	0	0	--	0	15	“Noncombat”	“None”
+"Recover"	"Healing"	"B"	"1"	0	0	--	0	15	“Noncombat”	“None”
+"Restore"	"Healing"	"A"	"1"	0	0	--	0	10	“Noncombat”	“None”
+"Rejuvenate"	"Healing"	"A"	"1-MAG/2"	0	0	--	0	10	“Noncombat”	“None”
+"Fortify"	"Healing"	"S"	"1-MAG/2"	0	0	--	0	5	“Noncombat”	“None”
+"Aum"	"Healing"	"S"	"1"	0	0	--	0	5	“Noncombat”	“None”
+"Clear"	"Bluffing"	"E"	"1"	0	0	--	0	30	“Noncombat”	“None”
+"Shove"	"Bluffing"	"E"	"1-MAG/2"	0	0	--	0	30	“Noncombat”	“None”
+"Barrier"	"Bluffing"	"D"	"1"	0	0	--	0	25	“Noncombat”	“None”
+"Rescue"	"Bluffing"	"D"	"1-MAG/2"	0	0	--	0	25	“Noncombat”	“None”
+"Sharpness"	"Bluffing"	"C"	"1"	0	0	--	0	20	“Noncombat”	“None”
+"Quickness"	"Bluffing"	"C"	"1"	0	0	--	0	20	“Noncombat”	“None”
+"Warp"	"Bluffing"	"B"	"1-MAG/2"	0	0	--	0	15	“Noncombat”	“None”
+"Teleport"	"Bluffing"	"B"	"1-MAG/2"	0	0	--	0	15	“Noncombat”	“None”
+"Majestic"	"Bluffing"	"A"	"1"	0	0	--	0	10	“Noncombat”	“None”
+"Mystic"	"Bluffing"	"A"	"1"	0	0	--	0	10	“Noncombat”	“None”
+"Relocate"	"Bluffing"	"S"	"1-MAG/2"	0	0	--	0	5	“Noncombat”	“None”
+"Slow"	"Ailment"	"E"	"1-MAG/2"	0	0	25	0	30	“Noncombat”	“None”
+"Befuddle"	"Ailment"	"E"	"1-MAG/2"	0	0	25	0	30	“Noncombat”	“None”
+"Misfortune"	"Ailment"	"D"	"1-MAG/2"	0	0	30	0	25	“Noncombat”	“None”
+"Poison"	"Ailment"	"D"	"1-MAG/2"	0	0	30	0	25	“Noncombat”	“None”
+"Sleep"	"Ailment"	"C"	"1-MAG/2"	0	0	20	0	20	“Noncombat”	“None”
+"Berserk"	"Ailment"	"C"	"1-MAG/2"	0	0	20	0	20	“Noncombat”	“None”
+"Silence"	"Ailment"	"B"	"1-MAG/2"	0	0	15	0	15	“Noncombat”	“None”
+"Addle"	"Ailment"	"B"	"1-MAG/2"	0	0	15	0	15	“Noncombat”	“None”
+"Paralyze"	"Ailment"	"A"	"1-MAG/2"	0	0	10	0	10	“Noncombat”	“None”
+"Weakness"	"Ailment"	"A"	"1-MAG/2"	0	0	20	0	10	“Noncombat”	“None”
+"Turncoat"	"Ailment"	"S"	"1-MAG/2"	0	0	10	0	5	“Noncombat”	“None”
+"Suffocate"	"Ailment"	"S"	"1-MAG/2"	0	0	10	0	5	“Noncombat”	“None”
+"Surprising Shimmy"	"Dance"	"E"	"Adjacent"	0	0	25	0	30	“Noncombat”	“None”
+"Distracting Dance"	"Dance"	"E"	"Adjacent"	0	0	25	0	30	“Noncombat”	“None”
+"Enamoring Step"	"Dance"	"D"	"Adjacent"	0	0	15	0	25	“Noncombat”	“None”
+"Disarming Swing"	"Dance"	"D"	"Adjacent"	0	0	20	0	25	“Noncombat”	“None”
+"Sickening Spin"	"Dance"	"D"	"Adjacent"	0	0	30	0	25	“Noncombat”	“None”
+"Vixen’s Waltz"	"Dance"	"C"	"Adjacent"	0	0	15	0	20	“Noncombat”	“None”
+"Enchanting Tango"	"Dance"	"C"	"Adjacent"	0	0	15	0	20	“Noncombat”	“None”
+"Exposing Break"	"Dance"	"C"	"Adjacent"	0	0	20	0	20	“Noncombat”	“None”
+"Sapping Samba"	"Dance"	"B"	"Adjacent"	0	0	15	0	15	“Noncombat”	“None”
+"Slumbering Shuffle"	"Dance"	"B"	"Adjacent"	0	0	10	0	15	“Noncombat”	“None”
+"Denial Dance"	"Dance"	"A"	"Adjacent"	0	0	10	0	10	“Noncombat”	“None”
+"Shut Down Shut Out"	"Dance"	"A"	"Adjacent"	0	0	5	0	10	“Noncombat”	“None”
+"Petrifying Twist"	"Dance"	"S"	"Adjacent"	0	0	5	0	5	“Noncombat”	“None”
+"Valkyrie’s Arrival"	"Dance"	"S"	"Adjacent"	0	0	15	0	5	“Noncombat”	“None”
+"Hermes’ Whistle"	"Lyric"	"E"	"Adjacent"	0	0	200	0	30	“Noncombat”	“None”
+"Artemis’ Song"	"Lyric"	"E"	"Adjacent"	0	0	200	0	30	“Noncombat”	“None”
+"Lucky Stars"	"Lyric"	"E"	"Adjacent"	0	0	200	0	30	“Noncombat”	“None”
+"War Cheer"	"Lyric"	"D"	"Adjacent"	0	0	200	0	25	“Noncombat”	“None”
+"Menhit’s Whisper"	"Lyric"	"D"	"Adjacent"	0	0	200	0	25	“Noncombat”	“None”
+"Blissful Melody"	"Lyric"	"C"	"Adjacent"	0	0	200	0	20	“Noncombat”	“None”
+"Thor’s Ire"	"Lyric"	"C"	"Adjacent"	0	0	200	0	20	“Noncombat”	“None”
+"Army Rally"	"Lyric"	"B"	"Adjacent"	0	0	200	0	15	“Noncombat”	“None”
+"Mighty Refrain"	"Lyric"	"B"	"Adjacent"	0	0	200	0	15	“Noncombat”	“None”
+"Ninis’ Grace"	"Lyric"	"B"	"Adjacent"	0	0	200	0	15	“Noncombat”	“None”
+"Hanon’s Tune"	"Lyric"	"A"	"Adjacent"	0	0	200	0	10	“Noncombat”	“None”
+"Set’s Litany"	"Lyric"	"A"	"Adjacent"	0	0	200	0	10	“Noncombat”	“None”
+"Filla’s Might"	"Lyric"	"S"	"Adjacent"	0	0	200	0	5	“Noncombat”	“None”
+"Elimine’s Ballad"	"Lyric"	"S"	"Adjacent"	0	0	200	0	5	“Noncombat”	“None”
+"Soldier’s Drum"	"Instrument"	"E"	"Adjacent"	0	0	200	0	30	“Noncombat”	“None”
+"Charming Flute"	"Instrument"	"E"	"Adjacent"	0	0	200	0	30	“Noncombat”	“None”
+"Warding Lute"	"Instrument"	"D"	"Adjacent"	0	0	200	0	25	“Noncombat”	“None”
+"Vagrant Whistle"	"Instrument"	"D"	"Adjacent"	0	0	200	0	25	“Noncombat”	“None”
+"Gentle Flute"	"Instrument"	"C"	"Adjacent"	0	0	200	0	20	“Noncombat”	“None”
+"Glory Chime"	"Instrument"	"C"	"Adjacent"	0	0	200	0	20	“Noncombat”	“None”
+"Dragon Flute"	"Instrument"	"B"	"Adjacent"	0	0	200	0	15	“Noncombat”	“None”
+"Sacae’s Whistle"	"Instrument"	"B"	"Adjacent"	0	0	200	0	15	“Noncombat”	“None”
+"Repelling Bagpipes"	"Instrument"	"A"	"Adjacent"	0	0	200	0	10	“Noncombat”	“None”
+"Romantic Guitar"	"Instrument"	"A"	"Adjacent"	0	0	200	0	10	“Noncombat”	“None”
+"Divine Harp"	"Instrument"	"S"	"Adjacent"	0	0	200	0	5	“Noncombat”	“None”
+"Solar Gong"	"Instrument"	"S"	"Adjacent"	0	0	200	0	5	“Noncombat”	“None”
+with 100 blank rows
+
+Part 4 - Combat
+
+Chapter - Combat Variables
+
+Current attacker is a text that varies. Current attacker is "NONE".
+Current defender is a text that varies. Current defender is "NONE".
+
+Optional attacker attack is a number that varies. Optional attacker attack is 0.
+Optional defender defence is a number that varies. Optional defender defence is 0.
+Optional defender attack is a number that varies. Optional defender attack is 0.
+Optional attacker defence is a number that varies. Optional attacker defence is 0.
+Optional attacker damage is a number that varies. Optional attacker damage is 0.
+Optional defender damage is a number that varies. Optional defender damage is 0.
+
+
+Attacker terrain is a text that varies. Attacker terrain is "Plains".
+Defender terrain is a text that varies. Defender terrain is "Plains".
+Attacker terrain value is a number that varies. Attacker terrain value is 0.
+Defender terrain value is a number that varies. Defender terrain value is 0.
+Attacker terrain defence is a number that varies. Attacker terrain defence is 0.
+Defender terrain defence is a number that varies. Defender terrain defence is 0.
+
+Attacker EVA is a number that varies. Attacker EVA is 0.
+Defender EVA is a number that varies. Defender EVA is 0.
+Attacker AS is a number that varies. Attacker AS is 0.
+Defender AS is a number that varies. Defender AS is 0.
+
+Attacker weapon is a text that varies. Attacker weapon is "NONE".
+Defender weapon is a text that varies. Defender weapon is "NONE".
+
+Attacker proficiency is a number that varies. Attacker proficiency is 0.
+Defender proficiency is a number that varies. Defender proficiency is 0.
+
+Attacker crit is a number that varies. Attacker crit is 0.
+Defender crit is a number that varies. Defender crit is 0.
+
+Defender dodge is a number that varies. Defender dodge is 0.
+Attacker dodge is a number that varies. Attacker dodge is 0.
+
+Attacker damage is a number that varies. Attacker damage is 0.
+Defender damage is a number that varies. Defender damage is 0.
+
+Attacker hit is a number that varies. Attacker hit is 0.
+Defender hit is a number that varies. Defender hit is 0.
+
+Attacker Advantage is a truth state that varies. Attacker Advantage is false.
+Defender Advantage is a truth state that varies. Attacker Advantage is false.
+
+Hitting is a truth state that varies. Hitting is false.
+Critting is a truth state that varies. Critting is false.
+
+Attacker defence is a number that varies. Attacker defence is 0.
+Defender  defence is a number that varies. Attacker defence is 0.
+
+Might is a number that varies. Might is 0.
+Adjacency is a truth state that varies. Adjacency is true.
+
+Attacker active is a truth state that varies. Attacker active is true.
+
+Chapter - Battle
+
+The Battle Maker is south of the Main Menu. "
+[link]Attacker: [current attacker][as]x attacker[end link][line break]
+[link]Defender: [current defender][as]x defender[end link][line break]
+
+[link]BATTLE[end link]!
+
+[link] Attacker terrain: [attacker terrain] - [attacker terrain value]EVA/[attacker terrain defence]DR[as]x terrain 1[end link][line break]
+[link]Defender terrain: [defender terrain] - [defender terrain value]EVA/[defender terrain defence]DR[as]x terrain 2[end link][line break]
+[link]Combatants are [if adjacency is false]not [end if]considered adjacent[as]adjacent[end link][line break]
+[link][attacker effects][as]x effect 1[end link][line break]
+[link][defender effects][as]x effect 2[end link][line break]
+
+[link]Reset everything[end link][line break]
+[link]Return to Mai[bracket]n[close bracket] Menu[as]N[end link][line break]"
+
+Adjacenting is an action applying to nothing. Understand "adjacent" as adjacenting.
+
+Resetting everything is an action applying to nothing. Understand "reset everything" as resetting everything.
+
+Carry out resetting everything:
+	say "All battle stats reset.";
+	now current attacker is "NONE";
+	now Current defender is "NONE";
+	now Optional attacker attack is 0;
+	now Optional defender defence is 0;
+	now Optional defender attack is 0;
+	now Optional attacker defence is 0;
+	now Optional attacker damage is 0;
+	now Optional defender damage is 0;
+	now Attacker terrain is "Plains";
+	now Defender terrain is "Plains";
+	now Attacker terrain value is 0;
+	now Defender terrain value is 0;
+	now Attacker terrain defence is 0;
+	now Defender terrain defence is 0;
+	now Attacker EVA is 0;
+	now Defender EVA is 0;
+	now Attacker AS is 0;
+	now Defender AS is 0;
+	now Attacker weapon is "NONE";
+	now Defender weapon is "NONE";
+	now Attacker proficiency is 0;
+	now Defender proficiency is 0;
+	now Attacker crit is 0;
+	now Defender crit is 0;
+	now Defender dodge is 0;
+	now Attacker dodge is 0;
+	now Attacker damage is 0;
+	now Defender damage is 0;
+	now Attacker hit is 0;
+	now Defender hit is 0;
+	now Attacker Advantage is false;
+	now Attacker Advantage is false;
+	now Hitting is false;
+	now Critting is false;
+	now Attacker defence is 0;
+	now Attacker defence is 0;
+	now Might is 0;
+	now Adjacency is true;
+	now Attacker active is true;
+	repeat through the table of statuses:
+		now attacker entry is 0;
+		now defender entry is 0;
+	now optional attacker damage is 0;
+	now optional defender damage is 0;
+	try looking.
+
+Carry out adjacenting:
+	if adjacency is true:
+		say "Now combatants aren't adjacent.";
+		now adjacency is false;
+	else:
+		say "Now combatants are adjacent.";
+		now adjacency is true.
+
+A selectable is a kind of thing. A selectable is usually scenery.
+
+Defender is a selectable in the Battle Maker.
+Attacker is a selectable in the Battle Maker.
+
+Terrain 1 is a selectable in the Battle Maker. The description of terrain 1 is "[land list]".
+Terrain 2 is a selectable in the Battle Maker. The description of terrain 2 is "[land list]".
+
+To say land list:
+	repeat through the table of terrain:
+		say "[link][terrain entry] - [evasion entry]EVA/[DR entry]DR[as]terrain [terrain entry][end link][line break]".
+
+A selectable is either salient or not salient. A selectable is usually not salient.
+
+Before examining a selectable:
+	now every selectable is not salient;
+	now the noun is salient.
+	
+The description of a selectable is usually "Choose your [the noun]:
+
+[party]".
+
+Check going north from the battle maker:
+	reset all the stats.
+
+Applicating is an action applying to one topic and one thing. Understand "apply [text] to [thing]" as Applicating.
+
+Attacker WTD ignoring is a truth state that varies. Attacker WTD ignoring is false.
+Defender WTD ignoring is a truth state that varies. Defender WTD ignoring is false.
+
+Check applicating:
+	if the noun is not a selectable:
+		say "You can't apply an effect to that." instead.
+
+
+Carry out Applicating:
+	now the noun is salient;
+	if the topic understood is "Soldier's Drum":
+		if the attacker is salient:
+			now attacker WTD ignoring is true;
+		else:
+			now defender WTD ignoring is true.
+
+Table of Statuses
+Status	DR	Hit	Evade	Crit	Dodge	Damage	AS	Attacker	Defender
+"Hermes' Whistle"	0	0	10	0	0	0	0	0	0
+"Artemis' Song"	0	10	0	0	0	0	0	0	0
+"Lucky Stars"	0	0	0	5	5	0	0	0	0
+"War Cheer"	0	0	0	0	0	2	0	0	0
+"Menhit's Whisper"	2	0	0	0	0	0	0	0	0
+"Blissful Melody"	0	0	0	0	0	0	2	0	0
+"Thor’s Ire"	0	0	0	10	0	0	0	0	0
+"Army Rally"	0	10	10	0	0	0	0	0	0
+"Mighty Refrain"	0	0	0	0	0	3	0	0	0
+"Ninis’ Grace"	3	0	0	0	0	0	0	0	0
+"Hanon’s Tune"	0	0	0	0	0	0	3	0	0
+"Set’s Litany"	0	10	0	10	0	0	0	0	0
+"Filla’s Might" 	0	0	0	10	0	3	0	0	0
+"Elimine’s Ballad"	3	0	0	0	25	0	0	0	0
+"Surprise Shimmy"	0	-10	0	0	0	0	0	0	0
+"Distracting Dance"	0	0	-10	0	0	0	0	0	0
+"Enchanting Tango"	0	-15	-15	0	0	0	0	0	0
+"Sapping Samba"	0	0	0	0	0	-3	0	0	0
+"Valkyrie's Arrival"	0	0	0	0	0	-5	-3	0	0
+"Combat Ring"	0	5	0	0	0	1	0	0	0
+"Shield Ring"	1	0	5	0	0	0	0	0	0
+"Jinxed Ring"	0	0	0	10	-10	0	0	0	0
+"Charisma"	0	10	10	0	0	0	0	0	0
+"Charisma+"	0	15	15	0	0	0	0	0	0
+"Daunt"	0	-5	-5	-5	0	0	0	0	0
+"Daunt+"	0	-10	-10	-10	0	0	0	0	0
+"Gamble"	0	-20	0	15	0	0	0	0	0
+"Gamble+"	0	-15	0	10	0	0	0	0	0
+with 50 blank rows.
+
+
+Effect 1 is a selectable in battle maker.
+Effect 2 is a selectable in battle maker.
+
+The description of effect 1 is "[effect list]".
+The description of effect 2 is "[effect list]".
+
+To say effect list:
+	repeat through the table of statuses:
+		say "[link][status entry][as]effect [status entry][end link][line break]"
+
+To say attacker effects:
+	say "Attacker effects:";
+	repeat through the table of statuses:
+		if attacker entry is 1:
+			say " [status entry] (";
+			if DR entry is not 0:
+				say "[dr entry]DR ";
+			if Hit entry is not 0:
+				say "[hit entry]Hit ";
+			if evade entry is not 0:
+				say "[evade entry]Eva";
+			if Crit entry is not 0:
+				say "[Crit entry]Crit";
+			if Damage entry is not 0:
+				say "[Damage entry]Dam";
+			if AS entry is not 0:
+				say "[AS entry]AS";
+			say "), ".
+
+To say defender effects:
+	say "Defender effects:";
+	repeat through the table of statuses:
+		if defender entry is 1:
+			say " [status entry] (";
+			if DR entry is not 0:
+				say "[dr entry]DR ";
+			if Hit entry is not 0:
+				say "[hit entry]Hit ";
+			if evade entry is not 0:
+				say "[evade entry]Eva";
+			if Crit entry is not 0:
+				say "[Crit entry]Crit";
+			if Damage entry is not 0:
+				say "[Damage entry]Dam";
+			if AS entry is not 0:
+				say "[AS entry]AS";
+			say "), ".
+
+Effecting is an action applying to one topic. Understand "effect [text]" as effecting.
+
+Check effecting:
+	if no selectable is salient:
+		now effect 1 is salient;
+	let T be the topic understood in title case;
+	repeat through the table of statuses:
+		if status entry is T:
+			if effect 1 is salient:
+				if attacker entry is 1:
+					now attacker entry is 0;
+				else:
+					now attacker entry is 1;
+			else:
+				if defender entry is 0:
+					now defender entry is 1;
+				else:
+					now defender entry is 0;
+	try looking.
+
+Battling is an action applying to nothing. Understand "battle" as battling.
+
+Terraining is an action applying to one topic. Understand "terrain [text]" as terraining.
+
+Check terraining:
+	if no selectable is salient:
+		now terrain 1 is salient;
+	let T be the topic understood in title case;
+	if terrain 1 is salient:
+		now attacker terrain is T;
+		now attacker terrain value is 0;
+		now attacker terrain defence is 0;
+	else:
+		now defender terrain value is 0;
+		now defender terrain defence is 0;
+		now defender terrain is T;
+	repeat through the Table of Terrain:
+		if the terrain entry is T:
+			if terrain 1 is salient:
+				now attacker terrain is T;
+				now attacker terrain value is the evasion corresponding to a terrain of attacker terrain in the table of terrain;
+				now attacker terrain defence is the DR corresponding to a terrain of attacker terrain in the table of terrain;
+			else:
+				now defender terrain is T;
+				now defender terrain value is the evasion corresponding to a terrain of defender terrain in the table of terrain;
+				now defender terrain defence is the DR corresponding to a terrain of defender terrain in the table of terrain;
+	try looking.
+
+Table of Terrain
+Terrain	Evasion	DR
+"Plains"	0	0
+"Floor"	0	0
+"Sand"	0	0
+"Forest"	15	1
+"Deep Forest"	30	1
+"Pillar"	15	1
+"Desert"	0	0
+"Hill"	20	2
+"Mountain"	30	2
+"Fort"	10	0
+"Water"	5	0
+with 20 blank rows
+
+Check battling:
+	if current attacker is "NONE":
+		say "[link]You need to select an attacker first[as]x attacker[end link]." instead;
+	if current defender is "NONE":
+		say "[link]You need to select a defender first[as]x defender[end link]." instead;
+	now attacker weapon is the weapon corresponding to a name of current attacker in the table of characters;
+	now defender weapon is the weapon corresponding to a name of current defender in the table of characters;
+	if attacker weapon is "NONE":
+		say "The attacker has no weapon to attack with." instead;
+	choose the row with the name of attacker weapon in the table of weapons;
+	if the category entry is "Noncombat":
+		say "You can't attack with [category entry]!".
+
+Carry out battling:
+	crunch the numbers;
+	calculate advantage;
+	calculate effectiveness;
+	check vantage;
+	run an attack;
+	check countering;
+	if counterable is true and defender attacks is greater than 0:
+		counterattack;
+	perform any extra hits;
+	reset battle stats.
+	
+To reset battle stats:
+	now attacker attacks is 1;
+	now defender attacks is 1;
+	now counterable is false;
+	now attacker advantage is false;
+	now defender advantage is false;
+	now attacker active is true.
+
+Attacker triangle is a text that varies. Attacker triangle is "None".
+Defender triangle is a text that varies. Defender triangle is "None".
+Counterable is a truth state that varies. Counterable is false.
+
+To calculate advantage:
+	choose the row with the name of attacker weapon in the table of weapons;
+	if the type entry is "Slashing" or the type entry is "Crushing" or the type entry is "Thrusting":
+		now attacker triangle is "Sword";
+	otherwise if the type entry is "Spear" or the type entry is "Piercing" or the type entry is "Polearm":
+		now attacker triangle is "Lance";
+	otherwise if the type entry is "Hacker" or the type entry is "Bludgeon" or the type entry is "Throwing":
+		now attacker triangle is "Axe";
+	otherwise if the type entry is "Anima" or the type entry is "Wind" or the type entry is "Thunder":
+		now attacker triangle is "Anima";
+	otherwise if the type entry is "Lightning" or the type entry is "Judgement" or the type entry is "Warding":
+		now attacker triangle is "Light";
+	otherwise if the type entry is "Dread" or the type entry is "Grimoire" or the type entry is "Ancient":
+		now attacker triangle is "Dark";
+	otherwise:
+		now attacker triangle is "None";
+	choose the row with the name of defender weapon in the table of weapons;
+	if the type entry is "Slashing" or the type entry is "Crushing" or the type entry is "Thrusting":
+		now defender triangle is "Sword";
+	otherwise if the type entry is "Spear" or the type entry is "Piercing" or the type entry is "Polearm":
+		now defender triangle is "Lance";
+	otherwise if the type entry is "Hacker" or the type entry is "Bludgeon" or the type entry is "Throwing":
+		now defender triangle is "Axe";
+	otherwise if the type entry is "Anima" or the type entry is "Wind" or the type entry is "Thunder":
+		now defender triangle is "Anima";
+	otherwise if the type entry is "Lightning" or the type entry is "Judgement" or the type entry is "Warding":
+		now defender triangle is "Light";
+	otherwise if the type entry is "Dread" or the type entry is "Grimoire" or the type entry is "Ancient":
+		now defender triangle is "Dark";
+	otherwise:
+		now defender triangle is "None";
+	if attacker triangle is "Sword":
+		if defender triangle is "Lance":
+			now attacker advantage is false;
+			now defender advantage is true;
+		otherwise if the defender triangle is "Axe":
+			now defender advantage is false;
+			now attacker advantage is true;
+		otherwise:
+			now defender advantage is false;
+			now attacker advantage is false;
+	otherwise if attacker triangle is "Axe":
+		if defender triangle is "Sword":
+			now attacker advantage is false;
+			now defender advantage is true;
+		otherwise if the defender triangle is "Lance":
+			now defender advantage is false;
+			now attacker advantage is true;
+		otherwise:
+			now defender advantage is false;
+			now attacker advantage is false;
+	otherwise if attacker triangle is "Lance":
+		if defender triangle is "Axe":
+			now attacker advantage is false;
+			now defender advantage is true;
+		otherwise if the defender triangle is "Sword":
+			now defender advantage is false;
+			now attacker advantage is true;
+		otherwise:
+			now defender advantage is false;
+			now attacker advantage is false;
+	otherwise if attacker triangle is "Anima":
+		if defender triangle is "Dark":
+			now attacker advantage is false;
+			now defender advantage is true;
+		otherwise if the defender triangle is "Light":
+			now defender advantage is false;
+			now attacker advantage is true;
+		otherwise:
+			now defender advantage is false;
+			now attacker advantage is false;
+	otherwise if attacker triangle is "Dark":
+		if defender triangle is "Light":
+			now attacker advantage is false;
+			now defender advantage is true;
+		otherwise if the defender triangle is "Anima":
+			now defender advantage is false;
+			now attacker advantage is true;
+		otherwise:
+			now defender advantage is false;
+			now attacker advantage is false;
+	otherwise if attacker triangle is "Light":
+		if defender triangle is "Anima":
+			now attacker advantage is false;
+			now defender advantage is true;
+		otherwise if the defender triangle is "Dark":
+			now defender advantage is false;
+			now attacker advantage is true;
+		otherwise:
+			now defender advantage is false;
+			now attacker advantage is false;
+	otherwise:
+		now defender advantage is false;
+		now attacker advantage is false.
+
+To calculate effectiveness:
+	choose the row with the name of attacker weapon in the table of weapons;
+	[if bonus is "Horseback":]
+
+To set directionality:
+	[this swaps absolute values of attacker and defender into relative values of actor and target, the purpose being a greater reduction in repeated code]
+	if attacker active is true:
+		now target optional damage is optional defender damage;
+		now actor optional damage is optional attacker damage;
+		now current actor is current attacker;
+		now current target is current defender;
+		now actor weapon is attacker weapon;
+		now target weapon is defender weapon;
+		now target eva is defender eva;
+		now actor hit is attacker hit;
+		now target hit is defender hit;
+		if attacker advantage is true:
+			now current advantage is "Actor";
+		else if defender advantage is true:
+			now current advantage is "Target";
+		else:
+			now current advantage is "None";
+		now Actor WTD ignoring is attacker WTD ignoring;
+		now actor crit is attacker crit;
+		now target dodge is defender dodge;
+		now actor damage is attacker damage;
+		now target terrain value is defender terrain value;
+		now target defence is defender defence;
+		now target terrain defence is defender terrain defence;
+		now target optional defence is optional defender defence;
+	else:
+		now target optional damage is optional attacker damage;
+		now actor optional damage is optional defender damage;
+		now current actor is current defender;
+		now current target is current attacker;
+		now actor weapon is defender weapon;
+		now target weapon is attacker weapon;
+		now target eva is attacker eva;
+		now actor eva is defender eva;
+		now target hit is attacker hit;
+		now actor hit is defender hit;
+		if attacker advantage is true:
+			now current advantage is "Target";
+		else if defender advantage is true:
+			now current advantage is "Actor";
+		else:
+			now current advantage is "None";
+		now Actor WTD ignoring is defender WTD ignoring;
+		now actor crit is defender crit;
+		now target dodge is attacker dodge;
+		now actor damage is defender damage;
+		now target terrain value is attacker terrain value;
+		now target defence is attacker defence;
+		now target terrain defence is attacker terrain defence;
+		now target optional defence is optional attacker defence;
+	now actor skill is the skill corresponding to a name of current actor in the table of characters;
+	now target skill is the skill corresponding to a name of current target in the table of characters;
+	now actor SKL is the SKL corresponding to a name of current actor in the table of characters;
+	now actor LUK is the LUK corresponding to a name of current actor in the table of characters;
+	now target SKL is the SKL corresponding to a name of current target in the table of characters;
+	now target LUK is the LUK corresponding to a name of current target in the table of characters;
+	now actor health is the current HP corresponding to a name of current actor in the table of characters;
+	now target health is the current HP corresponding to a name of current target in the table of characters;
+	now actor max is the HP corresponding to a name of current actor in the table of characters;
+	now target max is the HP corresponding to a name of current target in the table of characters;
+	
+
+Target eva is a number that varies. Target eva is 0.
+Actor eva is a number that varies. Actor eva is 0.
+Actor hit is number that varies. Actor hit is 0.
+Target hit is a number that varies. Target hit is 0.
+Current advantage is a text that varies. Current advantage is "None".
+Actor skill is a text that varies. Actor skill is "None".
+Target skill is a text that varies. Target skill is "None". 
+Actor crit is a number that varies. Actor crit is 0.
+Target dodge is a number that varies. Target dodge is 0.
+Attacker bonus is a text that varies. Attacker bonus is "None".
+Defender bonus is a text that varies. Defender bonus is "None".
+Actor weapon is a text that varies. Actor weapon is "None".
+Target weapon is a text that varies. Target weapon is "None".
+Actor WTD ignoring is a truth state that varies. Actor WTD ignoring is false.
+Actor damage is a number that varies. Actor damage is 0.
+Target optional damage is a number that varies. Target optional damage is 0.
+Actor optional damage is a number that varies. Actor optional damage is 0.
+Target terrain value is a number that varies. Target terrain value is 0.
+Target defence is a number that varies. Target defence is 0.
+Target terrain defence is a number that varies. Target terrain defence is 0.
+Target optional defence is a number that varies. Target optional defence is 0.
+Actor SKL is a number that varies. Actor SKL is 0.
+Actor LUK is a number that varies. Actor LUK is 0.
+Target SKL is a number that varies. Target SKL is 0.
+Target LUK is a number that varies. Target LUK is 0.
+Target health is a number that varies. Target health is 0.
+Actor health is a number that varies. Actor health is 0.
+Actor max is a number that varies. Actor max is 0.
+Target max is a number that varies. Target max is 0.
+
+Chapter - Attack Processing
+
+To run an attack:
+	set directionality;
+	if attacker active is true:
+		decrease attacker attacks by 1;
+		say "[current actor] attacks with [actor weapon]. [current target] defends while wielding [target weapon].";
+	else:
+		decrease defender attacks by 1;
+	say "[paragraph break][current actor]'s hit: [actor hit]";
+	if target eva is greater than 0:
+		say " - [target eva]";
+		decrease actor hit by target EVA;
+	if current advantage is "Actor":
+		say " + 15";
+		increase actor hit by 15;
+	if current advantage is "Target" and actor WTD ignoring is false:
+		say " - 15";
+		decrease actor hit by 15;
+	if target terrain value is greater than 0:
+		say " - [target terrain value ]";
+		decrease actor hit by defender terrain value ;
+	if attacker active is true:
+		if attacker hit is not actor hit:
+			say " = [actor hit]";
+	else:
+		if defender hit is not actor hit:
+			say " = [actor hit]";
+	let H be a random number between 1 and 100;
+	say "[line break]Hit roll: [H], ";
+	if H is at most actor hit:
+		say "hit!";
+		now hitting is true;
+	else:
+		say "miss!";
+		now hitting is false;
+	if hitting is true:
+		if target skill is "Fortune" and actor skill is not "Awareness":
+			say "No crit roll due to [current target]'s Fortune skill";
+		otherwise if actor crit is greater than target dodge:
+			let C be (actor crit - target dodge);
+			let H be a random number between 1 and 100;
+			say "Crit roll: [H], ";
+			if H is at most C:
+				say "crit!";
+				now critting is true;
+			else:
+				say "no crit";
+				now critting is false;
+		else:
+			say "No crit roll.";
+		say line break;
+		say "Damage: ";
+		check ignis;
+		if actor optional damage is not 0:
+			let OD be actor optional damage;
+			say "[actor damage] + [OD]";
+			increase actor damage by actor optional damage;
+		if critting is true:
+			let A be actor damage;
+			let D be (actor damage * 3);
+			say "[A] x 3 =";
+			now actor damage is D;
+		say "[actor damage]";
+		if target defence is greater than 0:
+			check luna;
+			decrease actor damage by target defence;
+			say " - [target defence]";
+		if target terrain defence is greater than 0:
+			decrease actor damage by target terrain defence;
+			say " - [target terrain defence]";
+		if target optional defence is greater than 0:
+			say " - [target optional defence]";
+			decrease actor damage by target optional defence;
+		if target optional defence + target terrain defence + target defence is at most 0:
+			say "- 0 ";
+		if actor damage is less than 0:
+			now actor damage is 0;
+		say " = [actor damage]dmg";
+		decrease target health by actor damage;
+		check sol;
+		test resolve;
+		say line break;
+		if target health < 2 and actor skill is not "Awareness":
+			check miracle;
+		say "[line break][current target]: [target health]/[target max]";
+		if target health is less than one:
+			say "[line break][current target] is dead";
+		say line break;
+		choose the row with a name of current target in the table of characters;
+		now the current hp entry is target health;
+		check post-attack skills.
+
+To check post-attack skills:
+	check counter skill;
+	check who is alive;
+	check cancelling;
+	if hitting is true:
+		check adept;
+	now target resolve is false;
+	now actor resolve is false;
+	now actor wrath is false.		
+
+To check who is alive:
+	choose the row with name of current target in the table of characters;
+	if current hp is less than 1:
+		say "[line break]Combat ends with [current target]'s death.";
+		check if attacker is alive;
+		reset battle stats instead;
+	check if attacker is alive.
+	
+To check if attacker is alive:
+	choose the row with name of current actor in the table of characters;
+	if current hp is less than 1:
+		say "[line break]Combat ends with [current actor]'s death.";
+		reset battle stats instead.
+
+				
+To perform any extra hits:
+	let X be Attacker AS - 4;
+	if X is at least Defender AS:
+		increase attacker attacks by 1;
+	if attacker attacks is greater than 0:
+		now attacker active is true;
+		run an attack;
+	let X be Defender AS - 4;
+	if X is at least Attacker AS:
+		increase defender attacks by 1;
+	if counterable is true and defender attacks is greater than 0:
+		now attacker active is false;
+		run an attack.
+
+
+
+Chapter Skills
+
+To check vantage:
+	let X be the skill corresponding to a name of current defender in the table of characters;
+	let Y be the skill corresponding to a name of current attacker in the table of characters;
+	if Y is not "Awareness":
+		let H be the current HP corresponding to a name of current attacker in the table of characters;
+		let M be the HP corresponding to a name of current attacker in the table of characters;
+		let V1 be M * 0.3;
+		let V2 be (M * 0.4);
+		if X is "Vantage" and H is at most V1:
+			now attacker active is false;
+			say "[current defender]'s Vantage successfully triggers!";
+			run vantage battle order instead;
+		if X is "Vantage+" and H is at most V2:
+			run vantage+ battle order instead.
+			
+To run vantage battle order:
+	check countering;
+	if counterable is true and defender attacks is greater than 0:
+		counterattack;
+	now attacker active is true;
+	run an attack;
+	perform any extra hits;
+	reset battle stats.
+
+	
+To run vantage+ battle order:
+	check countering;
+	if counterable is true and defender attacks is greater than 0:
+		counterattack;
+	perform any extra hits;
+	now attacker active is true;
+	run an attack;
+	reset battle stats.
+
+
+Actor resolve is a truth state that varies. Actor resolve is false.
+Target resolve is a truth state that varies. Target resolve is false.
+
+To check sol:
+	if actor skill is "Sol" and target skill is not "Awareness":
+		let Y be (actor SKL + actor LUK);
+		let N be a random number between 1 and 100;
+		if N is at most Y:
+			increase actor health by actor damage;
+			if actor health is greater than actor max:
+				now actor health is actor max;
+			say "[line break]Sol triggers! [current actor] gains [actor damage] HP.".
+			
+Actor wrath is a truth state that varies. Actor wrath is false.
+
+Thirty percent is a real number that varies. Thirty percent is 0.3.
+Forty percent is a real number that varies. Forty percent is 0.4.
+
+To test resolve:
+	let A be actor max * thirty percent;
+	let T be target max * thirty percent;
+	let B be actor max * forty percent;
+	let U be target max * forty percent;
+	if actor skill is "Resolve" and target skill is not "Awareness" and actor health is at most A and actor resolve is false:
+		let S be (actor SKL / 2);
+		increase actor SKL by S;
+		say "([current actor]'s Resolve triggers)";
+		now actor resolve is true;
+	if target skill is "Resolve" and actor skill is not "Awareness" and target health is at most T and target resolve is false:
+		let S be (target SKL / 2);
+		increase target SKL by S;
+		say "([current actor]'s Resolve triggers)";
+		now actor resolve is true;
+	if actor skill is "Wrath" and target skill is not "Awareness" and actor health is at most A and actor wrath is false:
+		increase actor crit by 30;
+		now actor wrath is true;
+	if actor skill is "Wrath+" and target skill is not "Awareness" and actor health is at most B and actor wrath is false:
+		increase actor crit by 40;
+		now actor wrath is true.
+		
+To check miracle:
+	if actor skill is "Miracle" or actor skill is "Miracle+":
+		let Y be (actor LUK * 2);
+		let N be a random number between 1 and 100;
+		if N is at most Y:
+			say "(Miracle triggers!)";
+			if actor skill is "Miracle":
+				now target health is 1;
+			if actor skill is "Miracle+":
+				increase target health by actor damage;
+				let H be (target health / 2);
+				now target health is H.
+
+To check luna:
+	if target skill is not "Awareness":
+		if actor skill is "Luna" or actor skill is "Luna+":
+			let Y be actor SKL;
+			if actor skill is "Luna+":
+				increase Y by actor LUK;
+			let N be a random number between 1 and 100;
+			if N is at most Y:
+				now target defence is (target defence / 2);
+				say "(Luna successfully triggers)";
+			else:
+				say "(Luna fails to trigger)".
+
+Current actor is a text that varies. Current Actor is "NONE".
+Current target is a text that varies. Current Defender is "NONE"
+
+To check ignis:
+	let bonus be 0;
+	if attacker active is true:
+		now bonus is attacker ignis;
+	else:
+		now bonus is defender ignis;
+	if target skill is not "Awareness" and actor skill is "Ignis":
+		let Y be actor SKL + actor LUK;
+		let N be a random number between 1 and 100;
+		if N is at most Y:
+			let new damage be actor damage + bonus;
+			say "[actor damage] + [bonus] (from successful Ignis roll of [N] equal or under [Y]) = [New damage]";
+			increase actor damage by bonus;
+		else:
+			say "(Ignis roll of [N] is greater than [Y], Ignis fails to trigger)".
+
+		
+[TO DO for V2 - To deal with attacker's weapon quality:
+	choose the row with name of current defender in the table of characters;]
+
+Out of range is a truth state that varies. Out of range is false.
+
+To check adept:
+	if target skill is not "Awareness":
+		if actor skill is "Adept" or actor skill is "Adept+":
+			let Y be actor SKL;
+			if actor skill is "Adept+":
+				increase Y by actor LUK; 
+			let N be a random number between 1 and 100;
+			if N is at most Y:
+				say "Adept successfully triggers. (Roll: [N], equal or less than [Y])[line break]";
+				run an attack;
+			else:
+				say "Adept fails to trigger. (Roll: [N], greater than [Y].)[line break]".
+
+To check counter skill:
+	if actor skill is not "Awareness":
+		let counter skill be 0;
+		if target skill is "Counter" or target skill is "Counter+":
+			if adjacency is true and target skill is "Counter":
+				now counter skill is 1;
+			if target skill is "Counter+":
+				now counter skill is 1;
+			if counter skill is 1:
+				say "[line break][current target]'s Counter skill triggers. [Current attacker] takes [actor damage].";
+				choose the row with name of current actor in the table of characters;
+				decrease target health by actor damage;
+				now current hp entry is target health;
+				test resolve;
+				if current hp entry is less than 1:
+					say "[Current attacker] is dead.".
+
+
+To check cancelling:
+	if target skill is not "Awareness":
+		if actor skill is "Cancel":
+			let Y be actor LUK + actor SKL;
+			let N be a random number between 1 and 100;
+			if N is at most Y:
+				say "Counterattack Cancelled. (Roll: [N], equal or less than [Y])[line break]";
+				if attacker active is true:
+					decrease defender attacks by 1;
+				else:
+					decrease attacker attacks by 1;
+		if actor skill is "Cancel+":
+			say "Counterattack Cancelled.[line break]";
+			if attacker active is true:
+				decrease defender attacks by 1;
+			else:
+				decrease attacker attacks by 1.
+
+
+Attacker attacks is a number that varies. Attacker attacks is 1.
+Defender attacks is a number that varies. Defender attacks is 1.
+		
+To check countering:
+	now counterable is false;
+	if out of range is false:
+		if defender weapon is not "NONE":
+			if the category corresponding to a name of defender weapon in the table of weapons is "Physical":
+				if adjacency is true:
+					now counterable is true;
+			if the category corresponding to a name of defender weapon in the table of weapons is "Magical":
+				now counterable is true.
+
+To counterattack:
+	now attacker active is false;
+	say "[paragraph break][current defender] counterattacks![line break]";
+	run an attack.
+
+To calculate attacker attack speed:
+	let Sp be the SPD corresponding to a name of current attacker in the table of characters;
+	now attacker AS is Sp;
+	let W be the WT corresponding to a name of attacker weapon in the table of weapons;
+	let C be the CON corresponding to a name of current attacker in the table of characters;
+	let P be the attacker proficiency;
+	let X be (W - (C + P));
+	if X is greater than 0:
+		decrease attacker AS by X;
+	if Attacker AS is less than 0:
+		now Attacker AS is 0.
+	[We can test to see if the sum is working with this: say "[attacker as] = [Sp] -  [X], where [X] is ([w]- ([c] + [p]))  ";]
+
+To calculate defender attack speed:
+	let Sp be the SPD corresponding to a name of current defender in the table of characters;
+	now defender AS is Sp;
+	if defender weapon is not "NONE":
+		let W be the WT corresponding to a name of defender weapon in the table of weapons;
+		let C be the CON corresponding to a name of current defender in the table of characters;
+		let P be the defender proficiency;
+		let X be (W - (C + P));
+		if X is greater than 0:
+			decrease attacker AS by X;
+		if defender AS is less than 0:
+			now defender AS is 0;
+
+To calculate attacker hit-dodge:
+	let L be the LUK corresponding to a name of current attacker in the table of characters;
+	now attacker EVA is ((attacker AS * 2) + L);
+	now attacker dodge is L;
+	let Sk be the SKL corresponding to a name of current attacker in the table of characters;
+	let WC be the crit corresponding to a name of attacker weapon in the table of weapons;
+	now attacker crit is ((Sk / 2) + WC);
+	let WHR be the hit corresponding to a name of attacker weapon in the table of weapons;
+	now attacker hit is ((WHR + (Sk * 2)) + (L / 2)).
+
+To calculate defender hit-dodge:
+	let Sk be the SKL corresponding to a name of current defender in the table of characters;
+	if defender weapon is not "NONE":
+		let WC be the crit corresponding to a name of defender weapon in the table of weapons;
+		now defender crit is ((Sk / 2) + WC);
+	let L be the LUK corresponding to a name of current defender in the table of characters;
+	now defender EVA is ((defender AS * 2) + L);
+	now defender dodge is L;
+	if defender weapon is not "NONE":
+		let Sk be the SKL corresponding to a name of current defender in the table of characters;
+		let WHR be the hit corresponding to a name of defender weapon in the table of weapons;
+		now defender hit is ((WHR + (Sk * 2)) + (L / 2)).
+
+To crunch the numbers:
+	[calibrate proficiencies;]
+	calculate attacker attack speed;
+	calculate defender attack speed;
+	calculate attacker hit-dodge;
+	calculate defender hit-dodge;
+	calculate attacker attack power;
+	if defender weapon is not "NONE":
+		calculate defender attack power.
+
+Attacker ignis is number that varies. Attacker ignis is 0.
+Defender ignis is number that varies. Attacker ignis is 0.
+
+
+To calculate attacker attack power:
+	let S be the STR corresponding to a name of current attacker in the table of characters;
+	let M be the MAG corresponding to a name of current attacker in the table of characters;
+	if the category corresponding to a name of attacker weapon in the table of weapons is "Physical":
+		now might is S;
+		now defender defence is the DEF corresponding to a name of current defender in the table of characters;
+		now attacker ignis is M / 2;
+	else if the category corresponding to a name of attacker weapon in the table of weapons is "Magical":
+		now might is M;
+		now defender defence is the RES corresponding to a name of current defender in the table of characters;
+		now attacker ignis is S / 2;
+	else if the category corresponding to a name of attacker weapon in the table of weapons is "Legendary":
+		if S > M:
+			now attacker ignis is M / 2;
+			now might is S;
+		else:
+			now attacker ignis is S / 2;
+			now might is M;
+		if adjacency is true:
+			now defender defence is the DEF corresponding to a name of current defender in the table of characters;
+		else:
+			now defender defence is the RES corresponding to a name of current defender in the table of characters;
+	let D be the MT corresponding to a name of attacker weapon in the table of weapons;
+	now attacker damage is (might + D);
+	apply conditions.
+
+		
+To calculate defender attack power:
+	if the category corresponding to a name of defender weapon in the table of weapons is "Physical":
+		now might is the STR corresponding to a name of current defender in the table of characters;
+		now attacker defence is the DEF corresponding to a name of current attacker in the table of characters;
+	else if the category corresponding to a name of defender weapon in the table of weapons is "Magical":
+		now might is the MAG corresponding to a name of current defender in the table of characters;
+		now attacker defence is the RES corresponding to a name of current attacker in the table of characters;
+	else if the category corresponding to a name of defender weapon in the table of weapons is "Legendary":
+		if adjacency is true:
+			now might is the STR corresponding to a name of current defender in the table of characters;
+			now attacker defence is the DEF corresponding to a name of current attacker in the table of characters;
+		else:
+			now might is the MAG corresponding to a name of current defender in the table of characters;
+			now attacker defence is the RES corresponding to a name of current attacker in the table of characters;
+	let D be the MT corresponding to a name of defender weapon in the table of weapons;
+	now defender damage is (might + D).
+
+	
+[	increase 
+	now attacker eva is  corresponding to a name of current attacker in the table of characters]
+
+[To calibrate proficiencies:
+TO DO	if the rank corresponding to a name of current attacker in the table of characters is "E":]
+		
+
+Carry out picking when the location is the battle maker:
+	if nothing is salient:
+		now attacker is salient;
+	rip from the character table;
+	if attacker is salient:
+		now current attacker is current name;
+	if defender is salient:
+		now current defender is current name;
+	try looking.
+
+Chapter Conditions
+
+To apply conditions:
+	repeat through the table of statuses:
+		if attacker entry is 1:
+			increase optional attacker attack by hit entry;
+			increase optional attacker defence by DR entry;
+			increase attacker eva by Evade entry;
+			increase attacker crit by Crit entry;
+			increase attacker dodge by Dodge entry;
+			increase attacker AS by AS entry;
+			increase optional attacker damage by Damage entry;
+		if defender entry is 1:
+			increase optional defender attack by hit entry;
+			increase optional defender defence by DR entry;
+			increase defender eva by Evade entry;
+			increase defender crit by Crit entry;
+			increase defender dodge by Dodge entry;
+			increase defender AS by AS entry;
+			increase optional defender damage by Damage entry.
+
+
+
+Part 5- TESTS
+
+Test elana with "n / name Elana Farrugia / x performer / luk / def / spd / spd / toggle /  hpup / hpup / hpup / hpup / hpup / hpup / hpup / magup / magup / magup / magup / magup / magup / sklup / lukup /  lukup / lukup /  lukup / lukup /  lukup / lukup /  defup / resup / spdup / spdup / spdup / spdup / spdup / spdup / spdup / x charisma+ / x lucky stars / s / e"
+
+
+[useful lists:
+Anima
+Archer
+Dark
+Fighter
+Light
+Performer
+Priest
+Rider
+Soldier
+Swordsman
+Thief
+
+Mage
+Mage Knight
+Sage
+Scholar
+Virtuoso
+Baron
+Tactician
+Commander
+Archer Battle Mage
+Sniper
+Nomad
+Nomad Healer
+Nomad Ranger
+Outlaw
+Assassin
+Vigilante
+Scholar
+Baron
+Virtuoso
+Shaman
+Druid
+Summoner
+Necromancer
+Dark Rider
+Fighter
+Dread Fighter
+Warrior
+Bandit
+Mountain Warrior
+Berserker
+Pirate
+Swashbuckler
+Ascetic
+Crusader
+Inquisitor
+Monk
+Bishop
+Hunter
+Battle Mage
+Holy Guard
+Bard
+Lore Master
+Enchanter
+Trickster
+Illusionist
+Dancer 
+Dancing Blade
+Trouper
+Butler
+Bodyguard
+Steward
+Priest
+Bishop
+Saint
+Troubadour
+Valkyrie
+Pegasus Rider
+Falcon Knight
+Wyvern Rider
+Wyvern Hunter
+Wyvern Knight
+Cavalier
+Duke Knight
+Paladin
+Knight
+General
+Great Knight
+Soldier
+Sentinel
+Templar
+Fencer
+Shadow Sword
+Swashbuckler
+Mercenary
+Commander
+Hero
+Myrmidon
+Samurai
+Swordmaster
+Scavenger
+Wanderer
+Bounty Hunter
+Thief
+Rogue
+Outlaw
+Assassin
+Vigilante 
+
+current hp
+current str
+current mag
+current skl
+current luk
+current def
+current res
+current spd
+current con
+current aid
+current mov
+
+HP
+STR 
+MAG 
+SKL
+LUK
+DEF
+RES
+SPD
+CON
+AID
+MOV
+
+Adept
+Adept+
+Awareness
+Blossom
+Cancel
+Cancel+
+Celerity
+Celerity+
+Center
+Charisma
+Charisma+
+Counter
+Counter+
+Daunt
+Daunt+
+Deep Pockets
+Discipline
+Fortune
+Gamble
+Gamble+
+Guard
+Guard+
+Ignis
+Imbue
+Luna
+Luna+
+Maturity
+Miracle
+Miracle+
+Nullify
+Nullify+
+Parity
+Pass
+Provoke
+Renewal
+Resolve
+Savior
+Stillness
+Sol
+Taunt
+Vantage
+Vantage+
+Weapon Saver
+Wrath
+Wrath+
+
+fire
+wind
+bow
+flux
+worm
+hatchet
+Lightning
+flash
+lucky stars
+artemis song
+hermes whistle
+surprising shimmy
+distracting dance
+soldier's drum
+charming flute
+heal
+horse
+Wyvern
+pegasus
+slim lance
+wooden sword
+slim sword
+iron dagger
+iron knife
+
+hp prog 
+str prog 
+mag prog 
+skl prog 
+luk prog 
+def prog 
+res prog 
+spd prog 
+
+
+	[HP entry]	[STR entry]	[MAG entry]	[SKL entry]	[LUK entry]	[DEF entry]	[RES entry]	[SPD entry]	[CON entry]	[AID entry]	[MOV entry]	[HP prog entry]	[STR prog entry]	[MAG prog entry]	[SKL prog entry]	[LUK prog entry]	[DEF prog entry]	[RES prog entry]	[SPD prog entry]	[Mount entry]	[Weapon entry]
+]
