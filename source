@@ -124,7 +124,7 @@ To say weapon listing:
 	if current class is "Mage Pupil":
 		say "[link]Fire[as]x fire[end link] or [link]Wind[as]x wind[end link].";
 	if current class is "Scout":
-		say "You get a [link]bow[as]x bow[end link].";
+		say "You get a [link]training bow[as]x training bow[end link].";
 	if current class is "Dark Trainee":
 		say "[link]Flux[as]x flux[end link] or [link]Worm[as]x worm[end link].";
 	if current class is "Journeyman":
@@ -136,7 +136,7 @@ To say weapon listing:
 
 Dances:[line break][link]Surprising Shimmy[as]x surprising shimmy[end link][line break][link]Distracting Dance[as]x distracting dance[end link]
 
-Instruments:[line break][link]Soldier's Drum[as]x soldier's drum[end link][line break][link]Soldier's Drum[as]x charming flute[end link].";
+Instruments:[line break][link]Soldier's Drum[as]x soldier's drum[end link][line break][link]Charming Flute[as]x charming flute[end link].";
 	if current class is "Acolyte":
 		say "You get [link]heal[as]x heal[end link].";
 	if current class is "Rider":
@@ -304,7 +304,10 @@ Check naming:
 	if the location is not Create a Character and the location is not Weapon Editor and the location is not character editor:
 		say "You can't name things here." instead.
 
-Carry out naming:
+Carry out naming when the location is not Weapon editor:
+	let N be the topic understood;
+	if there is a name of N in the table of characters:
+		say "That name already exists in the character roster." instead;
 	now current name is the topic understood;
 	try looking.
 
@@ -607,7 +610,7 @@ Shaman is an advanced class in Create a Character. "Character class now Shaman."
 Druid is an advanced class in Create a Character. "Character class now Druid."
 Summoner is an advanced class in Create a Character. "Character class now Summoner."
 Necromancer is an advanced class in Create a Character. "Character class now Necromancer."
-Dark Rider is an advanced class in Create a Character. "Character class now Dark Rider."
+[Dark Rider is an advanced class in Create a Character. "Character class now Dark Rider."]
 Fighter is an advanced class in Create a Character. "Character class now Fighter."
 Dread Fighter is an advanced class in Create a Character. "Character class now Dread Fighter."
 Warrior is an advanced class in Create a Character. "Character class now Warrior."
@@ -639,9 +642,9 @@ Priest is an advanced class in Create a Character. "Character class now Priest."
 Saint is an advanced class in Create a Character. "Character class now Saint."
 Troubadour is an advanced class in Create a Character. "Character class now Troubadour."
 Valkyrie is an advanced class in Create a Character. "Character class now Valkyrie."
-Pegasus Rider is an advanced class in Create a Character. "Character class now Pegasus Rider."
+[Pegasus Rider is an advanced class in Create a Character. "Character class now Pegasus Rider."]
 Falcon Knight is an advanced class in Create a Character. "Character class now Falcon Knight."
-Wyvern Rider is an advanced class in Create a Character. "Character class now Wyvern Rider."
+[Wyvern Rider is an advanced class in Create a Character. "Character class now Wyvern Rider."]
 Wyvern Hunter is an advanced class in Create a Character. "Character class now Wyvern Hunter."
 Wyvern Knight is an advanced class in Create a Character. "Character class now Wyvern Knight."
 Cavalier is an advanced class in Create a Character. "Character class now Cavalier."
@@ -808,7 +811,7 @@ After examining Rider:
 After examining Recruit:
 	now current stats is 0;
 	now current class is "Recruit";
-	now current hp is 10;
+	now current hp is 20;
 	now current str is 4;
 	now current mag is 0;
 	now current skl is 3;
@@ -1356,11 +1359,20 @@ The bone warrior sword is scenery in create a character. "You select the bone wa
 The bone warrior lance is scenery in create a character. "You select the bone warrior with the lance."
 The bone warrior bow is scenery in create a character. "You select the bone warrior with the bow."
 
+To rename if repeated:
+	let N be 0;
+	repeat through the table of characters:
+		if the name entry is current name:
+			increase N by 1;
+			now current name is "Ghoul[N]"; 
+	
+
 After examining the ghoul:
 	reset all the stats;
 	now current weapon is "Claws";
 	now current mount is "NONE";
 	now current name is "Ghoul";
+	rename if repeated;
 	now current class is "Ghoul";
 	now current skill is "NONE";
 	now advanced is false;
@@ -1384,6 +1396,7 @@ After examining the bone warrior sword:
 	now current weapon is "Rusted Sword";
 	now current mount is "NONE";
 	now current name is "Bone Warrior (with Sword)";
+	rename if repeated;
 	now current class is "Bonewalker";
 	now current skill is "NONE";
 	now advanced is false;
@@ -1407,6 +1420,7 @@ After examining the bone warrior lance:
 	now current weapon is "Rusted Lance";
 	now current mount is "NONE";
 	now current name is "Bone Warrior (with Lance)";
+	rename if repeated;
 	now current class is "Bonewalker";
 	now current skill is "NONE";
 	now advanced is false;
@@ -1430,6 +1444,7 @@ After examining the bone warrior bow:
 	now current weapon is "Shoddy Bow";
 	now current mount is "NONE";
 	now current name is "Bone Warrior (with Bow)";
+	rename if repeated;
 	now current class is "Bonewalker";
 	now current skill is "NONE";
 	now advanced is false;
@@ -1586,7 +1601,7 @@ The File of Character Sheets (owned by another project) is called "character".
 Carry out exporting when the location is Character Suite:
 	write File of Character Sheets from the table of characters;
 	say "Export successful!".
-
+	
 Importation is a truth state that varies. Importation is false.
 
 Carry out importing when the location is Character Suite:
@@ -1597,6 +1612,7 @@ Carry out importing when the location is Character Suite:
 			now current weapon is weapon entry;
 			now current mount is mount entry;
 			now current name is name entry;
+			rename if repeated;
 			now current class is class entry;
 			now current skill is skill entry;
 			now current hp is current hp entry;
@@ -1661,6 +1677,14 @@ To rip from the character table:
 	now current con is con entry;
 	now current aid is aid entry;
 	now current mov is mov entry;
+	now HP prog is hp prog entry;
+	now STR prog entry is str prog entry;
+	now MAG prog is mag prog entry;
+	now SKL prog is skl prog entry;
+	now LUK prog is luk prog entry;
+	now DEF prog is def prog entry;
+	now RES prog is res prog entry;
+	now SPD prog is spd prog entry;
 	now current stats is Bonus Stats entry;
 	now progression is progression entry;
 	now current listing is N.
@@ -1731,6 +1755,8 @@ MOV: [current mov][line break]
 
 Progression Spent: [progression]/330[line break]
 Added stats: [current stats]
+
+Type [fixed letter spacing]HP 10[variable letter spacing] to set HP to 10, [fixed letter spacing]LUK 2[variable letter spacing] to set LUK to 2 etc. Type [fixed letter spacing]name  John Smith[variable letter spacing] to set name, [fixed letter spacing]class warrior[variable letter spacing] to set names.
 
 [link][bracket]D[close bracket]iscard changes and return to the character suite[as]d[end link][line break]
 [link][bracket]S[close bracket]ave changes and return to the character suite[as]s[end link][line break]"
@@ -2688,7 +2714,9 @@ Check battling:
 		say "The attacker has no weapon to attack with." instead;
 	choose the row with the name of attacker weapon in the table of weapons;
 	if the category entry is "Noncombat":
-		say "You can't attack with [category entry]!".
+		say "You can't attack with [category entry]!" instead;
+	if the current attacker is the current defender:
+		say "If you want to test fighting yourself, make a copy with a different name." instead.
 
 Carry out battling:
 	crunch the numbers;
@@ -3011,6 +3039,7 @@ To check post-attack skills:
 
 To check who is alive:
 	choose the row with name of current target in the table of characters;
+	say "CHECKING defender";
 	if current hp is less than 1:
 		say "[line break]Combat ends with [current target]'s death.";
 		check if attacker is alive;
@@ -3019,6 +3048,7 @@ To check who is alive:
 	
 To check if attacker is alive:
 	choose the row with name of current actor in the table of characters;
+	say "CHECKING ATTACKER";
 	if current hp is less than 1:
 		say "[line break]Combat ends with [current actor]'s death.";
 		reset battle stats instead.
