@@ -1872,10 +1872,38 @@ Before going down from the character editor:
 
 Part 3 - Weapon Creation
 
-Weapon Editor is west of the main menu. "[link]List all [number of filled rows in the table of weapons] weapons[as]x armoury[end link] (WARNING: very slow right now)[line break]
-Create a new weapon (NOT IMPLEMENTED YET).[line break]
-[link]Main m[bracket]e[close bracket]nu[as]e[end link]"
+Weapon Editor is west of the main menu. "[if current listing is not 0][show the weapon][paragraph break][end if][link]List all [number of filled rows in the table of weapons] weapons[as]x armoury[end link]|[link]List all swords[as]x sword collection[end link][line break]
+[link][bracket]N[close bracket]ew weapon[as]n[end link][line break]
+[link]Main m[bracket]e[close bracket]nu[as]e[end link]
+[if current listing is not 0][line break][link][bracket]S[close bracket]ave current weapon[as]s[end link][end if]"
 
+The sword collection is scenery in the weapon editor. The description of the sword collection is "[sword list]".
+
+To say sword list:
+	let N be 0;
+	repeat through the table of weapons:
+		increase N by 1;
+		if the type entry is "Slashing" or the type entry is "Thrusting" or the type entry is "Crushing":
+			say "[link][N]: [Name entry][as]pick [n][end link]";
+			say line break.
+	
+
+Check going north from weapon editor:
+	let N be the number of filled rows in the table of weapons;
+	increase N by 1;
+	now current listing is N;
+	now current weapon is "Weapon name not set";
+	now current rank is "E";
+	now current type is "Not Set";
+	now current min rng is 0;
+	now current max rng is 0;
+	now current mt is 0;
+	now current wt is 0;
+	now current hit is 0;
+	now current crit is 0;
+	now current ql is 0;
+	say "[show the weapon]".
+	
 To say list weapons:
 	say "#	Name[line break]";
 	let N be 0;
@@ -1884,6 +1912,7 @@ To say list weapons:
 		say "[link][N]: [Name entry][as]pick [n][end link]";
 		say line break.
 
+North of Weapon editor is weapon editor. South of weapon editor is weapon editor.
 
 Armoury is scenery in the Weapon Editor. "[list weapons]".
 
@@ -1895,8 +1924,6 @@ Carry out ranking:
 Carry out naming when the location is the weapon editor:
 	now the current weapon is the topic understood.
 
-
-
 Carry out picking when the location is the weapon editor:
 	let N be the number understood;
 	if there is no name in row N of the table of weapons:
@@ -1905,28 +1932,84 @@ Carry out picking when the location is the weapon editor:
 	now current weapon is the name entry;
 	now current rank is the rank entry;
 	now current type is the type entry;
-	now current rng is the rng entry;
+	now current min rng is the max rng entry;
+	now current min rng is the min rng entry;
 	now current mt is the mt entry;
 	now current wt is the wt entry;
 	now current hit is the hit entry;
 	now current crit is the crit entry;
 	now current ql is the ql entry;
 	now the current listing is N;
-	show the weapon.
+	say "[show the weapon]".
 
-To show the weapon:
+To say show the weapon:
 	say "
 #[current listing][line break]
 [bold type][current weapon][roman type][line break]
 Type: [current type][line break]
 Rank: [current rank][line break]
+Range: [current min rng]-[current max rng][line break]
 MT: [current mt][line break]
 WT: [current wt][line break]
 Hit: [current hit][line break]
 Crit: [current crit][line break]
+QL: [current QL]
 
+[link][bracket]D[close bracket]elete this weapon[as]D[end link]
+[line break]"
 
-[link][bracket]D[close bracket]elete this weapon[as]D[end link][line break]"
+Typing is an action applying to one topic. Understand "Type [text]" as typing.
+
+Carry out typing:
+	now the current type is the topic understood.
+
+MTing is an action applying to one number. Understand "MT [number]" as MTing.
+
+Carry out MTing:
+	now the current mt is the number understood.
+
+WTing is an action applying to one number. Understand "WT [number]" as WTing.
+
+Carry out WTing:
+	now the current mt is the number understood.
+
+Hiting is an action applying to one number. Understand "Hit [number]" as hiting.
+
+Carry out Hiting:
+	now the current hit is the number understood.
+
+Criting is an action applying to one number. Understand "Crit [number]" as Criting.
+
+Carry out Criting:
+	now the current crit is the number understood.
+
+Qling is an action applying to one number. Understand "QL [number]" as Qling.
+
+Carry out Qling:
+	now the current ql is the number understood.
+
+Min rnging is an action applying to one number. Understand "Min RNG [number]", "min range [number]" and "minimum range [number]" as min rnging.
+
+Max rnging is an action applying to one number. Understand "Max RNG [number]", "max range [number]" and "maximum range [number]" as max rnging.
+
+Carry out min rnging:
+	now current min rng is the number understood.
+
+Carry out max rnging:
+	now current max rng is the number understood.
+
+Carry out going south from Weapon Editor:
+	choose row current listing in the table of weapons;
+	now the name entry is current weapon;
+	now the rank entry is current rank;
+	now type entry is the current type;
+	now the min rng entry is current min rng;
+	now the max rng entry is current min rng;
+	now mt entry is the current mt;
+	now wt entry is the current wt;
+	now hit entry is the current hit;
+	now crit entry is the current crit;
+	now ql entry is the current ql.
 
 Check going down when the location is weapon editor:
 	if the current listing is 0:
@@ -1947,7 +2030,8 @@ Down from the weapon editor is the weapon editor.
 Current rank is a text that varies.
 Current weapon is a text that varies.
 Current type is a text that varies.
-Current RNG is a text that varies.
+Current Max RNG is a number that varies.
+Current Min RNG is a number that varies.
 Current mt is a number that varies.
 current wt is a number that varies.
 current hit is a number that varies.
@@ -1955,429 +2039,429 @@ current crit is a number that varies.
 current ql is a number that varies.
 
 Table of Weapons
-Name	Type	Rank	RNG	MT	WT	Hit	Crit	QL	Category	Bonus
-"Claws"	“Null”	“F”	"1"	7	5	85	0	1000	“Physical”	“None”
-"Rusted Sword"	"Slashing"	"F"	"1"	3	4	75	0	20	“Physical”	“None”
-"Rusted Lance"	"Piercing"	"F"	"1"	5	7	70	0	20	“Physical”	“None”
-"Shoddy Bow"	"Recurve"	"F"	"2"	4	5	75	0	20	“Physical”	“None”
-"Iron Sword"	"Slashing"	"E"	"1"	4	5	85	0	40	“Physical”	“None”
-"Devil Sword"	"Slashing"	"E"	"1"	13	15	65	0	40	“Physical”	“Unlucky”
-"Steel Sword"	"Slashing"	"D"	"1"	6	7	80	5	35	“Physical”	“None”
-"Quick Sword"	"Slashing"	"D"	"1"	5	2	85	0	40	“Physical”	“Followup”
-"Silver Sword"	"Slashing"	"C"	"1"	7	8	80	10	30	“Physical”	“None”
-"Killing Edge"	"Slashing"	"C"	"1"	10	7	75	25	30	“Physical”	“None”
-"Sabre"	"Slashing"	"B"	"1"	10	9	75	20	25	“Physical”	“None”
-"Brave Sword"	"Slashing"	"B"	"1"	13	7	70	0	30	“Physical”	“Brave”
-"Katana"	"Slashing"	"A"	"1"	12	10	80	25	20	“Physical”	“None”
-"Rune Sabre"	"Slashing"	"A"	"1-2"	15	8	65	0	20	“Legendary”	“None”
-"Wo Dao"	"Slashing"	"S"	"1"	14	11	85	30	15	“Physical”	“None”
-"Valmanway"	"Slashing"	"S"	"1"	15	9	80	10	20	“Physical”	“None”
-"Slim Sword"	"Thrusting"	"E"	"1"	4	3	100	5	40	“Physical”	“Brave”
-"Iron Rapier"	"Thrusting"	"E"	"1"	4	6	75	0	40	“Physical”	“None”
-"Steel Rapier"	"Thrusting"	"D"	"1"	7	8	80	0	35	“Physical”	“None”
-"Longsword"	"Thrusting"	"D"	"1"	7	6	70	0	35	“Physical”	“Horseback Effective”
-"Silver Rapier"	"Thrusting"	"C"	"1"	9	10	75	5	30	“Physical”	“None”
-"Winged Rapier"	"Thrusting"	"C"	"1"	8	7	70	0	30	“Physical”	“Flying Effective”
-"Estoc"	"Thrusting"	"B"	"1"	12	11	70	0	25	“Physical”	“Armor-piercing”
-"Wind Sword"	"Thrusting"	"B"	"1-2"	10	8	75	0	25	“Legendary”	“None”
-"Fleuret"	"Thrusting"	"A"	"1"	12	13	80	10	20	“Physical”	“None”
-"Colichemarde"	"Thrusting"	"A"	"1"	13	10	70	5	20	“Physical”	“Horseback Effective”
-"Wyrmslayer"	"Thrusting"	"A"	"1"	14	11	65	0	20	“Physical”	“Wyvern Effective”
-"Joyeuse"	"Thrusting"	"S"	"1"	16	12	70	5	15	“Physical”	“Armor-piercing”
-"Sieglinde"	"Thrusting"	"S"	"1"	16	12	75	0	15	“Physical”	“Mounted”
-"Flamberge"	"Thrusting"	"S"	"1-2"	16	14	75	0	15	“Legendary”	“None”
-"Wooden Sword"	"Crushing"	"E"	"1"	5	6	80	0	40	“Physical”	“None”
-"Iron Blade"	"Crushing"	"E"	"1"	7	8	70	0	40	“Physical”	“None”
-"Steel Blade"	"Crushing"	"D"	"1"	9	10	70	0	35	“Physical”	“None”
-"Armorbreaker"	"Crushing"	"D"	"1"	10	8	70	0	35	“Physical”	“Armor-piercing”
-"Silver Blade"	"Crushing"	"C"	"1"	10	12	65	0	30	“Physical”	“None”
-"Lancereaver"	"Crushing"	"C"	"1"	9	9	70	5	30	“Physical”	“Reaver”
-"Light Brand"	"Crushing"	"C"	"1-2"	12	8	75	0	30	“Physical”	“None”
-"Broadsword"	"Crushing"	"B"	"1"	13	14	65	5	25	“Physical”	“None”
-"Armorslayer"	"Crushing"	"B"	"1"	16	11	60	0	25	“Physical”	“Armor effective”
-"Mage Masher"	"Crushing"	"B"	"1"	13	9	75	0	25	“Physical”	“Levitation”
-"Zweihander"	"Crushing"	"A"	"1"	14	16	70	0	20	“Physical”	“None”
-"Claymore"	"Crushing"	"A"	"1-2"	16	14	75	5	20	“Physical”	“None”
-"Falchion"	"Crushing"	"S"	"1"	17	18	70	10	15	“Physical”	“None”
-"Durandal"	"Crushing"	"S"	"1"	18	13	70	0	15	“Physical”	“Wyvern”
-"Vorpal Blade"	"Crushing"	"S"	"1-2"	20	17	65	0	15	“Legendary”	“None”
-"Slim Lance"	"Piercing"	"E"	"1"	5	5	85	5	40	“Physical”	“None”
-"Iron Lance"	"Piercing"	"E"	"1"	7	7	80	0	40	“Physical”	“None”
-"Devil Lance"	"Piercing"	"E"	"1"	14	16	60	0	40	“Physical”	“None”
-"Steel Lance"	"Piercing"	"D"	"1"	8	9	75	0	35	“Physical”	“Unlucky”
-"Heavy Lance"	"Piercing"	"D"	"1"	10	8	70	0	35	“Physical”	“Armor-piercing”
-"Silver Lance"	"Piercing"	"C"	"1"	10	11	75	0	30	“Physical”	“None”
-"Killer Lance"	"Piercing"	"C"	"1"	11	8	70	25	30	“Physical”	“None”
-"Axereaver"	"Piercing"	"C"	"1"	10	10	65	5	30	“Physical”	“Reaver”
-"Great Lance"	"Piercing"	"B"	"1"	12	13	70	5	25	“Physical”	“None”
-"Brave Lance"	"Piercing"	"B"	"1"	16	9	65	0	30	“Physical”	“Brave”
-"Greater Lance"	"Piercing"	"A"	"1"	14	15	70	10	20	“Physical”	“None”
-"Borehole"	"Piercing"	"A"	"1"	15	11	65	5	20	“Physical”	“Armor effective”
-"Rex Hasta"	"Piercing"	"S"	"1"	18	17	75	15	15	“Physical”	“None”
-"Gungnir"	"Piercing"	"S"	"1-2"	18	15	65	10	15	“Legendary”	“None”
-"Iron Javelin"	"Spear"	"E"	"1-2"	6	5	75	0	40	“Physical”	“None”
-"Iron Pilum"	"Spear"	"E"	"2"	7	3	80	0	40	“Physical”	“Followup”
-"Steel Javelin"	"Spear"	"D"	"1-2"	8	7	75	0	35	“Physical”	“None”
-"Wing Clipper"	"Spear"	"D"	"1-2"	10	5	75	5	35	“Physical”	“Pegasus Effective”
-"Silver Javelin"	"Spear"	"C"	"1-2"	9	9	70	0	30	“Physical”	“None”
-"Steel Pilum"	"Spear"	"C"	"2"	10	7	75	0	30	“Physical”	“Followup”
-"Short Spear"	"Spear"	"B"	"1-2"	11	11	70	0	25	“Physical”	“None”
-"Flame Thrower"	"Spear"	"B"	"1-2"	11	9	70	0	25	“Legendary”	“None”
-"Trident"	"Spear"	"A"	"1-2"	13	13	70	5	20	“Physical”	“None”
-"Silver Pilum"	"Spear"	"A"	"2"	14	12	70	0	20	“Physical”	“Followup”
-"Gae Bolg"	"Spear"	"S"	"1-2"	17	16	70	10	15	“Physical”	“None”
-"Longinus"	"Spear"	"S"	"1-2"	14	12	80	5	15	“Legendary”	“None”
-"Iron Halberd"	"Polearm"	"E"	"1"	8	7	70	0	40	“Physical”	“Antimount”
-"Pike"	"Polearm"	"E"	"1"	9	6	80	10	40	“Physical”	“Pike”
-"Steel Halberd"	"Polearm"	"D"	"1"	10	9	70	0	35	“Physical”	“Antimount”
-"Glaive"	"Polearm"	"D"	"1"	10	7	70	0	35	“Physical”	“Horseback Effective”
-"Silver Halberd"	"Polearm"	"C"	"1"	13	12	65	0	30	“Physical”	“Antimount”
-"Flak Halberd"	"Polearm"	"C"	"1"	11	7	80	5	30	“Physical”	“Pegasus Effective”
-"Blessed Halberd"	"Polearm"	"C"	"1-2"	11	6	75	0	30	“Legendary”	“Blessed”
-"Alabarda"	"Polearm"	"B"	"1"	15	13	65	0	25	“Physical”	“Alabarda”
-"Dragoon Pike"	"Polearm"	"B"	"1"	15	10	70	0	25	“Physical”	“Wyvern Effective”
-"Bec de Corbin"	"Polearm"	"A"	"1"	17	17	70	5	20	“Physical”	“Antimount”
-"Partizan"	"Polearm"	"A"	"1"	17	12	65	0	20	“Physical”	“Horseback Effective”
-"Lunar Halberd"	"Polearm"	"A"	"1"	19	13	60	0	20	“Physical”	“Armor Effective”
-"Siegmund"	"Polearm"	"S"	"1"	19	13	70	5	15	“Physical”	“Mounted Effective”
-"Gradivus"	"Polearm"	"S"	"1"	20	19	75	10	15	“Physical”	“None”
-"Iron Axe"	"Hacking"	"E"	"1"	8	8	75	0	40	“Physical”	“None”
-"Devil Axe"	"Hacking"	"E"	"1"	16	17	60	0	40	“Physical”	“Unlucky”
-"Steel Axe"	"Hacking"	"D"	"1"	11	11	70	0	35	“Physical”	“None”
-"Poleaxe"	"Hacking"	"D"	"1"	12	8	65	0	35	“Physical”	“Horseback Effective”
-"Silver Axe"	"Hacking"	"C"	"1"	12	13	65	0	30	“Physical”	“None”
-"Killer Axe"	"Hacking"	"C"	"1"	14	10	65	25	30	“Physical”	“None”
-"Swordreaver"	"Hacking"	"C"	"1"	12	11	65	5	25	“Physical”	“Reaver”
-"Crescent Axe"	"Hacking"	"B"	"1"	15	15	65	5	25	“Physical”	“None”
-"Brave Axe"	"Hacking"	"B"	"1"	17	10	60	0	30	“Physical”	“None”
-"Swordslayer"	"Hacking"	"B"	"1"	15	9	65	5	25	“Physical”	“Swordkiller”
-"Basilikos"	"Hacking"	"A"	"1"	18	18	60	10	20	“Physical”	“None”
-"Runic Axe"	"Hacking"	"A"	"1-2"	20	11	60	0	20	“Legendary”	“Draining”
-"Golden Axe"	"Hacking"	"S"	"1"	20	20	65	10	15	“Physical”	“None”
-"Armads"	"Hacking"	"S"	"1"	22	15	60	0	15	“Physical”	“Wyvern Effective”
-"Quarterstaff"	"Bludgeon"	"E"	"1"	7	7	80	0	40	“Physical”	“None”
-"Iron Mace"	"Bludgeon"	"E"	"1"	8	8	75	0	40	“Physical”	“None”
-"Steel Mace"	"Bludgeon"	"D"	"1"	10	9	70	0	35	“Physical”	“Minor Armorpiercing”
-"Hammer"	"Bludgeon"	"D"	"1"	15	9	65	0	35	“Physical”	“None”
-"Silver Mace"	"Bludgeon"	"C"	"1"	12	10	70	0	30	“Physical”	“None”
-"Warhammer"	"Bludgeon"	"C"	"1"	18	11	60	0	30	“Physical”	“None”
-"Morningstar"	"Bludgeon"	"B"	"1"	14	12	70	0	25	“Physical”	“None”
-"Provost’s Mace"	"Bludgeon"	"B"	"1"	15	10	70	0	25	“Physical”	“None”
-"Maul"	"Bludgeon"	"A"	"1"	15	14	70	0	20	“Physical”	“None”
-"Ball and Chain"	"Bludgeon"	"A"	"1-2"	17	16	65	0	20	“Physical”	“None”
-"Lucerne"	"Bludgeon"	"S"	"1"	18	17	70	0	15	“Physical”	“None”
-"Sharur"	"Bludgeon"	"S"	"1"	22	15	60	0	15	“Physical”	“None”
-"Earthsplitter"	"Bludgeon"	"S"	"1-2"	18	16	65	0	15	“Legendary”	“None”
-"Hatchet"	"Throwing"	"E"	"1-2"	6	4	80	5	40	“Physical”	“None”
-"Hand Axe"	"Throwing"	"E"	"1-2"	9	7	70	0	40	“Physical”	“None”
-"Steel Hand"	"Throwing"	"D"	"1-2"	11	9	70	0	35	“Physical”	“None”
-"Poison Hand"	"Throwing"	"D"	"1-2"	10	7	70	5	35	“Physical”	“None”
-"Silver Hand"	"Throwing"	"C"	"1-2"	14	12	65	0	30	“Physical”	“None”
-"Short Axe"	"Throwing"	"C"	"1-2"	11	9	80	0	30	“Physical”	“None”
-"Francisca"	"Throwing"	"B"	"1-2"	15	13	60	10	25	“Physical”	“None”
-"Bolt Axe"	"Throwing"	"B"	"1-2"	17	12	60	10	25	“Legendary”	“None”
-"Tomahawk"	"Throwing"	"A"	"1-2"	18	16	60	10	20	“Physical”	“None”
-"Merciless"	"Throwing"	"A"	"1-2"	19	14	55	25	20	“Physical”	“None”
-"Master Hand"	"Throwing"	"S"	"1-2"	21	18	60	15	15	“Physical”	“None”
-"Volant Axe"	"Throwing"	"S"	"1-2"	20	12	75	0	15	“Physical”	“None”
-"Iron Dagger"	"Dagger"	"E"	"1"	4	4	85	10	40	“Physical”	“None”
-"Devil Dagger"	"Dagger"	"E"	"1"	12	14	70	0	40	“Physical”	“None”
-"Steel Dagger"	"Dagger"	"D"	"1"	5	6	80	10	35	“Physical”	“None”
-"Parrying Dagger"	"Dagger"	"D"	"1"	7	5	80	5	35	“Physical”	“None”
-"Silver Dagger"	"Dagger"	"C"	"1"	7	7	80	10	30	“Physical”	“None”
-"Cutthroat"	"Dagger"	"C"	"1"	9	6	80	25	30	“Physical”	“None”
-"Cinquedea"	"Dagger"	"B"	"1"	10	9	80	10	25	“Physical”	“None”
-"Swordbreaker"	"Dagger"	"B"	"1"	12	8	80	5	25	“Physical”	“None”
-"Dark Dagger"	"Dagger"	"B"	"1-2"	12	9	70	5	25	“Legendary”	“None”
-"Switchblade"	"Dagger"	"A"	"1"	12	10	85	15	20	“Physical”	“None”
-"Mercy"	"Dagger"	"A"	"1"	10	8	75	0	25	“Physical”	“None”
-"Death Dealer"	"Dagger"	"S"	"1"	14	11	80	20	15	“Physical”	“None”
-"Sacrificial Dagger"	"Dagger"	"S"	"1"	15	10	80	15	15	“Physical”	“None”
-"Iron Knife"	"Knife"	"E"	"1-2"	5	4	80	0	40	“Physical”	“None”
-"Chakram"	"Knife"	"E"	"1-2"	5	3	75	0	40	“Physical”	“None”
-"Steel Knife"	"Knife"	"D"	"1-2"	6	6	75	0	35	“Physical”	“None”
-"Shuriken"	"Knife"	"D"	"1-2"	8	6	70	10	35	“Physical”	“None”
-"Silver Knife"	"Knife"	"C"	"1-2"	8	7	80	0	30	“Physical”	“None”
-"Silencer"	"Knife"	"C"	"1-2"	9	6	70	0	30	“Physical”	“None”
-"Killer Shuriken"	"Knife"	"C"	"1-2"	10	6	65	25	30	“Physical”	“None”
-"Stiletto"	"Knife"	"B"	"1-2"	10	9	80	5	25	“Physical”	“None”
-"Flame Shuriken"	"Knife"	"B"	"1-2"	11	8	70	10	25	“Legendary”	“None”
-"Pinwheel"	"Knife"	"B"	"1-3"	12	8	70	0	25	“Physical”	“None”
-"Baselard"	"Knife"	"A"	"1-2"	12	11	80	10	20	“Physical”	“None”
-"Kaiser Knife"	"Knife"	"A"	"1-2"	15	7	70	0	24	“Physical”	“None”
-"The World"	"Knife"	"S"	"1-2"	18	10	75	0	15	“Physical”	“None”
-"Shred Shuriken"	"Knife"	"S"	"1-2"	15	10	70	10	15	“Physical”	“None”
-"Poison Dart"	"Exotic"	"E"	"1-2"	4	2	85	0	40	“Physical”	“None”
-"Bolas"	"Exotic"	"E"	"1-2"	4	2	80	0	40	“Physical”	“None”
-"Caltrops"	"Exotic"	"D"	"1-2"	5	2	85	0	35	“Physical”	“None”
-"Blinding Bomb"	"Exotic"	"D"	"1-2"	6	3	80	0	35	“Physical”	“None”
-"Glue Pack"	"Exotic"	"D"	"1-2"	5	3	75	0	35	“Physical”	“None”
-"Plague Dart"	"Exotic"	"C"	"1-2"	6	4	80	0	30	“Physical”	“None”
-"Spiked Bolas"	"Exotic"	"C"	"1-2"	7	5	70	5	30	“Physical”	“None”
-"Somniferum"	"Exotic"	"C"	"1-2"	6	4	75	0	30	“Physical”	“None”
-"Corrosive Acid"	"Exotic"	"B"	"1-2"	8	7	75	0	25	“Physical”	“None”
-"Hallucinogen"	"Exotic"	"B"	"1-2"	8	5	75	0	25	“Physical”	“None”
-"Black Firebomb"	"Exotic"	"B"	"1-2"	12	7	65	0	25	“Legendary”	“None”
-"Toxic Bomb"	"Exotic"	"A"	"1-2"	11	7	80	0	20	“Physical”	“None”
-"Neurotoxin Shot"	"Exotic"	"A"	"1-2"	9	6	85	0	20	“Physical”	“None”
-"Cursed Needle"	"Exotic"	"A"	"1-2"	10	7	80	0	20	“Physical”	“None”
-"Gyroblade"	"Exotic"	"S"	"1-2"	9	9	75	10	15	“Physical”	“None”
-"Armor Eater"	"Exotic"	"S"	"1-2"	10	8	75	0	15	“Physical”	“None”
-"Curare Dart"	"Exotic"	"S"	"1-2"	9	7	80	0	15	“Physical”	“None”
-"Training Bow"	"Recurve"	"E"	"2"	4	4	95	5	40	“Physical”	“Flying Effective”
-"Iron Bow"	"Recurve"	"E"	"2"	5	6	85	0	40	“Physical”	“Flying Effective”
-"Steel Bow"	"Recurve"	"D"	"2"	6	8	80	0	35	“Physical”	“Flying Effective”
-"Poison Bow"	"Recurve"	"D"	"2"	7	7	80	5	35	“Physical”	“Flying Effective”
-"Silver Bow"	"Recurve"	"C"	"2"	9	10	80	5	30	“Physical”	“Flying Effective”
-"Killer Bow"	"Recurve"	"C"	"2"	9	7	75	25	30	“Physical”	“Flying Effective”
-"Reflex Bow"	"Recurve"	"B"	"2"	10	11	80	10	25	“Physical”	“Flying Effective”
-"Brave Bow"	"Recurve"	"B"	"2"	12	7	70	0	30	“Physical”	“Flying Effective”
-"Crescent Bow"	"Recurve"	"A"	"2"	13	14	80	10	20	“Physical”	“Flying Effective”
-"Moon Bow"	"Recurve"	"A"	"2"	14	11	70	0	20	“Physical”	“Flying Effective”
-"Blackout Bow"	"Recurve"	"A"	"1-2"	14	9	70	0	20	“Legendary”	“Flying Effective”
-"Reinefleche"	"Recurve"	"S"	"2"	14	15	80	15	15	“Physical”	“Flying Effective”
-"Mulagir"	"Recurve"	"S"	"2"	16	14	85	15	15	“Physical”	“Flying Effective”
-"Iron Longbow"	"Longbow"	"E"	"2-3"	6	5	80	0	40	“Physical”	“Flying Effective”
-"Yew Bow"	"Longbow"	"E"	"2-3"	7	4	75	0	40	“Physical”	“Flying Effective”
-"Steel Longbow"	"Longbow"	"D"	"2-3"	7	7	75	0	35	“Physical”	“Flying Effective”
-"Eagle Longbow"	"Longbow"	"D"	"2-3"	8	5	80	15	35	“Physical”	“Flying Effective”
-"Silver Longbow"	"Longbow"	"C"	"2-3"	9	8	75	0	30	“Physical”	“Flying Effective”
-"Ballista Bow"	"Longbow"	"C"	"2-4"	12	7	65	0	30	“Physical”	“Flying Effective”
-"Yumi"	"Longbow"	"B"	"2-3"	11	11	75	0	25	“Physical”	“Flying Effective”
-"Sunset Longbow"	"Longbow"	"B"	"2-3"	10	7	75	0	25	“Physical”	“Flying Effective”
-"Bright Bow"	"Longbow"	"B"	"2-3"	10	8	80	0	25	“Legendary”	“Flying Effective”
-"Towering Bow"	"Longbow"	"A"	"2-3"	12	13	75	0	20	“Physical”	“Flying Effective”
-"Dreadwind"	"Longbow"	"A"	"2-4"	16	9	65	0	20	“Physical”	“Flying Effective”
-"Sagittarius"	"Longbow"	"S"	"2-3"	15	14	75	15	15	“Physical”	“Flying Effective”
-"Fujin Yumi"	"Longbow"	"S"	"2-3"	16	13	90	0	15	“Legendary”	“Flying Effective”
-"Wooden Greatbow"	"Greatbow"	"E"	"2"	5	6	85	0	40	“Physical”	“Flying Effective”
-"Iron Greatbow"	"Greatbow"	"E"	"2"	6	8	70	0	40	“Physical”	“Flying Effective”
-"Iron Crossbow"	"Greatbow"	"E"	"1-2"	14	24	75	0	40	“Physical”	“Flying Effective”
-"Steel Greatbow"	"Greatbow"	"D"	"2"	8	10	70	0	35	“Physical”	“Flying Effective”
-"Steel Crossbow"	"Greatbow"	"D"	"1-2"	15	28	75	0	35	“Physical”	“Flying Effective”
-"Metal Punch"	"Greatbow"	"D"	"2"	9	8	70	0	35	“Physical”	“Flying Effective”
-"Silver Greatbow"	"Greatbow"	"C"	"2"	10	12	70	0	30	“Physical”	“Flying Effective”
-"Silver Crossbow"	"Greatbow"	"C"	"1-2"	16	32	75	0	30	“Physical”	“Flying Effective”
-"Composite Bow"	"Greatbow"	"B"	"2"	13	15	65	0	25	“Physical”	“Flying Effective”
-"Taksh"	"Greatbow"	"B"	"1-2"	17	36	70	0	25	“Physical”	“Flying Effective”
-"Thundergun"	"Greatbow"	"B"	"1-2"	21	32	70	15	25	“Legendary”	“Flying Effective”
-"Twinhead Bow"	"Greatbow"	"A"	"2"	16	18	65	0	20	“Physical”	“Flying Effective”
-"Windlass Bow"	"Greatbow"	"A"	"1-2"	20	40	75	0	20	“Physical”	“Flying Effective”
-"Chu-Ko-Nu"	"Greatbow"	"A"	"1-2"	23	32	65	0	20	“Physical”	“Flying Effective”
-"Parthia"	"Greatbow"	"S"	"2"	19	20	65	10	15	“Physical”	“Flying Effective”
-"Arbalest"	"Greatbow"	"S"	"1-2"	22	44	70	5	15	“Physical”	“Flying Effective”
-"Fire"	"Anima"	"E"	"1-2"	4	4	75	0	40	“Magical”	“Undead Effective”
-"Singe"	"Anima"	"E"	"1-2"	5	3	80	0	40	“Magical”	“Undead Effective”
-"Elfire"	"Anima"	"D"	"1-2"	6	6	75	0	35	“Magical”	“Undead Effective”
-"Blazing Sun"	"Anima"	"D"	"1-2"	8	5	70	0	35	“Magical”	“Undead Effective”
-"Arcfire"	"Anima"	"C"	"1-2"	8	8	75	0	30	“Magical”	“Undead Effective”
-"Meteor"	"Anima"	"C"	"3-10"	20	10	65	0	5	“Magical”	“Undead Effective”
-"Inferno"	"Anima"	"B"	"1-2"	11	11	70	0	25	“Magical”	“Undead Effective”
-"Hellfire"	"Anima"	"B"	"1-2"	13	8	70	25	25	“Magical”	“Undead Effective”
-"Efreeti Fire"	"Anima"	"B"	"1-2"	14	32	75	0	25	“Magical”	“Undead Effective”
-"Flame Thrower"	"Anima"	"B"	"1-2"	11	9	70	0	25	“Legendary”	“Undead Effective”
-"Flame Shuriken"	"Anima"	"B"	"1-2"	11	8	70	10	25	“Legendary”	“Undead Effective”
-"Bolganone"	"Anima"	"A"	"1-2"	12	13	70	0	20	“Magical”	“Undead Effective”
-"Napalm"	"Anima"	"A"	"1-2"	14	13	65	5	20	“Magical”	“Undead Effective”
-"Forblaze"	"Anima"	"S"	"1-2"	16	16	70	5	15	“Magical”	“Undead Effective”
-"Armageddon"	"Anima"	"S"	"3-10"	20	13	75	0	10	“Magical”	“Undead Effective”
-"Flamberge"	"Anima"	"S"	"1-2"	16	14	75	0	15	“Legendary”	“Undead Effective”
-"Earthsplitter"	"Anima"	"S"	"1-2"	18	16	65	0	15	“Legendary”	“Undead Effective”
-"Wind"	"Wind"	"E"	"2-3"	4	3	90	0	40	“Magical”	“Pegasus Effective”
-"Ice Shard"	"Wind"	"E"	"1-2"	4	3	85	0	40	“Magical”	“Pegasus Effective”
-"Elwind"	"Wind"	"D"	"2-3"	4	4	90	0	35	“Magical”	“Pegasus Effective”
-"Icicle Shower"	"Wind"	"D"	"1-2"	6	5	85	0	35	“Magical”	“Pegasus Effective”
-"Arcwind"	"Wind"	"C"	"2-3"	8	6	85	0	30	“Magical”	“Pegasus Effective”
-"Blizzard"	"Wind"	"C"	"3-10"	18	8	75	0	5	“Magical”	“Pegasus Effective”
-"Vortex"	"Wind"	"B"	"2-3"	9	8	95	0	25	“Magical”	“Pegasus Effective”
-"Frost Nova"	"Wind"	"B"	"1-2"	12	7	75	25	25	“Magical”	“Pegasus Effective”
-"Wind Sword"	"Wind"	"B"	"1-2"	10	8	75	0	25	“Legendary”	“Pegasus Effective”
-"Tornado"	"Wind"	"A"	"2-3"	11	11	85	5	20	“Magical”	“Pegasus Effective”
-"Avalanche"	"Wind"	"A"	"1-3"	15	9	85	5	20	“Magical”	“Pegasus Effective”
-"Excalibur"	"Wind"	"S"	"2-3"	13	14	80	5	15	“Magical”	“Pegasus Effective”
-"Fimbulvetr"	"Wind"	"S"	"1-2"	14	13	85	10	15	“Magical”	“Pegasus Effective”
-"Fujin Yumi"	"Wind"	"S"	"2-3"	16	13	90	0	15	“Legendary”	“Pegasus Effective”
-"Thunder"	"Thunder"	"E"	"1-2"	6	5	70	5	40	“Magical”	“Monster Effective”
-"Jolt"	"Thunder"	"E"	"1-2"	6	4	75	0	40	“Magical”	“Monster Effective”
-"Elthunder"	"Thunder"	"D"	"1-2"	7	7	65	5	35	“Magical”	“Monster Effective”
-"Primer Bolt"	"Thunder"	"D"	"1-2"	6	5	70	10	35	“Magical”	“Monster Effective”
-"Arcthunder"	"Thunder"	"C"	"1-2"	10	9	65	10	30	“Magical”	“Monster Effective”
-"Bolting"	"Thunder"	"C"	"3-10"	22	11	55	10	5	“Magical”	“Monster Effective”
-"Killer Thunder"	"Thunder"	"C"	"1-2"	11	7	60	25	30	“Magical”	“Monster Effective”
-"Storm"	"Thunder"	"B"	"1-2"	13	11	60	15	25	“Magical”	“Monster Effective”
-"Paraball"	"Thunder"	"B"	"1-2"	12	7	60	5	25	“Magical”	“Monster Effective”
-"Bolt Axe"	"Thunder"	"B"	"1-2"	17	12	60	10	25	“Legendary”	“Monster Effective”
-"Thundergun"	"Thunder"	"B"	"1-2"	21	32	70	15	25	“Legendary”	“Monster Effective”
-"Thoron"	"Thunder"	"A"	"1-2"	15	13	65	15	20	“Magical”	“Monster Effective”
-"Dire Thunder"	"Thunder"	"A"	"1-2"	16	9	60	0	20	“Magical”	“Monster Effective”
-"Titan Thunder"	"Thunder"	"A"	"1-2"	18	40	60	15	20	“Magical”	“Monster Effective”
-"Mjollnir"	"Thunder"	"S"	"1-2"	18	15	65	20	15	“Magical”	“Monster Effective”
-"Blitz Bolt"	"Thunder"	"S"	"1-2"	20	14	60	5	15	“Magical”	“Monster Effective”
-"Gungnir"	"Thunder"	"S"	"1-2"	18	15	65	10	15	“Legendary”	“Monster Effective”
-"Lightning"	"Lightning"	"E"	"1-2"	4	3	80	5	40	“Magical”	“None”
-"Photon"	"Lightning"	"E"	"1-2"	5	2	90	10	40	“Magical”	“None”
-"Shine"	"Lightning"	"D"	"1-2"	5	4	80	10	35	“Magical”	“None”
-"Moonlight"	"Lightning"	"D"	"1-2"	7	4	80	10	35	“Magical”	“None”
-"Divine"	"Lightning"	"C"	"1-2"	6	5	75	15	30	“Magical”	“None”
-"Resire"	"Lightning"	"C"	"1-2"	13	6	70	0	30	“Magical”	“None”
-"Light Brand"	"Lightning"	"C"	"1-2"	12	8	75	0	30	“Magical”	“None”
-"Aurora"	"Lightning"	"B"	"1-2"	9	7	70	20	25	“Magical”	“None”
-"Purge"	"Lightning"	"B"	"3-10"	17	7	70	15	5	“Magical”	“None”
-"Angel Light"	"Lightning"	"B"	"1-2"	13	28	75	10	25	“Magical”	“None”
-"Bright Bow"	"Lightning"	"B"	"2-3"	10	8	80	0	25	“Legendary”	“None”
-"Aura"	"Lightning"	"A"	"1-2"	12	9	70	25	20	“Magical”	“None”
-"Starlight"	"Lightning"	"A"	"1-2"	13	9	80	10	20	“Magical”	“None”
-"Luce"	"Lightning"	"S"	"1-2"	15	11	70	30	15	“Magical”	“None”
-"Naga"	"Lightning"	"S"	"1-2"	14	11	80	20	15	“Magical”	“None”
-"Longinus"	"Lightning"	"S"	"1-2"	14	12	80	5	15	“Legendary”	“None”
-"Prelude"	"Judgement"	"E"	"1-2"	5	4	80	0	40	“Magical”	“None”
-"Flash"	"Judgement"	"E"	"1-2"	4	3	85	0	40	“Magical”	“None”
-"Ray"	"Judgement"	"D"	"1-2"	7	5	90	0	35	“Magical”	“None”
-"Thani"	"Judgement"	"D"	"1-2"	8	4	85	0	35	“Magical”	“None”
-"Cleanse"	"Judgement"	"C"	"1-2"	10	8	85	0	30	“Magical”	“None”
-"Leviathan"	"Judgement"	"C"	"1-2"	8	5	80	0	30	“Magical”	“None”
-"God Hand"	"Judgement"	"B"	"1-2"	12	10	85	0	25	“Magical”	“None”
-"Retribution"	"Judgement"	"B"	"1-2"	11	6	75	0	25	“Magical”	“None”
-"Valaura"	"Judgement"	"A"	"1-2"	13	12	85	0	20	“Magical”	“None”
-"Avalon"	"Judgement"	"A"	"1-2"	14	9	75	0	20	“Magical”	“None”
-"Creiddylad"	"Judgement"	"S"	"1-2"	16	15	85	0	15	“Magical”	“None”
-"White Lightning"	"Judgement"	"S"	"1-2"	18	7	75	0	15	“Magical”	“None”
-"Blessed Iron"	"Warding"	"E"	"1-2"	5	3	75	0	40	“Magical”	“None”
-"Light Screen"	"Warding"	"E"	"1-2"	6	4	70	0	40	“Magical”	“None”
-"Celestial Fire"	"Warding"	"D"	"1-2"	6	5	70	0	35	“Magical”	“None”
-"Sacred Armor"	"Warding"	"D"	"1-2"	7	4	85	0	35	“Magical”	“None”
-"Sacred Steel"	"Warding"	"C"	"1-2"	8	6	75	0	30	“Magical”	“None”
-"Magic Seal"	"Warding"	"C"	"1-2"	9	7	70	0	30	“Magical”	“None”
-"Blessed Halberd"	"Warding"	"C"	"1-2"	11	6	75	0	30	“Legendary”	“None”
-"Divine Thunder"	"Warding"	"B"	"1-2"	10	7	70	10	25	“Magical”	“None”
-"Communion"	"Warding"	"B"	"1-2"	11	8	75	0	25	“Magical”	“None”
-"Divine Silver"	"Warding"	"A"	"1-2"	13	10	70	5	20	“Magical”	“None”
-"Light Barrier"	"Warding"	"A"	"1-2"	14	11	70	0	20	“Magical”	“None”
-"Great Barrier"	"Warding"	"S"	"1-2"	17	12	75	0	15	“Magical”	“None”
-"Divine Ward"	"Warding"	"S"	"1-2"	18	11	70	15	15	“Magical”	“None”
-"Flux"	"Worm"	"E"	"1-2"	7	6	70	0	40	“Magical”	“None”
-"Worm"	"Worm"	"E"	"1-2"	6	4	80	5	40	“Magical”	“None”
-"Carrion"	"Worm"	"D"	"1-2"	9	8	70	0	35	“Magical”	“None”
-"Hex"	"Worm"	"D"	"1-2"	10	8	60	0	35	“Magical”	“None”
-"Sin"	"Worm"	"C"	"1-2"	12	11	65	0	30	“Magical”	“None”
-"Hel"	"Worm"	"C"	"3-10"	14	--	55	--	5	“Magical”	“None”
-"Mire"	"Worm"	"C"	"1-3"	12	8	60	0	30	“Magical”	“None”
-"Ruin"	"Worm"	"B"	"1-2"	14	13	65	0	25	“Magical”	“None”
-"Luna"	"Worm"	"B"	"1-2"	15	0	60	0	25	“Magical”	“None”
-"Shadowshot"	"Worm"	"B"	"3-10"	20	12	55	0	5	“Magical”	“None”
-"Dark Dagger"	"Worm"	"B"	"1-2"	12	9	70	5	20	“Legendary”	“None”
-"Faust"	"Worm"	"B"	"1-2"	16	36	65	5	20	“Magical”	“None”
-"Fenrir"	"Worm"	"A"	"1-2"	15	15	65	0	20	“Magical”	“None”
-"Gravity"	"Worm"	"A"	"1-2"	17	11	60	0	20	“Magical”	“None”
-"Rune Sabre"	"Worm"	"A"	"1-2"	15	8	65	0	20	“Legendary”	“None”
-"Runic Axe"	"Worm"	"A"	"1-2"	20	11	60	0	20	“Legendary”	“None”
-"Apocalypse"	"Worm"	"S"	"1-2"	19	18	65	5	15	“Magical”	“None”
-"Ereshkigal"	"Worm"	"S"	"1-2"	19	16	90	0	15	“Magical”	“None”
-"Miasma"	"Grimoire"	"E"	"1"	7	8	70	0	40	“Magical”	“None”
-"Shade"	"Grimoire"	"E"	"1"	7	7	75	5	40	“Magical”	“None”
-"Banshee"	"Grimoire"	"D"	"1"	9	9	70	10	35	“Magical”	“None”
-"Nosferatu"	"Grimoire"	"D"	"1"	11	7	70	0	35	“Magical”	“None”
-"Acid"	"Grimoire"	"D"	"1"	10	7	65	5	35	“Magical”	“None”
-"Goeti"	"Grimoire"	"C"	"1"	10	11	75	0	30	“Magical”	“None”
-"Death"	"Grimoire"	"C"	"1"	12	9	65	25	30	“Magical”	“None”
-"Dark Spikes"	"Grimoire"	"C"	"1"	13	9	65	0	30	“Magical”	“None”
-"Void"	"Grimoire"	"B"	"1"	12	13	70	5	25	“Magical”	“None”
-"Waste"	"Grimoire"	"B"	"1"	15	10	50	0	25	“Magical”	“None”
-"Warlock Fist"	"Grimoire"	"B"	"1"	12	-0	70	10	25	“Magical”	“None”
-"Nightmare"	"Grimoire"	"A"	"1"	14	15	70	10	20	“Magical”	“None”
-"Janura"	"Grimoire"	"A"	"1"	16	13	60	0	20	“Magical”	“None”
-"Naglfar"	"Grimoire"	"S"	"1"	18	18	65	15	15	“Magical”	“None”
-"Loptous"	"Grimoire"	"S"	"1"	19	13	65	10	15	“Magical”	“None”
-"Vorpal Blade"	"Grimoire"	"S"	"1-2"	20	17	65	0	15	“Legendary”	“None”
-"Swarm"	"Ancient"	"E"	"1-2"	6	5	65	0	40	“Magical”	“None”
-"Hustle"	"Ancient"	"E"	"1-2"	7	5	70	0	40	“Magical”	“None”
-"Toxic"	"Ancient"	"D"	"1-2"	9	7	65	5	35	“Magical”	“None”
-"Eclipse"	"Ancient"	"D"	"1-2"	10	6	65	0	35	“Magical”	“None”
-"Jormungand"	"Ancient"	"C"	"1-2"	12	8	60	0	30	“Magical”	“None”
-"Tomaharn"	"Ancient"	"C"	"1-2"	11	8	60	0	30	“Magical”	“None”
-"Gorgon Eye"	"Ancient"	"B"	"1-2"	14	9	55	0	25	“Magical”	“None”
-"Carreau"	"Ancient"	"B"	"1-2"	13	10	60	5	25	“Magical”	“None”
-"Black Firebomb"	"Ancient"	"B"	"1-2"	12	7	65	0	25	“Legendary”	“None”
-"Zahhak"	"Ancient"	"A"	"1-2"	0	11	60	0	20	“Magical”	“None”
-"Verrine"	"Ancient"	"A"	"1-2"	0	13	65	0	20	“Magical”	“None”
-"Blackout Bow"	"Ancient"	"A"	"1-2"	0	9	70	0	20	“Legendary”	“None”
-"Gespenst"	"Ancient"	"S"	"1-2"	0	14	60	0	15	“Magical”	“None”
-"Balberith"	"Ancient"	"S"	"1-2"	0	15	55	0	15	“Magical”	“None”
-"Heal"	"Healing"	"E"	“1”	0	0	--	0	30	“Noncombat”	“None”
-"Antidote"	"Healing"	"E"	"1"	0	0	--	0	30	“Noncombat”	“None”
-"Mend"	"Healing"	"D"	"1"	0	0	--	0	25	“Noncombat”	“None”
-"Soothe"	"Healing"	"D"	"1"	0	0	--	0	25	“Noncombat”	“None”
-"Inspire"	"Healing"	"C"	"1-3"	0	0	--	0	20	“Noncombat”	“None”
-"Kia"	"Healing"	"C"	"1"	0	0	--	0	20	“Noncombat”	“None”
-"Physic"	"Healing"	"B"	"1-MAG/2"	0	0	--	0	15	“Noncombat”	“None”
-"Recover"	"Healing"	"B"	"1"	0	0	--	0	15	“Noncombat”	“None”
-"Restore"	"Healing"	"A"	"1"	0	0	--	0	10	“Noncombat”	“None”
-"Rejuvenate"	"Healing"	"A"	"1-MAG/2"	0	0	--	0	10	“Noncombat”	“None”
-"Fortify"	"Healing"	"S"	"1-MAG/2"	0	0	--	0	5	“Noncombat”	“None”
-"Aum"	"Healing"	"S"	"1"	0	0	--	0	5	“Noncombat”	“None”
-"Clear"	"Bluffing"	"E"	"1"	0	0	--	0	30	“Noncombat”	“None”
-"Shove"	"Bluffing"	"E"	"1-MAG/2"	0	0	--	0	30	“Noncombat”	“None”
-"Barrier"	"Bluffing"	"D"	"1"	0	0	--	0	25	“Noncombat”	“None”
-"Rescue"	"Bluffing"	"D"	"1-MAG/2"	0	0	--	0	25	“Noncombat”	“None”
-"Sharpness"	"Bluffing"	"C"	"1"	0	0	--	0	20	“Noncombat”	“None”
-"Quickness"	"Bluffing"	"C"	"1"	0	0	--	0	20	“Noncombat”	“None”
-"Warp"	"Bluffing"	"B"	"1-MAG/2"	0	0	--	0	15	“Noncombat”	“None”
-"Teleport"	"Bluffing"	"B"	"1-MAG/2"	0	0	--	0	15	“Noncombat”	“None”
-"Majestic"	"Bluffing"	"A"	"1"	0	0	--	0	10	“Noncombat”	“None”
-"Mystic"	"Bluffing"	"A"	"1"	0	0	--	0	10	“Noncombat”	“None”
-"Relocate"	"Bluffing"	"S"	"1-MAG/2"	0	0	--	0	5	“Noncombat”	“None”
-"Slow"	"Ailment"	"E"	"1-MAG/2"	0	0	25	0	30	“Noncombat”	“None”
-"Befuddle"	"Ailment"	"E"	"1-MAG/2"	0	0	25	0	30	“Noncombat”	“None”
-"Misfortune"	"Ailment"	"D"	"1-MAG/2"	0	0	30	0	25	“Noncombat”	“None”
-"Poison"	"Ailment"	"D"	"1-MAG/2"	0	0	30	0	25	“Noncombat”	“None”
-"Sleep"	"Ailment"	"C"	"1-MAG/2"	0	0	20	0	20	“Noncombat”	“None”
-"Berserk"	"Ailment"	"C"	"1-MAG/2"	0	0	20	0	20	“Noncombat”	“None”
-"Silence"	"Ailment"	"B"	"1-MAG/2"	0	0	15	0	15	“Noncombat”	“None”
-"Addle"	"Ailment"	"B"	"1-MAG/2"	0	0	15	0	15	“Noncombat”	“None”
-"Paralyze"	"Ailment"	"A"	"1-MAG/2"	0	0	10	0	10	“Noncombat”	“None”
-"Weakness"	"Ailment"	"A"	"1-MAG/2"	0	0	20	0	10	“Noncombat”	“None”
-"Turncoat"	"Ailment"	"S"	"1-MAG/2"	0	0	10	0	5	“Noncombat”	“None”
-"Suffocate"	"Ailment"	"S"	"1-MAG/2"	0	0	10	0	5	“Noncombat”	“None”
-"Surprising Shimmy"	"Dance"	"E"	"Adjacent"	0	0	25	0	30	“Noncombat”	“None”
-"Distracting Dance"	"Dance"	"E"	"Adjacent"	0	0	25	0	30	“Noncombat”	“None”
-"Enamoring Step"	"Dance"	"D"	"Adjacent"	0	0	15	0	25	“Noncombat”	“None”
-"Disarming Swing"	"Dance"	"D"	"Adjacent"	0	0	20	0	25	“Noncombat”	“None”
-"Sickening Spin"	"Dance"	"D"	"Adjacent"	0	0	30	0	25	“Noncombat”	“None”
-"Vixen’s Waltz"	"Dance"	"C"	"Adjacent"	0	0	15	0	20	“Noncombat”	“None”
-"Enchanting Tango"	"Dance"	"C"	"Adjacent"	0	0	15	0	20	“Noncombat”	“None”
-"Exposing Break"	"Dance"	"C"	"Adjacent"	0	0	20	0	20	“Noncombat”	“None”
-"Sapping Samba"	"Dance"	"B"	"Adjacent"	0	0	15	0	15	“Noncombat”	“None”
-"Slumbering Shuffle"	"Dance"	"B"	"Adjacent"	0	0	10	0	15	“Noncombat”	“None”
-"Denial Dance"	"Dance"	"A"	"Adjacent"	0	0	10	0	10	“Noncombat”	“None”
-"Shut Down Shut Out"	"Dance"	"A"	"Adjacent"	0	0	5	0	10	“Noncombat”	“None”
-"Petrifying Twist"	"Dance"	"S"	"Adjacent"	0	0	5	0	5	“Noncombat”	“None”
-"Valkyrie’s Arrival"	"Dance"	"S"	"Adjacent"	0	0	15	0	5	“Noncombat”	“None”
-"Hermes’ Whistle"	"Lyric"	"E"	"Adjacent"	0	0	200	0	30	“Noncombat”	“None”
-"Artemis’ Song"	"Lyric"	"E"	"Adjacent"	0	0	200	0	30	“Noncombat”	“None”
-"Lucky Stars"	"Lyric"	"E"	"Adjacent"	0	0	200	0	30	“Noncombat”	“None”
-"War Cheer"	"Lyric"	"D"	"Adjacent"	0	0	200	0	25	“Noncombat”	“None”
-"Menhit’s Whisper"	"Lyric"	"D"	"Adjacent"	0	0	200	0	25	“Noncombat”	“None”
-"Blissful Melody"	"Lyric"	"C"	"Adjacent"	0	0	200	0	20	“Noncombat”	“None”
-"Thor’s Ire"	"Lyric"	"C"	"Adjacent"	0	0	200	0	20	“Noncombat”	“None”
-"Army Rally"	"Lyric"	"B"	"Adjacent"	0	0	200	0	15	“Noncombat”	“None”
-"Mighty Refrain"	"Lyric"	"B"	"Adjacent"	0	0	200	0	15	“Noncombat”	“None”
-"Ninis’ Grace"	"Lyric"	"B"	"Adjacent"	0	0	200	0	15	“Noncombat”	“None”
-"Hanon’s Tune"	"Lyric"	"A"	"Adjacent"	0	0	200	0	10	“Noncombat”	“None”
-"Set’s Litany"	"Lyric"	"A"	"Adjacent"	0	0	200	0	10	“Noncombat”	“None”
-"Filla’s Might"	"Lyric"	"S"	"Adjacent"	0	0	200	0	5	“Noncombat”	“None”
-"Elimine’s Ballad"	"Lyric"	"S"	"Adjacent"	0	0	200	0	5	“Noncombat”	“None”
-"Soldier’s Drum"	"Instrument"	"E"	"Adjacent"	0	0	200	0	30	“Noncombat”	“None”
-"Charming Flute"	"Instrument"	"E"	"Adjacent"	0	0	200	0	30	“Noncombat”	“None”
-"Warding Lute"	"Instrument"	"D"	"Adjacent"	0	0	200	0	25	“Noncombat”	“None”
-"Vagrant Whistle"	"Instrument"	"D"	"Adjacent"	0	0	200	0	25	“Noncombat”	“None”
-"Gentle Flute"	"Instrument"	"C"	"Adjacent"	0	0	200	0	20	“Noncombat”	“None”
-"Glory Chime"	"Instrument"	"C"	"Adjacent"	0	0	200	0	20	“Noncombat”	“None”
-"Dragon Flute"	"Instrument"	"B"	"Adjacent"	0	0	200	0	15	“Noncombat”	“None”
-"Sacae’s Whistle"	"Instrument"	"B"	"Adjacent"	0	0	200	0	15	“Noncombat”	“None”
-"Repelling Bagpipes"	"Instrument"	"A"	"Adjacent"	0	0	200	0	10	“Noncombat”	“None”
-"Romantic Guitar"	"Instrument"	"A"	"Adjacent"	0	0	200	0	10	“Noncombat”	“None”
-"Divine Harp"	"Instrument"	"S"	"Adjacent"	0	0	200	0	5	“Noncombat”	“None”
-"Solar Gong"	"Instrument"	"S"	"Adjacent"	0	0	200	0	5	“Noncombat”	“None”
+Name	Type	Rank	Min RNG	Max RNG	MT	WT	Hit	Crit	QL	Category	Bonus
+"Claws"	“Null”	“F”	1	1	7	5	85	0	1000	“Physical”	“None”
+"Rusted Sword"	"Slashing"	"F"	1	1	3	4	75	0	20	“Physical”	“None”
+"Rusted Lance"	"Piercing"	"F"	1	1	5	7	70	0	20	“Physical”	“None”
+"Shoddy Bow"	"Recurve"	"F"	2	2	4	5	75	0	20	“Physical”	“None”
+"Iron Sword"	"Slashing"	"E"	1	1	4	5	85	0	40	“Physical”	“None”
+"Devil Sword"	"Slashing"	"E"	1	1	13	15	65	0	40	“Physical”	“Unlucky”
+"Steel Sword"	"Slashing"	"D"	1	1	6	7	80	5	35	“Physical”	“None”
+"Quick Sword"	"Slashing"	"D"	1	1	5	2	85	0	40	“Physical”	“Followup”
+"Silver Sword"	"Slashing"	"C"	1	1	7	8	80	10	30	“Physical”	“None”
+"Killing Edge"	"Slashing"	"C"	1	1	10	7	75	25	30	“Physical”	“None”
+"Sabre"	"Slashing"	"B"	1	1	10	9	75	20	25	“Physical”	“None”
+"Brave Sword"	"Slashing"	"B"	1	1	13	7	70	0	30	“Physical”	“Brave”
+"Katana"	"Slashing"	"A"	1	1	12	10	80	25	20	“Physical”	“None”
+"Rune Sabre"	"Slashing"	"A"	1	2	15	8	65	0	20	“Legendary”	“None”
+"Wo Dao"	"Slashing"	"S"	1	1	14	11	85	30	15	“Physical”	“None”
+"Valmanway"	"Slashing"	"S"	1	1	15	9	80	10	20	“Physical”	“None”
+"Slim Sword"	"Thrusting"	"E"	1	1	4	3	100	5	40	“Physical”	“Brave”
+"Iron Rapier"	"Thrusting"	"E"	1	1	4	6	75	0	40	“Physical”	“None”
+"Steel Rapier"	"Thrusting"	"D"	1	1	7	8	80	0	35	“Physical”	“None”
+"Longsword"	"Thrusting"	"D"	1	1	7	6	70	0	35	“Physical”	“Horseback Effective”
+"Silver Rapier"	"Thrusting"	"C"	1	1	9	10	75	5	30	“Physical”	“None”
+"Winged Rapier"	"Thrusting"	"C"	1	1	8	7	70	0	30	“Physical”	“Flying Effective”
+"Estoc"	"Thrusting"	"B"	1	1	12	11	70	0	25	“Physical”	“Armor-piercing”
+"Wind Sword"	"Thrusting"	"B"	1	2	10	8	75	0	25	“Legendary”	“None”
+"Fleuret"	"Thrusting"	"A"	1	1	12	13	80	10	20	“Physical”	“None”
+"Colichemarde"	"Thrusting"	"A"	1	1	13	10	70	5	20	“Physical”	“Horseback Effective”
+"Wyrmslayer"	"Thrusting"	"A"	1	1	14	11	65	0	20	“Physical”	“Wyvern Effective”
+"Joyeuse"	"Thrusting"	"S"	1	1	16	12	70	5	15	“Physical”	“Armor-piercing”
+"Sieglinde"	"Thrusting"	"S"	1	1	16	12	75	0	15	“Physical”	“Mounted”
+"Flamberge"	"Thrusting"	"S"	1	2	16	14	75	0	15	“Legendary”	“None”
+"Wooden Sword"	"Crushing"	"E"	1	1	5	6	80	0	40	“Physical”	“None”
+"Iron Blade"	"Crushing"	"E"	1	1	7	8	70	0	40	“Physical”	“None”
+"Steel Blade"	"Crushing"	"D"	1	1	9	10	70	0	35	“Physical”	“None”
+"Armorbreaker"	"Crushing"	"D"	1	1	10	8	70	0	35	“Physical”	“Armor-piercing”
+"Silver Blade"	"Crushing"	"C"	1	1	10	12	65	0	30	“Physical”	“None”
+"Lancereaver"	"Crushing"	"C"	1	1	9	9	70	5	30	“Physical”	“Reaver”
+"Light Brand"	"Crushing"	"C"	1	2	12	8	75	0	30	“Physical”	“None”
+"Broadsword"	"Crushing"	"B"	1	1	13	14	65	5	25	“Physical”	“None”
+"Armorslayer"	"Crushing"	"B"	1	1	16	11	60	0	25	“Physical”	“Armor effective”
+"Mage Masher"	"Crushing"	"B"	1	1	13	9	75	0	25	“Physical”	“Levitation”
+"Zweihander"	"Crushing"	"A"	1	1	14	16	70	0	20	“Physical”	“None”
+"Claymore"	"Crushing"	"A"	1	2	16	14	75	5	20	“Physical”	“None”
+"Falchion"	"Crushing"	"S"	1	1	17	18	70	10	15	“Physical”	“None”
+"Durandal"	"Crushing"	"S"	1	1	18	13	70	0	15	“Physical”	“Wyvern”
+"Vorpal Blade"	"Crushing"	"S"	1	2	20	17	65	0	15	“Legendary”	“None”
+"Slim Lance"	"Piercing"	"E"	1	1	5	5	85	5	40	“Physical”	“None”
+"Iron Lance"	"Piercing"	"E"	1	1	7	7	80	0	40	“Physical”	“None”
+"Devil Lance"	"Piercing"	"E"	1	1	14	16	60	0	40	“Physical”	“None”
+"Steel Lance"	"Piercing"	"D"	1	1	8	9	75	0	35	“Physical”	“Unlucky”
+"Heavy Lance"	"Piercing"	"D"	1	1	10	8	70	0	35	“Physical”	“Armor-piercing”
+"Silver Lance"	"Piercing"	"C"	1	1	10	11	75	0	30	“Physical”	“None”
+"Killer Lance"	"Piercing"	"C"	1	1	11	8	70	25	30	“Physical”	“None”
+"Axereaver"	"Piercing"	"C"	1	1	10	10	65	5	30	“Physical”	“Reaver”
+"Great Lance"	"Piercing"	"B"	1	1	12	13	70	5	25	“Physical”	“None”
+"Brave Lance"	"Piercing"	"B"	1	1	16	9	65	0	30	“Physical”	“Brave”
+"Greater Lance"	"Piercing"	"A"	1	1	14	15	70	10	20	“Physical”	“None”
+"Borehole"	"Piercing"	"A"	1	1	15	11	65	5	20	“Physical”	“Armor effective”
+"Rex Hasta"	"Piercing"	"S"	1	1	18	17	75	15	15	“Physical”	“None”
+"Gungnir"	"Piercing"	"S"	1	2	18	15	65	10	15	“Legendary”	“None”
+"Iron Javelin"	"Spear"	"E"	1	2	6	5	75	0	40	“Physical”	“None”
+"Iron Pilum"	"Spear"	"E"	2	2	7	3	80	0	40	“Physical”	“Followup”
+"Steel Javelin"	"Spear"	"D"	1	2	8	7	75	0	35	“Physical”	“None”
+"Wing Clipper"	"Spear"	"D"	1	2	10	5	75	5	35	“Physical”	“Pegasus Effective”
+"Silver Javelin"	"Spear"	"C"	1	2	9	9	70	0	30	“Physical”	“None”
+"Steel Pilum"	"Spear"	"C"	2	2	10	7	75	0	30	“Physical”	“Followup”
+"Short Spear"	"Spear"	"B"	1	2	11	11	70	0	25	“Physical”	“None”
+"Flame Thrower"	"Spear"	"B"	1	2	11	9	70	0	25	“Legendary”	“None”
+"Trident"	"Spear"	"A"	1	2	13	13	70	5	20	“Physical”	“None”
+"Silver Pilum"	"Spear"	"A"	2	2	14	12	70	0	20	“Physical”	“Followup”
+"Gae Bolg"	"Spear"	"S"	1	2	17	16	70	10	15	“Physical”	“None”
+"Longinus"	"Spear"	"S"	1	2	14	12	80	5	15	“Legendary”	“None”
+"Iron Halberd"	"Polearm"	"E"	1	1	8	7	70	0	40	“Physical”	“Antimount”
+"Pike"	"Polearm"	"E"	1	1	9	6	80	10	40	“Physical”	“Pike”
+"Steel Halberd"	"Polearm"	"D"	1	1	10	9	70	0	35	“Physical”	“Antimount”
+"Glaive"	"Polearm"	"D"	1	1	10	7	70	0	35	“Physical”	“Horseback Effective”
+"Silver Halberd"	"Polearm"	"C"	1	1	13	12	65	0	30	“Physical”	“Antimount”
+"Flak Halberd"	"Polearm"	"C"	1	1	11	7	80	5	30	“Physical”	“Pegasus Effective”
+"Blessed Halberd"	"Polearm"	"C"	1	2	11	6	75	0	30	“Legendary”	“Blessed”
+"Alabarda"	"Polearm"	"B"	1	1	15	13	65	0	25	“Physical”	“Alabarda”
+"Dragoon Pike"	"Polearm"	"B"	1	1	15	10	70	0	25	“Physical”	“Wyvern Effective”
+"Bec de Corbin"	"Polearm"	"A"	1	1	17	17	70	5	20	“Physical”	“Antimount”
+"Partizan"	"Polearm"	"A"	1	1	17	12	65	0	20	“Physical”	“Horseback Effective”
+"Lunar Halberd"	"Polearm"	"A"	1	1	19	13	60	0	20	“Physical”	“Armor Effective”
+"Siegmund"	"Polearm"	"S"	1	1	19	13	70	5	15	“Physical”	“Mounted Effective”
+"Gradivus"	"Polearm"	"S"	1	1	20	19	75	10	15	“Physical”	“None”
+"Iron Axe"	"Hacking"	"E"	1	1	8	8	75	0	40	“Physical”	“None”
+"Devil Axe"	"Hacking"	"E"	1	1	16	17	60	0	40	“Physical”	“Unlucky”
+"Steel Axe"	"Hacking"	"D"	1	1	11	11	70	0	35	“Physical”	“None”
+"Poleaxe"	"Hacking"	"D"	1	1	12	8	65	0	35	“Physical”	“Horseback Effective”
+"Silver Axe"	"Hacking"	"C"	1	1	12	13	65	0	30	“Physical”	“None”
+"Killer Axe"	"Hacking"	"C"	1	1	14	10	65	25	30	“Physical”	“None”
+"Swordreaver"	"Hacking"	"C"	1	1	12	11	65	5	25	“Physical”	“Reaver”
+"Crescent Axe"	"Hacking"	"B"	1	1	15	15	65	5	25	“Physical”	“None”
+"Brave Axe"	"Hacking"	"B"	1	1	17	10	60	0	30	“Physical”	“None”
+"Swordslayer"	"Hacking"	"B"	1	1	15	9	65	5	25	“Physical”	“Swordkiller”
+"Basilikos"	"Hacking"	"A"	1	1	18	18	60	10	20	“Physical”	“None”
+"Runic Axe"	"Hacking"	"A"	1	2	20	11	60	0	20	“Legendary”	“Draining”
+"Golden Axe"	"Hacking"	"S"	1	1	20	20	65	10	15	“Physical”	“None”
+"Armads"	"Hacking"	"S"	1	1	22	15	60	0	15	“Physical”	“Wyvern Effective”
+"Quarterstaff"	"Bludgeon"	"E"	1	1	7	7	80	0	40	“Physical”	“None”
+"Iron Mace"	"Bludgeon"	"E"	1	1	8	8	75	0	40	“Physical”	“None”
+"Steel Mace"	"Bludgeon"	"D"	1	1	10	9	70	0	35	“Physical”	“Minor Armorpiercing”
+"Hammer"	"Bludgeon"	"D"	1	1	15	9	65	0	35	“Physical”	“None”
+"Silver Mace"	"Bludgeon"	"C"	1	1	12	10	70	0	30	“Physical”	“None”
+"Warhammer"	"Bludgeon"	"C"	1	1	18	11	60	0	30	“Physical”	“None”
+"Morningstar"	"Bludgeon"	"B"	1	1	14	12	70	0	25	“Physical”	“None”
+"Provost’s Mace"	"Bludgeon"	"B"	1	1	15	10	70	0	25	“Physical”	“None”
+"Maul"	"Bludgeon"	"A"	1	1	15	14	70	0	20	“Physical”	“None”
+"Ball and Chain"	"Bludgeon"	"A"	1	2	17	16	65	0	20	“Physical”	“None”
+"Lucerne"	"Bludgeon"	"S"	1	1	18	17	70	0	15	“Physical”	“None”
+"Sharur"	"Bludgeon"	"S"	1	1	22	15	60	0	15	“Physical”	“None”
+"Earthsplitter"	"Bludgeon"	"S"	1	2	18	16	65	0	15	“Legendary”	“None”
+"Hatchet"	"Throwing"	"E"	1	2	6	4	80	5	40	“Physical”	“None”
+"Hand Axe"	"Throwing"	"E"	1	2	9	7	70	0	40	“Physical”	“None”
+"Steel Hand"	"Throwing"	"D"	1	2	11	9	70	0	35	“Physical”	“None”
+"Poison Hand"	"Throwing"	"D"	1	2	10	7	70	5	35	“Physical”	“None”
+"Silver Hand"	"Throwing"	"C"	1	2	14	12	65	0	30	“Physical”	“None”
+"Short Axe"	"Throwing"	"C"	1	2	11	9	80	0	30	“Physical”	“None”
+"Francisca"	"Throwing"	"B"	1	2	15	13	60	10	25	“Physical”	“None”
+"Bolt Axe"	"Throwing"	"B"	1	2	17	12	60	10	25	“Legendary”	“None”
+"Tomahawk"	"Throwing"	"A"	1	2	18	16	60	10	20	“Physical”	“None”
+"Merciless"	"Throwing"	"A"	1	2	19	14	55	25	20	“Physical”	“None”
+"Master Hand"	"Throwing"	"S"	1	2	21	18	60	15	15	“Physical”	“None”
+"Volant Axe"	"Throwing"	"S"	1	2	20	12	75	0	15	“Physical”	“None”
+"Iron Dagger"	"Dagger"	"E"	1	1	4	4	85	10	40	“Physical”	“None”
+"Devil Dagger"	"Dagger"	"E"	1	1	12	14	70	0	40	“Physical”	“None”
+"Steel Dagger"	"Dagger"	"D"	1	1	5	6	80	10	35	“Physical”	“None”
+"Parrying Dagger"	"Dagger"	"D"	1	1	7	5	80	5	35	“Physical”	“None”
+"Silver Dagger"	"Dagger"	"C"	1	1	7	7	80	10	30	“Physical”	“None”
+"Cutthroat"	"Dagger"	"C"	1	1	9	6	80	25	30	“Physical”	“None”
+"Cinquedea"	"Dagger"	"B"	1	1	10	9	80	10	25	“Physical”	“None”
+"Swordbreaker"	"Dagger"	"B"	1	1	12	8	80	5	25	“Physical”	“None”
+"Dark Dagger"	"Dagger"	"B"	1	2	12	9	70	5	25	“Legendary”	“None”
+"Switchblade"	"Dagger"	"A"	1	1	12	10	85	15	20	“Physical”	“None”
+"Mercy"	"Dagger"	"A"	1	1	10	8	75	0	25	“Physical”	“None”
+"Death Dealer"	"Dagger"	"S"	1	1	14	11	80	20	15	“Physical”	“None”
+"Sacrificial Dagger"	"Dagger"	"S"	1	1	15	10	80	15	15	“Physical”	“None”
+"Iron Knife"	"Knife"	"E"	1	2	5	4	80	0	40	“Physical”	“None”
+"Chakram"	"Knife"	"E"	1	2	5	3	75	0	40	“Physical”	“None”
+"Steel Knife"	"Knife"	"D"	1	2	6	6	75	0	35	“Physical”	“None”
+"Shuriken"	"Knife"	"D"	1	2	8	6	70	10	35	“Physical”	“None”
+"Silver Knife"	"Knife"	"C"	1	2	8	7	80	0	30	“Physical”	“None”
+"Silencer"	"Knife"	"C"	1	2	9	6	70	0	30	“Physical”	“None”
+"Killer Shuriken"	"Knife"	"C"	1	2	10	6	65	25	30	“Physical”	“None”
+"Stiletto"	"Knife"	"B"	1	2	10	9	80	5	25	“Physical”	“None”
+"Flame Shuriken"	"Knife"	"B"	1	2	11	8	70	10	25	“Legendary”	“None”
+"Pinwheel"	"Knife"	"B"	1	2	12	8	70	0	25	“Physical”	“None”
+"Baselard"	"Knife"	"A"	1	2	12	11	80	10	20	“Physical”	“None”
+"Kaiser Knife"	"Knife"	"A"	1	2	15	7	70	0	24	“Physical”	“None”
+"The World"	"Knife"	"S"	1	2	18	10	75	0	15	“Physical”	“None”
+"Shred Shuriken"	"Knife"	"S"	1	2	15	10	70	10	15	“Physical”	“None”
+"Poison Dart"	"Exotic"	"E"	1	2	4	2	85	0	40	“Physical”	“None”
+"Bolas"	"Exotic"	"E"	1	2	4	2	80	0	40	“Physical”	“None”
+"Caltrops"	"Exotic"	"D"	1	2	5	2	85	0	35	“Physical”	“None”
+"Blinding Bomb"	"Exotic"	"D"	1	2	6	3	80	0	35	“Physical”	“None”
+"Glue Pack"	"Exotic"	"D"	1	2	5	3	75	0	35	“Physical”	“None”
+"Plague Dart"	"Exotic"	"C"	1	2	6	4	80	0	30	“Physical”	“None”
+"Spiked Bolas"	"Exotic"	"C"	1	2	7	5	70	5	30	“Physical”	“None”
+"Somniferum"	"Exotic"	"C"	1	2	6	4	75	0	30	“Physical”	“None”
+"Corrosive Acid"	"Exotic"	"B"	1	2	8	7	75	0	25	“Physical”	“None”
+"Hallucinogen"	"Exotic"	"B"	1	2	8	5	75	0	25	“Physical”	“None”
+"Black Firebomb"	"Exotic"	"B"	1	2	12	7	65	0	25	“Legendary”	“None”
+"Toxic Bomb"	"Exotic"	"A"	1	2	11	7	80	0	20	“Physical”	“None”
+"Neurotoxin Shot"	"Exotic"	"A"	1	2	9	6	85	0	20	“Physical”	“None”
+"Cursed Needle"	"Exotic"	"A"	1	2	10	7	80	0	20	“Physical”	“None”
+"Gyroblade"	"Exotic"	"S"	1	2	9	9	75	10	15	“Physical”	“None”
+"Armor Eater"	"Exotic"	"S"	1	2	10	8	75	0	15	“Physical”	“None”
+"Curare Dart"	"Exotic"	"S"	1	2	9	7	80	0	15	“Physical”	“None”
+"Training Bow"	"Recurve"	"E"	2	2	4	4	95	5	40	“Physical”	“Flying Effective”
+"Iron Bow"	"Recurve"	"E"	2	2	5	6	85	0	40	“Physical”	“Flying Effective”
+"Steel Bow"	"Recurve"	"D"	2	2	6	8	80	0	35	“Physical”	“Flying Effective”
+"Poison Bow"	"Recurve"	"D"	2	2	7	7	80	5	35	“Physical”	“Flying Effective”
+"Silver Bow"	"Recurve"	"C"	2	2	9	10	80	5	30	“Physical”	“Flying Effective”
+"Killer Bow"	"Recurve"	"C"	2	2	9	7	75	25	30	“Physical”	“Flying Effective”
+"Reflex Bow"	"Recurve"	"B"	2	2	10	11	80	10	25	“Physical”	“Flying Effective”
+"Brave Bow"	"Recurve"	"B"	2	2	12	7	70	0	30	“Physical”	“Flying Effective”
+"Crescent Bow"	"Recurve"	"A"	2	2	13	14	80	10	20	“Physical”	“Flying Effective”
+"Moon Bow"	"Recurve"	"A"	2	2	14	11	70	0	20	“Physical”	“Flying Effective”
+"Blackout Bow"	"Recurve"	"A"	1	2	14	9	70	0	20	“Legendary”	“Flying Effective”
+"Reinefleche"	"Recurve"	"S"	2	2	14	15	80	15	15	“Physical”	“Flying Effective”
+"Mulagir"	"Recurve"	"S"	2	2	16	14	85	15	15	“Physical”	“Flying Effective”
+"Iron Longbow"	"Longbow"	"E"	2	3	6	5	80	0	40	“Physical”	“Flying Effective”
+"Yew Bow"	"Longbow"	"E"	2	3	7	4	75	0	40	“Physical”	“Flying Effective”
+"Steel Longbow"	"Longbow"	"D"	2	3	7	7	75	0	35	“Physical”	“Flying Effective”
+"Eagle Longbow"	"Longbow"	"D"	2	3	8	5	80	15	35	“Physical”	“Flying Effective”
+"Silver Longbow"	"Longbow"	"C"	2	3	9	8	75	0	30	“Physical”	“Flying Effective”
+"Ballista Bow"	"Longbow"	"C"	2	3	12	7	65	0	30	“Physical”	“Flying Effective”
+"Yumi"	"Longbow"	"B"	2	3	11	11	75	0	25	“Physical”	“Flying Effective”
+"Sunset Longbow"	"Longbow"	"B"	2	3	10	7	75	0	25	“Physical”	“Flying Effective”
+"Bright Bow"	"Longbow"	"B"	2	3	10	8	80	0	25	“Legendary”	“Flying Effective”
+"Towering Bow"	"Longbow"	"A"	2	3	12	13	75	0	20	“Physical”	“Flying Effective”
+"Dreadwind"	"Longbow"	"A"	2	3	16	9	65	0	20	“Physical”	“Flying Effective”
+"Sagittarius"	"Longbow"	"S"	2	3	15	14	75	15	15	“Physical”	“Flying Effective”
+"Fujin Yumi"	"Longbow"	"S"	2	3	16	13	90	0	15	“Legendary”	“Flying Effective”
+"Wooden Greatbow"	"Greatbow"	"E"	2	2	5	6	85	0	40	“Physical”	“Flying Effective”
+"Iron Greatbow"	"Greatbow"	"E"	2	2	6	8	70	0	40	“Physical”	“Flying Effective”
+"Iron Crossbow"	"Greatbow"	"E"	1	2	14	24	75	0	40	“Physical”	“Flying Effective”
+"Steel Greatbow"	"Greatbow"	"D"	2	2	8	10	70	0	35	“Physical”	“Flying Effective”
+"Steel Crossbow"	"Greatbow"	"D"	1	2	15	28	75	0	35	“Physical”	“Flying Effective”
+"Metal Punch"	"Greatbow"	"D"	2	2	9	8	70	0	35	“Physical”	“Flying Effective”
+"Silver Greatbow"	"Greatbow"	"C"	2	2	10	12	70	0	30	“Physical”	“Flying Effective”
+"Silver Crossbow"	"Greatbow"	"C"	1	2	16	32	75	0	30	“Physical”	“Flying Effective”
+"Composite Bow"	"Greatbow"	"B"	2	2	13	15	65	0	25	“Physical”	“Flying Effective”
+"Taksh"	"Greatbow"	"B"	1	2	17	36	70	0	25	“Physical”	“Flying Effective”
+"Thundergun"	"Greatbow"	"B"	1	2	21	32	70	15	25	“Legendary”	“Flying Effective”
+"Twinhead Bow"	"Greatbow"	"A"	2	2	16	18	65	0	20	“Physical”	“Flying Effective”
+"Windlass Bow"	"Greatbow"	"A"	1	2	20	40	75	0	20	“Physical”	“Flying Effective”
+"Chu-Ko-Nu"	"Greatbow"	"A"	1	2	23	32	65	0	20	“Physical”	“Flying Effective”
+"Parthia"	"Greatbow"	"S"	2	2	19	20	65	10	15	“Physical”	“Flying Effective”
+"Arbalest"	"Greatbow"	"S"	1	2	22	44	70	5	15	“Physical”	“Flying Effective”
+"Fire"	"Anima"	"E"	1	2	4	4	75	0	40	“Magical”	“Undead Effective”
+"Singe"	"Anima"	"E"	1	2	5	3	80	0	40	“Magical”	“Undead Effective”
+"Elfire"	"Anima"	"D"	1	2	6	6	75	0	35	“Magical”	“Undead Effective”
+"Blazing Sun"	"Anima"	"D"	1	2	8	5	70	0	35	“Magical”	“Undead Effective”
+"Arcfire"	"Anima"	"C"	1	2	8	8	75	0	30	“Magical”	“Undead Effective”
+"Meteor"	"Anima"	"C"	3	10	20	10	65	0	5	“Magical”	“Undead Effective”
+"Inferno"	"Anima"	"B"	1	2	11	11	70	0	25	“Magical”	“Undead Effective”
+"Hellfire"	"Anima"	"B"	1	2	13	8	70	25	25	“Magical”	“Undead Effective”
+"Efreeti Fire"	"Anima"	"B"	1	2	14	32	75	0	25	“Magical”	“Undead Effective”
+"Flame Thrower"	"Anima"	"B"	1	2	11	9	70	0	25	“Legendary”	“Undead Effective”
+"Flame Shuriken"	"Anima"	"B"	1	2	11	8	70	10	25	“Legendary”	“Undead Effective”
+"Bolganone"	"Anima"	"A"	1	2	12	13	70	0	20	“Magical”	“Undead Effective”
+"Napalm"	"Anima"	"A"	1	2	14	13	65	5	20	“Magical”	“Undead Effective”
+"Forblaze"	"Anima"	"S"	1	2	16	16	70	5	15	“Magical”	“Undead Effective”
+"Armageddon"	"Anima"	"S"	3	10	20	13	75	0	10	“Magical”	“Undead Effective”
+"Flamberge"	"Anima"	"S"	1	2	16	14	75	0	15	“Legendary”	“Undead Effective”
+"Earthsplitter"	"Anima"	"S"	1	2	18	16	65	0	15	“Legendary”	“Undead Effective”
+"Wind"	"Wind"	"E"	2	3	4	3	90	0	40	“Magical”	“Pegasus Effective”
+"Ice Shard"	"Wind"	"E"	1	2	4	3	85	0	40	“Magical”	“Pegasus Effective”
+"Elwind"	"Wind"	"D"	2	3	4	4	90	0	35	“Magical”	“Pegasus Effective”
+"Icicle Shower"	"Wind"	"D"	1	2	6	5	85	0	35	“Magical”	“Pegasus Effective”
+"Arcwind"	"Wind"	"C"	2	3	8	6	85	0	30	“Magical”	“Pegasus Effective”
+"Blizzard"	"Wind"	"C"	3	10	18	8	75	0	5	“Magical”	“Pegasus Effective”
+"Vortex"	"Wind"	"B"	2	3	9	8	95	0	25	“Magical”	“Pegasus Effective”
+"Frost Nova"	"Wind"	"B"	1	2	12	7	75	25	25	“Magical”	“Pegasus Effective”
+"Wind Sword"	"Wind"	"B"	1	2	10	8	75	0	25	“Legendary”	“Pegasus Effective”
+"Tornado"	"Wind"	"A"	2	3	11	11	85	5	20	“Magical”	“Pegasus Effective”
+"Avalanche"	"Wind"	"A"	1	3	15	9	85	5	20	“Magical”	“Pegasus Effective”
+"Excalibur"	"Wind"	"S"	2	3	13	14	80	5	15	“Magical”	“Pegasus Effective”
+"Fimbulvetr"	"Wind"	"S"	1	2	14	13	85	10	15	“Magical”	“Pegasus Effective”
+"Fujin Yumi"	"Wind"	"S"	2	3	16	13	90	0	15	“Legendary”	“Pegasus Effective”
+"Thunder"	"Thunder"	"E"	1	2	6	5	70	5	40	“Magical”	“Monster Effective”
+"Jolt"	"Thunder"	"E"	1	2	6	4	75	0	40	“Magical”	“Monster Effective”
+"Elthunder"	"Thunder"	"D"	1	2	7	7	65	5	35	“Magical”	“Monster Effective”
+"Primer Bolt"	"Thunder"	"D"	1	2	6	5	70	10	35	“Magical”	“Monster Effective”
+"Arcthunder"	"Thunder"	"C"	1	2	10	9	65	10	30	“Magical”	“Monster Effective”
+"Bolting"	"Thunder"	"C"	3	10	22	11	55	10	5	“Magical”	“Monster Effective”
+"Killer Thunder"	"Thunder"	"C"	1	2	11	7	60	25	30	“Magical”	“Monster Effective”
+"Storm"	"Thunder"	"B"	1	2	13	11	60	15	25	“Magical”	“Monster Effective”
+"Paraball"	"Thunder"	"B"	1	2	12	7	60	5	25	“Magical”	“Monster Effective”
+"Bolt Axe"	"Thunder"	"B"	1	2	17	12	60	10	25	“Legendary”	“Monster Effective”
+"Thundergun"	"Thunder"	"B"	1	2	21	32	70	15	25	“Legendary”	“Monster Effective”
+"Thoron"	"Thunder"	"A"	1	2	15	13	65	15	20	“Magical”	“Monster Effective”
+"Dire Thunder"	"Thunder"	"A"	1	2	16	9	60	0	20	“Magical”	“Monster Effective”
+"Titan Thunder"	"Thunder"	"A"	1	2	18	40	60	15	20	“Magical”	“Monster Effective”
+"Mjollnir"	"Thunder"	"S"	1	2	18	15	65	20	15	“Magical”	“Monster Effective”
+"Blitz Bolt"	"Thunder"	"S"	1	2	20	14	60	5	15	“Magical”	“Monster Effective”
+"Gungnir"	"Thunder"	"S"	1	2	18	15	65	10	15	“Legendary”	“Monster Effective”
+"Lightning"	"Lightning"	"E"	1	2	4	3	80	5	40	“Magical”	“None”
+"Photon"	"Lightning"	"E"	1	2	5	2	90	10	40	“Magical”	“None”
+"Shine"	"Lightning"	"D"	1	2	5	4	80	10	35	“Magical”	“None”
+"Moonlight"	"Lightning"	"D"	1	2	7	4	80	10	35	“Magical”	“None”
+"Divine"	"Lightning"	"C"	1	2	6	5	75	15	30	“Magical”	“None”
+"Resire"	"Lightning"	"C"	1	2	13	6	70	0	30	“Magical”	“None”
+"Light Brand"	"Lightning"	"C"	1	2	12	8	75	0	30	“Magical”	“None”
+"Aurora"	"Lightning"	"B"	1	2	9	7	70	20	25	“Magical”	“None”
+"Purge"	"Lightning"	"B"	3	10	17	7	70	15	5	“Magical”	“None”
+"Angel Light"	"Lightning"	"B"	1	2	13	28	75	10	25	“Magical”	“None”
+"Bright Bow"	"Lightning"	"B"	2	3	10	8	80	0	25	“Legendary”	“None”
+"Aura"	"Lightning"	"A"	1	2	12	9	70	25	20	“Magical”	“None”
+"Starlight"	"Lightning"	"A"	1	2	13	9	80	10	20	“Magical”	“None”
+"Luce"	"Lightning"	"S"	1	2	15	11	70	30	15	“Magical”	“None”
+"Naga"	"Lightning"	"S"	1	2	14	11	80	20	15	“Magical”	“None”
+"Longinus"	"Lightning"	"S"	1	2	14	12	80	5	15	“Legendary”	“None”
+"Prelude"	"Judgement"	"E"	1	2	5	4	80	0	40	“Magical”	“None”
+"Flash"	"Judgement"	"E"	1	2	4	3	85	0	40	“Magical”	“None”
+"Ray"	"Judgement"	"D"	1	2	7	5	90	0	35	“Magical”	“None”
+"Thani"	"Judgement"	"D"	1	2	8	4	85	0	35	“Magical”	“None”
+"Cleanse"	"Judgement"	"C"	1	2	10	8	85	0	30	“Magical”	“None”
+"Leviathan"	"Judgement"	"C"	1	2	8	5	80	0	30	“Magical”	“None”
+"God Hand"	"Judgement"	"B"	1	2	12	10	85	0	25	“Magical”	“None”
+"Retribution"	"Judgement"	"B"	1	2	11	6	75	0	25	“Magical”	“None”
+"Valaura"	"Judgement"	"A"	1	2	13	12	85	0	20	“Magical”	“None”
+"Avalon"	"Judgement"	"A"	1	2	14	9	75	0	20	“Magical”	“None”
+"Creiddylad"	"Judgement"	"S"	1	2	16	15	85	0	15	“Magical”	“None”
+"White Lightning"	"Judgement"	"S"	1	2	18	7	75	0	15	“Magical”	“None”
+"Blessed Iron"	"Warding"	"E"	1	2	5	3	75	0	40	“Magical”	“None”
+"Light Screen"	"Warding"	"E"	1	2	6	4	70	0	40	“Magical”	“None”
+"Celestial Fire"	"Warding"	"D"	1	2	6	5	70	0	35	“Magical”	“None”
+"Sacred Armor"	"Warding"	"D"	1	2	7	4	85	0	35	“Magical”	“None”
+"Sacred Steel"	"Warding"	"C"	1	2	8	6	75	0	30	“Magical”	“None”
+"Magic Seal"	"Warding"	"C"	1	2	9	7	70	0	30	“Magical”	“None”
+"Blessed Halberd"	"Warding"	"C"	1	2	11	6	75	0	30	“Legendary”	“None”
+"Divine Thunder"	"Warding"	"B"	1	2	10	7	70	10	25	“Magical”	“None”
+"Communion"	"Warding"	"B"	1	2	11	8	75	0	25	“Magical”	“None”
+"Divine Silver"	"Warding"	"A"	1	2	13	10	70	5	20	“Magical”	“None”
+"Light Barrier"	"Warding"	"A"	1	2	14	11	70	0	20	“Magical”	“None”
+"Great Barrier"	"Warding"	"S"	1	2	17	12	75	0	15	“Magical”	“None”
+"Divine Ward"	"Warding"	"S"	1	2	18	11	70	15	15	“Magical”	“None”
+"Flux"	"Worm"	"E"	1	2	7	6	70	0	40	“Magical”	“None”
+"Worm"	"Worm"	"E"	1	2	6	4	80	5	40	“Magical”	“None”
+"Carrion"	"Worm"	"D"	1	2	9	8	70	0	35	“Magical”	“None”
+"Hex"	"Worm"	"D"	1	2	10	8	60	0	35	“Magical”	“None”
+"Sin"	"Worm"	"C"	1	2	12	11	65	0	30	“Magical”	“None”
+"Hel"	"Worm"	"C"	3	10	14	--	55	--	5	“Magical”	“None”
+"Mire"	"Worm"	"C"	1	3	12	8	60	0	30	“Magical”	“None”
+"Ruin"	"Worm"	"B"	1	2	14	13	65	0	25	“Magical”	“None”
+"Luna"	"Worm"	"B"	1	2	15	0	60	0	25	“Magical”	“None”
+"Shadowshot"	"Worm"	"B"	3	10	20	12	55	0	5	“Magical”	“None”
+"Dark Dagger"	"Worm"	"B"	1	2	12	9	70	5	20	“Legendary”	“None”
+"Faust"	"Worm"	"B"	1	2	16	36	65	5	20	“Magical”	“None”
+"Fenrir"	"Worm"	"A"	1	2	15	15	65	0	20	“Magical”	“None”
+"Gravity"	"Worm"	"A"	1	2	17	11	60	0	20	“Magical”	“None”
+"Rune Sabre"	"Worm"	"A"	1	2	15	8	65	0	20	“Legendary”	“None”
+"Runic Axe"	"Worm"	"A"	1	2	20	11	60	0	20	“Legendary”	“None”
+"Apocalypse"	"Worm"	"S"	1	2	19	18	65	5	15	“Magical”	“None”
+"Ereshkigal"	"Worm"	"S"	1	2	19	16	90	0	15	“Magical”	“None”
+"Miasma"	"Grimoire"	"E"	1	1	7	8	70	0	40	“Magical”	“None”
+"Shade"	"Grimoire"	"E"	1	1	7	7	75	5	40	“Magical”	“None”
+"Banshee"	"Grimoire"	"D"	1	1	9	9	70	10	35	“Magical”	“None”
+"Nosferatu"	"Grimoire"	"D"	1	1	11	7	70	0	35	“Magical”	“None”
+"Acid"	"Grimoire"	"D"	1	1	10	7	65	5	35	“Magical”	“None”
+"Goeti"	"Grimoire"	"C"	1	1	10	11	75	0	30	“Magical”	“None”
+"Death"	"Grimoire"	"C"	1	1	12	9	65	25	30	“Magical”	“None”
+"Dark Spikes"	"Grimoire"	"C"	1	1	13	9	65	0	30	“Magical”	“None”
+"Void"	"Grimoire"	"B"	1	1	12	13	70	5	25	“Magical”	“None”
+"Waste"	"Grimoire"	"B"	1	1	15	10	50	0	25	“Magical”	“None”
+"Warlock Fist"	"Grimoire"	"B"	1	1	12	-0	70	10	25	“Magical”	“None”
+"Nightmare"	"Grimoire"	"A"	1	1	14	15	70	10	20	“Magical”	“None”
+"Janura"	"Grimoire"	"A"	1	1	16	13	60	0	20	“Magical”	“None”
+"Naglfar"	"Grimoire"	"S"	1	1	18	18	65	15	15	“Magical”	“None”
+"Loptous"	"Grimoire"	"S"	1	1	19	13	65	10	15	“Magical”	“None”
+"Vorpal Blade"	"Grimoire"	"S"	1	2	20	17	65	0	15	“Legendary”	“None”
+"Swarm"	"Ancient"	"E"	1	2	6	5	65	0	40	“Magical”	“None”
+"Hustle"	"Ancient"	"E"	1	2	7	5	70	0	40	“Magical”	“None”
+"Toxic"	"Ancient"	"D"	1	2	9	7	65	5	35	“Magical”	“None”
+"Eclipse"	"Ancient"	"D"	1	2	10	6	65	0	35	“Magical”	“None”
+"Jormungand"	"Ancient"	"C"	1	2	12	8	60	0	30	“Magical”	“None”
+"Tomaharn"	"Ancient"	"C"	1	2	11	8	60	0	30	“Magical”	“None”
+"Gorgon Eye"	"Ancient"	"B"	1	2	14	9	55	0	25	“Magical”	“None”
+"Carreau"	"Ancient"	"B"	1	2	13	10	60	5	25	“Magical”	“None”
+"Black Firebomb"	"Ancient"	"B"	1	2	12	7	65	0	25	“Legendary”	“None”
+"Zahhak"	"Ancient"	"A"	1	2	0	11	60	0	20	“Magical”	“None”
+"Verrine"	"Ancient"	"A"	1	2	0	13	65	0	20	“Magical”	“None”
+"Blackout Bow"	"Ancient"	"A"	1	2	0	9	70	0	20	“Legendary”	“None”
+"Gespenst"	"Ancient"	"S"	1	2	0	14	60	0	15	“Magical”	“None”
+"Balberith"	"Ancient"	"S"	1	2	0	15	55	0	15	“Magical”	“None”
+"Heal"	"Healing"	"E"	1	1	0	0	--	0	30	“Noncombat”	“None”
+"Antidote"	"Healing"	"E"	1	1	0	0	--	0	30	“Noncombat”	“None”
+"Mend"	"Healing"	"D"	1	1	0	0	--	0	25	“Noncombat”	“None”
+"Soothe"	"Healing"	"D"	1	1	0	0	--	0	25	“Noncombat”	“None”
+"Inspire"	"Healing"	"C"	1	3	0	0	--	0	20	“Noncombat”	“None”
+"Kia"	"Healing"	"C"	1	1	0	0	--	0	20	“Noncombat”	“None”
+"Physic"	"Healing"	"B"	1	1	0	0	--	0	15	“Noncombat”	“None”
+"Recover"	"Healing"	"B"	1	1	0	0	--	0	15	“Noncombat”	“None”
+"Restore"	"Healing"	"A"	1	1	0	0	--	0	10	“Noncombat”	“None”
+"Rejuvenate"	"Healing"	"A"	1	1	0	0	--	0	10	“Noncombat”	“None”
+"Fortify"	"Healing"	"S"	1	1	0	0	--	0	5	“Noncombat”	“None”
+"Aum"	"Healing"	"S"	1	1	0	0	--	0	5	“Noncombat”	“None”
+"Clear"	"Bluffing"	"E"	1	1	0	0	--	0	30	“Noncombat”	“None”
+"Shove"	"Bluffing"	"E"	1	1	0	0	--	0	30	“Noncombat”	“None”
+"Barrier"	"Bluffing"	"D"	1	1	0	0	--	0	25	“Noncombat”	“None”
+"Rescue"	"Bluffing"	"D"	1	1	0	0	--	0	25	“Noncombat”	“None”
+"Sharpness"	"Bluffing"	"C"	1	1	0	0	--	0	20	“Noncombat”	“None”
+"Quickness"	"Bluffing"	"C"	1	1	0	0	--	0	20	“Noncombat”	“None”
+"Warp"	"Bluffing"	"B"	1	1	0	0	--	0	15	“Noncombat”	“None”
+"Teleport"	"Bluffing"	"B"	1	1	0	0	--	0	15	“Noncombat”	“None”
+"Majestic"	"Bluffing"	"A"	1	1	0	0	--	0	10	“Noncombat”	“None”
+"Mystic"	"Bluffing"	"A"	1	1	0	0	--	0	10	“Noncombat”	“None”
+"Relocate"	"Bluffing"	"S"	1	1	0	0	--	0	5	“Noncombat”	“None”
+"Slow"	"Ailment"	"E"	1	1	0	0	25	0	30	“Noncombat”	“None”
+"Befuddle"	"Ailment"	"E"	1	1	0	0	25	0	30	“Noncombat”	“None”
+"Misfortune"	"Ailment"	"D"	1	1	0	0	30	0	25	“Noncombat”	“None”
+"Poison"	"Ailment"	"D"	1	1	0	0	30	0	25	“Noncombat”	“None”
+"Sleep"	"Ailment"	"C"	1	1	0	0	20	0	20	“Noncombat”	“None”
+"Berserk"	"Ailment"	"C"	1	1	0	0	20	0	20	“Noncombat”	“None”
+"Silence"	"Ailment"	"B"	1	1	0	0	15	0	15	“Noncombat”	“None”
+"Addle"	"Ailment"	"B"	1	1	0	0	15	0	15	“Noncombat”	“None”
+"Paralyze"	"Ailment"	"A"	1	1	0	0	10	0	10	“Noncombat”	“None”
+"Weakness"	"Ailment"	"A"	1	1	0	0	20	0	10	“Noncombat”	“None”
+"Turncoat"	"Ailment"	"S"	1	1	0	0	10	0	5	“Noncombat”	“None”
+"Suffocate"	"Ailment"	"S"	1	1	0	0	10	0	5	“Noncombat”	“None”
+"Surprising Shimmy"	"Dance"	"E"	1	1	0	0	25	0	30	“Noncombat”	“None”
+"Distracting Dance"	"Dance"	"E"	1	1	0	0	25	0	30	“Noncombat”	“None”
+"Enamoring Step"	"Dance"	"D"	1	1	0	0	15	0	25	“Noncombat”	“None”
+"Disarming Swing"	"Dance"	"D"	1	1	0	0	20	0	25	“Noncombat”	“None”
+"Sickening Spin"	"Dance"	"D"	1	1	0	0	30	0	25	“Noncombat”	“None”
+"Vixen’s Waltz"	"Dance"	"C"	1	1	0	0	15	0	20	“Noncombat”	“None”
+"Enchanting Tango"	"Dance"	"C"	1	1	0	0	15	0	20	“Noncombat”	“None”
+"Exposing Break"	"Dance"	"C"	1	1	0	0	20	0	20	“Noncombat”	“None”
+"Sapping Samba"	"Dance"	"B"	1	1	0	0	15	0	15	“Noncombat”	“None”
+"Slumbering Shuffle"	"Dance"	"B"	1	1	0	0	10	0	15	“Noncombat”	“None”
+"Denial Dance"	"Dance"	"A"	1	1	0	0	10	0	10	“Noncombat”	“None”
+"Shut Down Shut Out"	"Dance"	"A"	1	1	0	0	5	0	10	“Noncombat”	“None”
+"Petrifying Twist"	"Dance"	"S"	1	1	0	0	5	0	5	“Noncombat”	“None”
+"Valkyrie’s Arrival"	"Dance"	"S"	1	1	0	0	15	0	5	“Noncombat”	“None”
+"Hermes’ Whistle"	"Lyric"	"E"	1	1	0	0	200	0	30	“Noncombat”	“None”
+"Artemis’ Song"	"Lyric"	"E"	1	1	0	0	200	0	30	“Noncombat”	“None”
+"Lucky Stars"	"Lyric"	"E"	1	1	0	0	200	0	30	“Noncombat”	“None”
+"War Cheer"	"Lyric"	"D"	1	1	0	0	200	0	25	“Noncombat”	“None”
+"Menhit’s Whisper"	"Lyric"	"D"	1	1	0	0	200	0	25	“Noncombat”	“None”
+"Blissful Melody"	"Lyric"	"C"	1	1	0	0	200	0	20	“Noncombat”	“None”
+"Thor’s Ire"	"Lyric"	"C"	1	1	0	0	200	0	20	“Noncombat”	“None”
+"Army Rally"	"Lyric"	"B"	1	1	0	0	200	0	15	“Noncombat”	“None”
+"Mighty Refrain"	"Lyric"	"B"	1	1	0	0	200	0	15	“Noncombat”	“None”
+"Ninis’ Grace"	"Lyric"	"B"	1	1	0	0	200	0	15	“Noncombat”	“None”
+"Hanon’s Tune"	"Lyric"	"A"	1	1	0	0	200	0	10	“Noncombat”	“None”
+"Set’s Litany"	"Lyric"	"A"	1	1	0	0	200	0	10	“Noncombat”	“None”
+"Filla’s Might"	"Lyric"	"S"	1	1	0	0	200	0	5	“Noncombat”	“None”
+"Elimine’s Ballad"	"Lyric"	"S"	1	1	0	0	200	0	5	“Noncombat”	“None”
+"Soldier’s Drum"	"Instrument"	"E"	1	1	0	0	200	0	30	“Noncombat”	“None”
+"Charming Flute"	"Instrument"	"E"	1	1	0	0	200	0	30	“Noncombat”	“None”
+"Warding Lute"	"Instrument"	"D"	1	1	0	0	200	0	25	“Noncombat”	“None”
+"Vagrant Whistle"	"Instrument"	"D"	1	1	0	0	200	0	25	“Noncombat”	“None”
+"Gentle Flute"	"Instrument"	"C"	1	1	0	0	200	0	20	“Noncombat”	“None”
+"Glory Chime"	"Instrument"	"C"	1	1	0	0	200	0	20	“Noncombat”	“None”
+"Dragon Flute"	"Instrument"	"B"	1	1	0	0	200	0	15	“Noncombat”	“None”
+"Sacae’s Whistle"	"Instrument"	"B"	1	1	0	0	200	0	15	“Noncombat”	“None”
+"Repelling Bagpipes"	"Instrument"	"A"	1	1	0	0	200	0	10	“Noncombat”	“None”
+"Romantic Guitar"	"Instrument"	"A"	1	1	0	0	200	0	10	“Noncombat”	“None”
+"Divine Harp"	"Instrument"	"S"	1	1	0	0	200	0	5	“Noncombat”	“None”
+"Solar Gong"	"Instrument"	"S"	1	1	0	0	200	0	5	“Noncombat”	“None”
 with 100 blank rows
 
 Part 4 - Combat
