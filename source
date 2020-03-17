@@ -4,10 +4,7 @@
 
 
 TASKS FOR V2
-- Range
-- Weapon QL and degradation
 - Basic classes
-- Proficiency ranks
 - Levelling
 - Healing
 - Special weapons
@@ -81,7 +78,7 @@ tier is a number which varies. tier is 1.
 
 North of the  main menu is Create a Character. The description of Create a Character is " Name: [current name][line break]
 Class: [current class][line break]
-Ranks: 
+Ranks: [rank listing][line break]
 Level: [current level][line break]
 Skill: [current skill][line break]
 Weapon: [current weapon][line break][ride]
@@ -103,7 +100,7 @@ Bonus stats: [current stats]/4
 Type HELP for a list of commands and tips.
 
 [character creation options]
-[link]Use an existing template[as]x enemies[end link][line break]
+[link]Use an existing template[as]x templates[end link][line break]
 [link]Set current skills[as]x current skills[end link][line break]
 [link]Set weapon/magic/performance/mount[as]x weapons[end link][line break]
 [link][bracket]S[close bracket]ave character[as]S[end link][line break]
@@ -1137,123 +1134,6 @@ To say celeriac:
 	if current skill is "Celerity+":
 		say " [bracket]+2[close bracket]".
 
-Chapter Enemies
-
-Enemies are scenery in create a character. "Pick one of the following enemy types to overwrite everything with that enemy template. Remember to pick a name afterwards.
-
-[link]Ghoul[as]x ghoul[end link][line break]
-[link]Bone Warrior (Sword)[as]x bone warrior sword[end link][line break]
-[link]Bone Warrior (Lance)[as]x bone warrior lance[end link][line break]
-[link]Bone Warrior (Bow)[as]x bone warrior bow[end link]."
-
-The ghoul is scenery in create a character. "You select the ghoul."
-The bone warrior sword is scenery in create a character. "You select the bone warrior with the sword."
-The bone warrior lance is scenery in create a character. "You select the bone warrior with the lance."
-The bone warrior bow is scenery in create a character. "You select the bone warrior with the bow."
-
-To rename if repeated:
-	let N be 0;
-	repeat through the table of characters:
-		if the name entry is current name:
-			increase N by 1;
-			now current name is "Ghoul[N]"; 
-	
-
-After examining the ghoul:
-	reset all the stats;
-	now current weapon is "Claws";
-	now current mount is "NONE";
-	now current name is "Ghoul";
-	rename if repeated;
-	now current class is "Ghoul";
-	now current skill is "NONE";
-	now advanced is false;
-	now current hp is 21;
-	now current str is 7;
-	now current mag is 0;
-	now current skl is 4;
-	now current luk is 0;
-	now current def is 5;
-	now current res is 1;
-	now current spd is 3;
-	now current con is 8;
-	now current aid is 7;
-	now current mov is 4;
-	now current stats is 0;
-	now progression is 330;
-	try looking.
-
-After examining the bone warrior sword:
-	reset all the stats;
-	now current weapon is "Rusted Sword";
-	now current mount is "NONE";
-	now current name is "Bone Warrior (with Sword)";
-	rename if repeated;
-	now current class is "Bonewalker";
-	now current skill is "NONE";
-	now advanced is false;
-	now current hp is 19;
-	now current str is 5;
-	now current mag is 0;
-	now current skl is 5;
-	now current luk is 1;
-	now current def is 4;
-	now current res is 2;
-	now current spd is 5;
-	now current con is 6;
-	now current aid is 5;
-	now current mov is 5;
-	now current stats is 0;
-	now progression is 330;
-	try looking.
-
-After examining the bone warrior lance: 
-	reset all the stats;
-	now current weapon is "Rusted Lance";
-	now current mount is "NONE";
-	now current name is "Bone Warrior (with Lance)";
-	rename if repeated;
-	now current class is "Bonewalker";
-	now current skill is "NONE";
-	now advanced is false;
-	now current hp is 19;
-	now current str is 5;
-	now current mag is 0;
-	now current skl is 5;
-	now current luk is 1;
-	now current def is 4;
-	now current res is 2;
-	now current spd is 5;
-	now current con is 6;
-	now current aid is 5;
-	now current mov is 5;
-	now current stats is 0;
-	now progression is 330;
-	try looking.
-
-After examining the bone warrior bow:
-	reset all the stats;
-	now current weapon is "Shoddy Bow";
-	now current mount is "NONE";
-	now current name is "Bone Warrior (with Bow)";
-	rename if repeated;
-	now current class is "Bonewalker";
-	now current skill is "NONE";
-	now advanced is false;
-	now current hp is 19;
-	now current str is 5;
-	now current mag is 0;
-	now current skl is 5;
-	now current luk is 1;
-	now current def is 4;
-	now current res is 2;
-	now current spd is 5;
-	now current con is 6;
-	now current aid is 5;
-	now current mov is 5;
-	now current stats is 0;
-	now progression is 330.
-
 Chapter Saving
 
 Up from Create a Character is Create a Character.
@@ -1265,7 +1145,11 @@ Check going south from Create a Character:
 	say "If you made a mistake please type UNDO.".
 
 To save to the sheet:
-	choose a blank row in the Table of Characters;
+	if template juggling is true:
+		choose a blank row in the table of templates;
+		now template juggling is false;
+	else:
+		choose a blank row in the Table of Characters;
 	if importation is false:
 		implement skills;
 	now name entry is current name;
@@ -1296,7 +1180,8 @@ To save to the sheet:
 	now the level entry is current level;
 	now the skill entry is current skill;
 	now progression entry is progression;
-	now bonus stats entry is current stats.
+	now bonus stats entry is current stats;
+	now rank code entry is the current rank code.
 
 To implement skills:
 	if current skill is "Celerity":
@@ -1319,8 +1204,6 @@ To implement skills:
 
 Table of Characters
 Name (text)	Class (text)	Level (a number)	Skill (text)	HP (a number)	STR (a number)	MAG (a number)	SKL (a number)	LUK (a number)	DEF (a number)	RES (a number)	SPD (a number)	CON (a number)	AID (a number)	MOV (a number)	HP prog (a number)	STR prog (a number)	MAG prog (a number)	SKL prog (a number)	LUK prog (a number)	DEF prog (a number)	RES prog (a number)	SPD prog (a number)	Mount (text)	Weapon (text)	Bonus Stats (number)	Progression (a number)	Current HP (a number)	QL (a number)	Rank code (text)
-“Elana Farrugia”	“Performer”	1	"Charisma+"	16	2	2	2	6	2	2	7	3	2	4	70	0	60	10	70	10	10	70	“None”	“Lucky Stars”	4	330	16	30	“SFAFLFBFSFPEHFAFDFLFSFPFRFTFCFSFPFHFBFTFDFKFEFLFGFAFWFTFLFJFWFWFGFAFHFBFAFDFLFIF”
-“Super Farrugia”	“Performer”	1	"Charisma+"	16	2	2	2	6	2	2	7	3	2	4	70	0	60	10	70	10	10	70	“None”	“Lucky Stars”	4	330	16	30	“SSASLSBSSSPEHSASDSLSSSPSRSTSCSSSPSHSBSTSDSKSESLSGSASWSTSLSJSWSWSGSASHSBSASDSLSIS”
 with 100 blank rows
 
 
@@ -1377,6 +1260,7 @@ Character Suite is east of Main Menu. The description of Character Suite is "[bo
 
 [link][bracket]Import[close bracket] Characters[as]Import[end link][line break]
 [link][bracket]Export[close bracket] Characters[as]Export[end link][line break]
+[link]Import from local template[as]x templates[end link][line break]
 [link][bracket]M[close bracket]ain Menu[line break][as]w[end link]".
 
 
@@ -1384,7 +1268,7 @@ Check going west from Character Suite:
 	reset all the stats;
 
 Table of Importing
-Name (text)	Class (text)	Level (a number)	Skill (text)	HP (a number)	STR (a number)	MAG (a number)	SKL (a number)	LUK (a number)	DEF (a number)	RES (a number)	SPD (a number)	CON (a number)	AID (a number)	MOV (a number)	HP prog (a number)	STR prog (a number)	MAG prog (a number)	SKL prog (a number)	LUK prog (a number)	DEF prog (a number)	RES prog (a number)	SPD prog (a number)	Mount (text)	Weapon (text)	QL (number)	Bonus Stats (number)	Progression (a number)	Current HP (a number)
+Name (text)	Class (text)	Level (a number)	Skill (text)	HP (a number)	STR (a number)	MAG (a number)	SKL (a number)	LUK (a number)	DEF (a number)	RES (a number)	SPD (a number)	CON (a number)	AID (a number)	MOV (a number)	HP prog (a number)	STR prog (a number)	MAG prog (a number)	SKL prog (a number)	LUK prog (a number)	DEF prog (a number)	RES prog (a number)	SPD prog (a number)	Mount (text)	Weapon (text)	Bonus Stats (number)	Progression (a number)	Current HP (a number)	QL (a number)	Rank code (text)
 with 100 blank rows
 
 Importing is an action out of world. Understand "Import" as importing.
@@ -1424,6 +1308,7 @@ Carry out importing when the location is Character Suite:
 			now current QL is QL entry;
 			now current stats is Bonus Stats entry;
 			now progression is progression entry;
+			now current rank code is the rank code entry;
 			save to the sheet;
 		say "Import successful.";
 		now importation is false;
@@ -1450,11 +1335,17 @@ Current listing is a number that varies. Current listing is 0.
 
 Picking is an action applying to one number. Understand "pick [number]" as picking.
 
-To rip from the character table:
+To rip a character:
 	let N be the number understood;
-	if there is no name in row N of the table of characters:
-		say "There's no such character." instead;
-	choose row N in the table of characters;
+	if template juggling is true:
+		if there is no name in row N of the table of templates:
+			say "There's no such template." instead;
+		choose row N in the table of templates;
+		now template juggling is false;
+	else:
+		if there is no name in row N of the table of characters:
+			say "There's no such character." instead;
+		choose row N in the table of characters;
 	now current weapon is weapon entry;
 	now current mount is mount entry;
 	now current name is name entry;
@@ -1488,7 +1379,7 @@ To rip from the character table:
 
 Check picking when the location is Character Suite:
 	now current listing is the number understood;
-	rip from the character table;
+	rip a character;
 	say "#: [current listing][line break]
 Name: [current name][line break]
 Class: [current class][line break]
@@ -1511,8 +1402,19 @@ Progression Spent: [progression]/330[line break]
 Bonus stats: [current stats]/4
 
 [link][bracket]E[close bracket]dit this character[as]E[end link][line break]
-[link][bracket]D[close bracket]elete this character[as]D[end link][line break]";
+[link][bracket]D[close bracket]elete this character[as]D[end link][line break]
+[link]Save as a [bracket]T[close bracket]emplate[as]T[end link][line break]
+[link][bracket]L[close bracket]ist all characters[as]L[end link][line break]
+[link]M[close bracket]ain Menu[as]W[end link]".
 	
+
+Understand "T" as jumping when the location is character suite.
+
+Carry out jumping when the location is character suite:
+	now template juggling is true;
+	say "Your character is saved as a template.";
+	save to the sheet.
+
 Before going east from the character suite:
 	if the current listing is 0:
 		say "There is no character selected to edit." instead.
@@ -1538,6 +1440,8 @@ Character Editor is east of the Character Suite. The description is
 "#: [current listing][line break]
 Name: [current name][line break]
 Class: [current class][line break]
+Level: [current level][line break]
+Rank:  [rank listing][line break]
 Skill: [current skill][line break]
 Weapon: [current weapon][line break][ride]
 HP [current hp]/[max hp][bracket][hp prog]%[close bracket][line break]
@@ -1923,10 +1827,10 @@ current ql is a number that varies.
 
 Table of Weapons
 Name	Type	Rank	Min RNG	Max RNG	MT	WT	Hit	Crit	QL	Category	Bonus
-"Claws"	“Null”	“F”	1	1	7	5	85	0	1000	“Physical”	“None”
-"Rusted Sword"	"Slashing"	"F"	1	1	3	4	75	0	20	“Physical”	“None”
-"Rusted Lance"	"Piercing"	"F"	1	1	5	7	70	0	20	“Physical”	“None”
-"Shoddy Bow"	"Recurve"	"F"	2	2	4	5	75	0	20	“Physical”	“None”
+"Claws"	“Special”	“E”	1	1	7	5	85	0	1000	“Physical”	“None”
+"Rusted Sword"	"Slashing"	"E"	1	1	3	4	75	0	20	“Physical”	“None”
+"Rusted Lance"	"Piercing"	"E"	1	1	5	7	70	0	20	“Physical”	“None”
+"Shoddy Bow"	"Recurve"	"E"	2	2	4	5	75	0	20	“Physical”	“None”
 "Iron Sword"	"Slashing"	"E"	1	1	4	5	85	0	40	“Physical”	“None”
 "Devil Sword"	"Slashing"	"E"	1	1	13	15	65	0	40	“Physical”	“Unlucky”
 "Steel Sword"	"Slashing"	"D"	1	1	6	7	80	5	35	“Physical”	“None”
@@ -2405,7 +2309,7 @@ Might is a number that varies. Might is 0.
 
 Attacker active is a truth state that varies. Attacker active is true.
 
-Current range is a number that varies. Current range is 0.
+Current range is a number that varies. Current range is 1.
 
 Chapter - Battle
 
@@ -2425,7 +2329,8 @@ Combatants are [link]-[as]decrease range[end link][current range][link]+[as]incr
 [link]Return to Mai[bracket]n[close bracket] Menu[as]N[end link][line break]"
 
 Increasing range is an action applying to nothing. Understand "increase range" as increasing range. Carry out increasing range:
-	increase the current range by 1.
+	increase the current range by 1;
+	try looking.
 	
 Decreasing range is an action applying to nothing. Understand "decrease range" as decreasing range. Carry out decreasing range:
 	if current range is at least 1:
@@ -3034,7 +2939,6 @@ To check post-attack skills:
 
 To check who is alive:
 	choose the row with name of current target in the table of characters;
-	say "CHECKING defender";
 	if current hp is less than 1:
 		say "[line break]Combat ends with [current target]'s death.";
 		check if attacker is alive;
@@ -3043,7 +2947,6 @@ To check who is alive:
 	
 To check if attacker is alive:
 	choose the row with name of current actor in the table of characters;
-	say "CHECKING ATTACKER";
 	if current hp is less than 1:
 		say "[line break]Combat ends with [current actor]'s death.";
 		reset battle stats instead.
@@ -3383,14 +3286,45 @@ To calculate defender attack power:
 	let D be the MT corresponding to a name of defender weapon in the table of weapons;
 	now defender damage is (might + D).
 
-	
+
 To calibrate proficiencies:
+	set up attacker proficiencies;
+	set up defender proficiencies.
+	
+To set up attacker proficiencies:
+	let T be the type corresponding to a name of attacker weapon in the table of weapons;
+	let X be the code corresponding to a category of T in the table of ranks;
+	now current rank code is the rank code corresponding to a name of current attacker in the table of characters;
+	let R be character number X in the current rank code;
+	if R is "F":
+		let C be the supercategory corresponding to a code of X in the table of ranks;
+		let X be the code corresponding to category of C in the table of ranks;
+		let R be character number X in the current rank code;
+		if R is "F":
+			say "The attacker has no ranks in [C]." instead;
+		[I could add a check to see if you're actually allowed to use a weapon more advanced than your current ranks, but it's not a priority here.]
+	now attacker proficiency is the proficiency bonus corresponding to a rank of R in the table of proficiencies.
+
+
+To set up defender proficiencies:
+	let T be the type corresponding to a name of defender weapon in the table of weapons;
+	let X be the code corresponding to a category of T in the table of ranks;
+	now current rank code is the rank code corresponding to a name of current defender in the table of characters;
+	let R be character number X in the current rank code;
+	if R is "F":
+		let C be the supercategory corresponding to a code of X in the table of ranks;
+		let X be the code corresponding to category of C in the table of ranks;
+		let R be character number X in the current rank code;
+		if R is "F":
+			say "The defender has no ranks in [C]." instead;
+	now defender proficiency is the proficiency bonus corresponding to a rank of R in the table of proficiencies.
+
 	
 
 Carry out picking when the location is the battle maker:
 	if nothing is salient:
 		now attacker is salient;
-	rip from the character table;
+	rip a character;
 	if attacker is salient:
 		now current attacker is current name;
 	if defender is salient:
@@ -3497,6 +3431,7 @@ Code	Category	Supercategory
 76	"Dance"	“Perform”
 78	"Lyric"	“Perform”
 80	"Instrument"	“Perform”
+82	"Special"	"Special"
 
 Table of Proficiencies
 Rank	Proficiency Bonus
@@ -3508,8 +3443,63 @@ Rank	Proficiency Bonus
 "S"	8
 
 
+Part 6 - Templates
 
-Part 6- TESTS
+Table of templates
+Name (text)	Class (text)	Level (a number)	Skill (text)	HP (a number)	STR (a number)	MAG (a number)	SKL (a number)	LUK (a number)	DEF (a number)	RES (a number)	SPD (a number)	CON (a number)	AID (a number)	MOV (a number)	HP prog (a number)	STR prog (a number)	MAG prog (a number)	SKL prog (a number)	LUK prog (a number)	DEF prog (a number)	RES prog (a number)	SPD prog (a number)	Mount (text)	Weapon (text)	Bonus Stats (number)	Progression (a number)	Current HP (a number)	QL (a number)	Rank code (text)
+“Elana Farrugia”	“Performer”	1	"Charisma+"	16	2	2	2	6	2	2	7	3	2	4	70	0	60	10	70	10	10	70	“None”	“Lucky Stars”	4	330	16	30	“SFAFLFBFSFPEHFAFDFLFSFPFRFTFCFSFPFHFBFTFDFKFEFLFGFAFWFTFLFJFWFWFGFAFHFBFAFDFLFIFSF”
+“Ghoul”	“Ghoul”	1	“NONE”	21	7	0	4	0	5	1	3	8	7	4	0	0	0	0	0	0	0	0	“None”	“Claws”	0	0	21	1000	“SFAFLFBFSFPFHFAFDFLFSFPFRFTFCFSFPFHFBFTFDFKFEFLFGFAFWFTFLFJFWFWFGFAFHFBFAFDFLFIFSE”
+"Bone Warrior (with Sword)"	“Bonewalker”	1	“NONE”	19	5	0	5	1	4	2	5	6	5	5	0	0	0	0	0	0	0	0	“None”	“Rusted Sword”	0	0	19	20	“SEAFLFBFSFPFHFAFDFLFSFPFRFTFCFSFPFHFBFTFDFKFEFLFGFAFWFTFLFJFWFWFGFAFHFBFAFDFLFIFSF”
+"Bone Warrior (with Lance)"	“Bonewalker”	1	“NONE”	19	5	0	5	1	4	2	5	6	5	5	0	0	0	0	0	0	0	0	“None”	“Rusted Lance”	0	0	19	20	“SFAFLEBFSFPFHFAFDFLFSFPFRFTFCFSFPFHFBFTFDFKFEFLFGFAFWFTFLFJFWFWFGFAFHFBFAFDFLFIFSF”
+"Bone Warrior (with Bow)"	“Bonewalker”	1	“NONE”	19	5	0	5	1	4	2	5	6	5	5	0	0	0	0	0	0	0	0	“None”	“Shoddy Bow”	0	0	19	20	“SFAFLFBESFPFHFAFDFLFSFPFRFTFCFSFPFHFBFTFDFKFEFLFGFAFWFTFLFJFWFWFGFAFHFBFAFDFLFIFSF”
+with 100 blank rows
+
+Chapter Templates
+
+Templates are a backdrop. Templates are in create a character and character suite. "Pick one of the following templates:
+
+[template list]"
+
+To say template list:
+	if the table of templates is empty:
+		say "There are no templates.";
+	else:
+		let N be 0;
+		repeat through the table of templates:
+			increase N by 1;
+			say "[link][N] - [name entry] [class entry][as]template [n][end link][line break]"
+
+Templating is an action applying to one number. Understand "template [number]" as templating.
+
+Template juggling is a truth state that varies. Template juggling is false.
+
+Carry out templating:
+	now template juggling is true;
+	rip a character;
+	if the location is character suite:
+		save to the sheet;
+	rename if repeated;
+	try looking.
+
+To rename if repeated:
+	let N be 0;
+	repeat through the table of characters:
+		if the name entry is current name:
+			increase N by 1;
+			now current name is "[current name][N]"; 
+
+
+
+Part 7- TESTS
+
+Bonchecking is an action applying to nothing. Understand "boncheck" as bonchecking.
+
+Carry out bonchecking:
+	say "Attacker: [attacker proficiency]";
+	set up defender proficiencies;
+	say "[line break]Defender: [defender proficiency]";
+
+
 
 Test elana with "n / name Elana Farrugia / x performer / luk / def / spd / spd / toggle /  hpup / hpup / hpup / hpup / hpup / hpup / hpup / magup / magup / magup / magup / magup / magup / sklup / lukup /  lukup / lukup /  lukup / lukup /  lukup / lukup /  defup / resup / spdup / spdup / spdup / spdup / spdup / spdup / spdup / x charisma+ / x lucky stars / s / e"
 
